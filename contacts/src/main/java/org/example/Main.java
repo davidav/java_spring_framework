@@ -1,7 +1,18 @@
 package org.example;
 
+import org.example.config.AppConfig;
+
+
+import org.example.service.AppService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        context.getBean(AppService.class).start();
+
     }
 }
