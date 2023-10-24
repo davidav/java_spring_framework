@@ -11,7 +11,7 @@ public interface Storage {
 
     public List<Contact> getAll();
 
-    public Contact save(Contact contact);
+    public void save(Contact contact);
 
     public void delete(String email);
 

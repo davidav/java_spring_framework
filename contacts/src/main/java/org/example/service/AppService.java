@@ -6,28 +6,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Scanner;
+
+import static java.lang.System.exit;
 
 @Service
 public class AppService {
-
     private final Scanner scanner;
-
     private final ContactService contactService;
 
-    @Value("${screen.contacts}")
-    String titleApp;
+    @Value("${screen.titleApp}")
+    private String titleApp;
     @Value("${screen.selectAction}")
-    String selectAction;
+    private String selectAction;
     @Value("${screen.contactExampleLabel}")
-    String contactExampleLabel;
-    @Value("${screen.contactExample}")
-    String contactExample;
-    @Value("${screen.email}")
-    String email;
+    private String contactExampleLabel;
+    @Value("${screen.contactExampleExample}")
+    private String contactExampleExample;
+    @Value("${screen.enterEmailFoDeleteContact}")
+    private String enterEmailFoDeleteContact;
+    @Value("${screen.enterEmailFoSearchContact}")
+    private String enterEmailFoSearchContact;
     @Value("${screen.emailExample}")
-    String emailExample;
-
+    private String emailExample;
+    @Value("${screen.delete}")
+    private String delete;
+    @Value("${screen.exit}")
+    private String exit;
+    @Value("${screen.enterContactDetails}")
+    private String enterContactDetails;
+    @Value("${screen.persistAll}")
+    private String persistAll;
+    @Value("${screen.save}")
+    private String save;
+    @Value("${screen.search}")
+    private String search;
+    @Value("${screen.showAll}")
+    private String showAll;
+    private final String[] COMMANDS = new String[]{"1", "2", "3", "4", "5", "0"};
 
     @Autowired
     public AppService(Scanner scanner, ContactService contactService) {
@@ -36,61 +53,81 @@ public class AppService {
     }
 
     public void start() {
-        getCommand(titleApp, selectAction);
+        clearScreen();
+        getCommand(" ", titleApp, selectAction, save, search, showAll, delete, persistAll, exit);
     }
-
-
-    private void getCommand(String message1, String message2) {
+    public void clearScreen() {
+//        ToDo clearScreen
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+    private void getCommand(String... messages) {
         for (; ; ) {
-            String data = getDataFromConsole(message1, message2);
+            String data = getDataFromConsole(messages);
             if (validation(data)) {
                 commandResolver(data);
-                return;
             }
-            System.out.println("Не правильная команда :(");
         }
-
     }
-
+    private String getDataFromConsole(String... messages) {
+        for (String message : messages) {
+            System.out.println(message);
+        }
+        return scanner.nextLine().trim();
+    }
+    private boolean validation(String data) {
+        for (String c : COMMANDS) {
+            if (data.equals(c)) {
+                return true;
+            }
+        }
+        System.out.println("bad command");
+        return false;
+    }
     private void commandResolver(@NotNull String data) {
         switch (data) {
             case ("1"):
-                Contact contact = saveContact(getDataFromConsole(contactExampleLabel, contactExample));
-                contactService.save(contact);
+                String dataFromConsole = getDataFromConsole(enterContactDetails, contactExampleLabel, contactExampleExample);
+                if(dataFromConsole.split(";").length == 3){
+                    Contact contact = saveContact(dataFromConsole);
+                    contactService.save(contact);
+                }else {
+                    System.out.println("bad format");
+                    getDataFromConsole(enterContactDetails, contactExampleLabel, contactExampleExample);
+                }
+                start();
             case ("2"):
-                Contact contactFromDB = contactService.get(getDataFromConsole(email, emailExample));
+                Contact contactFromDB = contactService.get(getDataFromConsole(enterEmailFoSearchContact, emailExample));
                 System.out.println(contactFromDB);
+                start();
             case ("3"):
-                System.out.println(contactService.getAll());
+                printAll();
+                start();
             case ("4"):
-                contactService.delete(getDataFromConsole(email, emailExample));
+                contactService.delete(getDataFromConsole(enterEmailFoDeleteContact, emailExample));
+                start();
             case ("5"):
                 contactService.persist();
+                System.out.println("Contacts saved");
+                start();
             case ("0"):
-                return;
+                System.out.println("By by");
+                exit(0);
             default:
-                System.out.println("Не правильная команда :(");
+                System.out.println("Bad command :(");
         }
 
     }
-
-    private Contact saveContact(String dataFromConsole) {
+    private Contact saveContact(@NotNull String dataFromConsole) {
         String[] fragments = dataFromConsole.split(";");
         return new Contact(fragments[0], fragments[1], fragments[2]);
     }
-
-    private boolean validation(String data) {
-        //        ToDo validation
-        return true;
+    private void printAll() {
+        List<Contact> all = contactService.getAll();
+        for (Contact contact : all) {
+            System.out.println(contact);
+        }
     }
-
-    private String getDataFromConsole(String message1, String message2) {
-        System.out.println(message1);
-        System.out.println(message2);
-        return scanner.nextLine().trim();
-    }
-
-
     @Override
     public String toString() {
         return "AppService";

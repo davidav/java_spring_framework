@@ -4,6 +4,7 @@ package org.example.service;
 import org.example.db.Storage;
 import org.example.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 
 @Service
 public class ContactService {
+
+    @Value("${fileNewContacts}")
+    String fileNewContacts;
 
     private final Storage storage;
 
@@ -28,17 +32,17 @@ public class ContactService {
         return storage.getAll();
     }
 
-    public void save(Contact contact){
+    public void save(Contact contact) {
         storage.save(contact);
     }
 
-    public void delete(String email){
+    public void delete(String email) {
         storage.delete(email);
     }
 
 
     public void saveAll(List<Contact> contacts) {
-        for (Contact contact:contacts){
+        for (Contact contact : contacts) {
             storage.save(contact);
         }
         System.out.println(" stop");
