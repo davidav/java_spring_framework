@@ -3,7 +3,8 @@ package org.example.service;
 import org.example.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,8 +12,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class ContactLoader {
+@Service
+@Profile("init")
+public class ContactLoader{
 
     private final ContactService contactService;
     @Value("${fileContacts}")

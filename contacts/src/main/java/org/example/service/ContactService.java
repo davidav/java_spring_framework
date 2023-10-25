@@ -7,7 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -45,11 +50,23 @@ public class ContactService {
         for (Contact contact : contacts) {
             storage.save(contact);
         }
-        System.out.println(" stop");
+        System.out.println("contacts loaded from file");
     }
 
     public void persist() {
-        // todo: write to file
-        System.out.println("soon");
+        List<Contact> allContacts = storage.getAll();
+        String textOut = allContacts.stream()
+                .map(Contact::toFile)
+                .collect(Collectors.joining("\n"));
+        Path pathOut = Paths.get(fileNewContacts);
+        try {
+            if (Files.exists(pathOut)) {
+                Files.delete(pathOut);
+            }
+            Files.createFile(pathOut);
+            Files.writeString(pathOut, textOut);
+        } catch (IOException ex) {
+            System.out.println("write error");
+        }
     }
 }

@@ -29,8 +29,7 @@ public class StorageImpl implements Storage {
     }
 
     public void save(Contact contact) {
-        contacts.put(contact.email(), contact);
-        System.out.println("contact saved");
+        System.out.println("contact " + contacts.put(contact.email(), contact) + "saved");
     }
 
     public void delete(String email) {

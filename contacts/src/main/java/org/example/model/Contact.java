@@ -7,4 +7,8 @@ public record Contact(String fullName, String phoneNumber, String email) {
     public String toString() {
         return fullName + " | " + phoneNumber + " | " + email;
     }
+
+    public String toFile(){
+        return fullName + ";" + phoneNumber + ";" + email;
+    }
 }

@@ -53,13 +53,8 @@ public class AppService {
     }
 
     public void start() {
-        clearScreen();
         getCommand(" ", titleApp, selectAction, save, search, showAll, delete, persistAll, exit);
-    }
-    public void clearScreen() {
-//        ToDo clearScreen
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+
     }
     private void getCommand(String... messages) {
         for (; ; ) {
@@ -89,8 +84,8 @@ public class AppService {
             case ("1"):
                 String dataFromConsole = getDataFromConsole(enterContactDetails, contactExampleLabel, contactExampleExample);
                 if(dataFromConsole.split(";").length == 3){
-                    Contact contact = saveContact(dataFromConsole);
-                    contactService.save(contact);
+                    Contact contactFromConsole = createContact(dataFromConsole);
+                    contactService.save(contactFromConsole);
                 }else {
                     System.out.println("bad format");
                     getDataFromConsole(enterContactDetails, contactExampleLabel, contactExampleExample);
@@ -118,7 +113,7 @@ public class AppService {
         }
 
     }
-    private Contact saveContact(@NotNull String dataFromConsole) {
+    private Contact createContact(@NotNull String dataFromConsole) {
         String[] fragments = dataFromConsole.split(";");
         return new Contact(fragments[0], fragments[1], fragments[2]);
     }
