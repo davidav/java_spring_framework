@@ -15,6 +15,8 @@ public class Main {
         if (context.getEnvironment().getActiveProfiles()[0].equals("init")){
             System.out.println("Initialisation...");
             context.getBean(ContactLoader.class).load();
+        }else {
+            System.out.println("No initialisation");
         }
         context.getBean(AppService.class).start();
 
