@@ -1,0 +1,70 @@
+1698919842404:h
+1698919847458:help
+1698919891531:show-all
+1698919901434:save
+1698919935653:save --f Andre --l David --a 33
+1698923404352:show-all
+1698923424090:save --f Andre --l David --a 33
+1698923436136:showAll
+1698923459039:show-all
+1698923551312:help
+1698923723509:exit
+1698926287189:help
+1698926430620:save --f Andre --l David --a 33
+1698926438409:all
+1698926455970:del --id 2
+1698926464921:all
+1698926469868:save --f Andre --l David --a 33
+1698926472781:all
+1698926492921:cl
+1698926497696:all
+1698926512507:save --f Andre --l David --a 33
+1698926516443:save --f Andre --l David --a 34
+1698926522915:save --f Andre --l David --a 35
+1698926525928:all
+1698926538969:del --id 2
+1698926542945:all
+1698926561954:save --f Andre --l David --a 37
+1698926566330:all
+1698927043102:help
+1698927115888:save --f Andre --l David --a age 30
+1698927127080:save --f Andre --l David --a 30
+1698927409855:save --f Andre --l David --a 33
+1698927417573:save --f Andre --l David --a 34
+1698927491239:save --f Andre --l David --a 33
+1698927496949:save --f Andre --l David --a 34
+1698927505260:save --f Andre --l David --a 35
+1698927516107:del --id 2
+1698927520881:all
+1698927529116:save --f Andre --l David --a 37
+1698928071706:save --f Andre --l David --a 33
+1698928106120:save --f Andre --l David --a 34
+1698928118649:save --f Andre --l David --a 35
+1698928132477:del --id 2
+1698928136876:all
+1698928142247:save --f Andre --l David --a 37
+1698928192508:cl
+1698928195251:all
+1698992599054:help
+1698992646821:save --f Andre --l David --a 33
+1698994152834:save --f Andre --l David --a 35
+1698994160442:save --f Andre --l David --a 37
+1698994201416:all
+1698994213407:del --id 2
+1698994222087:all
+1698994384796:save --f Andre --l David --a 33
+1698994400961:save --f Andre --l David --a 3
+1698994407777:save --f Andre --l David --a 35
+1698994411421:all
+1698994420253:del -id 2
+1698994433902:dal --id 2
+1698994445773:del --id 2
+1698994450029:all
+1698994467262:del --id 4
+1698994475127:save --f Andre --l David --a 37
+1698994478573:all
+1698994523357:cl
+1698994526173:all
+1698994547205:save --l
+1698994566132:exit
+1699011489152:all

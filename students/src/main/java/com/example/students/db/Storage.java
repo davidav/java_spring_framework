@@ -10,9 +10,9 @@ public interface Storage {
 
     List<Student> getAll();
 
-    Student save(Student student);
+    void save(Student student);
 
-    Student delete(int id);
+    void delete(int id);
 
     void clear();
 

@@ -1,14 +1,21 @@
 package com.example.students.db;
 
+import com.example.students.event.EventDeleteStudent;
+import com.example.students.event.EventSaveStudent;
 import com.example.students.model.Student;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
+@RequiredArgsConstructor
 public class StorageImpl implements Storage {
 
     private final Map<Integer, Student> students = new HashMap<>();
+
+    private final ApplicationEventPublisher publisher;
     private int id = 1;
 
     public Student get(int id) {
@@ -17,7 +24,6 @@ public class StorageImpl implements Storage {
             System.out.println("not found");
         }
         return student;
-
     }
 
     public List<Student> getAll() {
@@ -28,14 +34,16 @@ public class StorageImpl implements Storage {
         return new ArrayList<>(values);
     }
 
-    public Student save(Student student) {
+    public void save(Student student) {
         Student studentDB = students.put(student.getId(), student);
-        if (studentDB == null) return student;
-        return studentDB;
+        if (studentDB == null){
+            publisher.publishEvent(new EventSaveStudent(this, student));
+        }
     }
 
-    public Student delete(int id) {
-        return students.remove(id);
+    public void delete(int id) {
+        students.remove(id);
+        publisher.publishEvent(new EventDeleteStudent(this, id));
     }
 
     public void clear() {

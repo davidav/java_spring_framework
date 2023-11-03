@@ -28,23 +28,21 @@ public class CommandService {
     }
 
     @ShellMethod(key = "save", value = "save student into database, parameters: --f first name, --l last name, --a age")
-    public String saveStudent(
+    public void saveStudent(
             @ShellOption(value = "f") String firstName,
             @ShellOption(value = "l") String lastName,
             @ShellOption(value = "a") int age) {
-        Student student = storage.save(Student.builder()
+        storage.save(Student.builder()
                 .id(storage.getNewId())
                 .firstName(firstName)
                 .lastName(lastName)
                 .age(age)
                 .build());
-        return student.toString() + " saved";
     }
 
     @ShellMethod(key = "del", value = "delete student from database, parameters: --id number")
-    public String deleteStudent(int id) {
-        Student student = storage.delete(id);
-        return student.toString() + " deleted";
+    public void deleteStudent(int id) {
+        storage.delete(id);
     }
 
     @ShellMethod(key = "cl", value = "delete all students from database")

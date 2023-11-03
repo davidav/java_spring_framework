@@ -25,7 +25,9 @@ extra["springShellVersion"] = "3.1.4"
 
 dependencies {
 	implementation("org.springframework.shell:spring-shell-starter")
-	compileOnly("org.projectlombok:lombok")
+    implementation("org.jetbrains:annotations:20.1.0")
+    implementation("org.jetbrains:annotations:20.1.0")
+    compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
