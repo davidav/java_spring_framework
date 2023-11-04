@@ -3,7 +3,7 @@ package com.example.students.service;
 import com.example.students.db.Storage;
 import com.example.students.model.Student;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 
 @RequiredArgsConstructor
@@ -11,7 +11,7 @@ public class StudentInitialization {
 
     private final Storage storage;
 
-    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationStartedEvent.class)
     public void startInit() {
         int count = 5 + (int) (Math.random() * 10);
         saveStudents(count);
