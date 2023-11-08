@@ -16,7 +16,7 @@
         <th>ТЕЛЕФОН</th>
     </tr>
     </thead>
-    <tbody>]
+    <tbody>
     <tr th:each="contact : ${contacts}">
         <td th:text="${contact.id}"></td>
         <td th:text="${contact.firstName}"></td>
@@ -25,7 +25,7 @@
         <td th:text="${contact.phone}"></td>
         <td>
             <a th:href="@{/contact/edit/{id}(id=${contact.id})}">EDIT</a>
-            <a th:href="@{/contact/delete/{id}(id=${contact.id})}">DELETE</a>
+            <a th:href="@{/contact/delete/{id}(id=${contact.id})}"> DELETE</a>
         </td>
     </tr>
     </tbody>

@@ -20,38 +20,32 @@ public class ContactController {
     @GetMapping("/")
     public String index(@NotNull Model model) {
         model.addAttribute("contacts", contactService.getAll());
-
         return "index";
     }
 
-    @GetMapping("/contact/save")
+    @GetMapping("/contact/create")
     public String showCreateForm(@NotNull Model model) {
-
         model.addAttribute("contact", new Contact());
-
         return "create-edit";
     }
 
     @PostMapping("/contact/save")
     public String create(@ModelAttribute Contact contact) {
         contactService.save(contact);
-
-        return "redirect: /";
+        return "redirect:/";
     }
 
     @GetMapping("/contact/edit/{id}")
-    public String edit(@PathVariable int id, Model model) {
+    public String edit(@PathVariable Long id, Model model) {
         Contact contact = contactService.get(id);
         model.addAttribute("contact", contact);
-
         return "create-edit";
     }
 
     @GetMapping("/contact/delete/{id}")
-    public String delete(@PathVariable int id) {
+    public String delete(@PathVariable Long id) {
         contactService.delete(id);
-
-        return "redirect: /";
+        return "redirect:/";
     }
 
 }

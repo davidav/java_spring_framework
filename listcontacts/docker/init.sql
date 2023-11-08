@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS listcontacts_schema;
+CREATE SCHEMA IF NOT EXISTS contacts;
 
-CREATE TABLE IF NOT EXISTS listcontacts_schema.contact
+CREATE TABLE IF NOT EXISTS contacts.contact
 (
     id BIGINT PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
