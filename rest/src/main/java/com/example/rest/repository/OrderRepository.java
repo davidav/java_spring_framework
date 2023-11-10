@@ -1,6 +1,5 @@
 package com.example.rest.repository;
 
-import com.example.rest.model.Client;
 import com.example.rest.model.Order;
 
 import java.util.List;
@@ -12,9 +11,9 @@ public interface OrderRepository {
 
     Optional<Order> findById(Long id);
 
-    Client save(Order order);
+    Order save(Order order);
 
-    Client update(Order order);
+    Order update(Order order);
 
     void deleteById(Long id);
 

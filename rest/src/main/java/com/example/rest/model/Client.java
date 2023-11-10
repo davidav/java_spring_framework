@@ -1,11 +1,13 @@
 package com.example.rest.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
 public class Client {
     private Long id;
     private String name;

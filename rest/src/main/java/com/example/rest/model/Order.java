@@ -1,10 +1,13 @@
 package com.example.rest.model;
 
-import lombok.Data;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
+@Builder
+@RequiredArgsConstructor
 public class Order {
     private Long id;
     private String product;
