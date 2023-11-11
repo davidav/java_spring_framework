@@ -18,13 +18,12 @@ public class OrderMapper {
     private final ClientService clientService;
 
     public Order requestToOrder(UpsertOrderRequest request) {
-        return Order.builder()
-                .cost(request.getCost())
-                .product(request.getProduct())
-                .client(clientService.findById(request.getClientId()))
-                .build();
+        Order order = new Order();
+        order.setCost(request.getCost());
+        order.setProduct(request.getProduct());
+        order.setClient(clientService.findById(request.getClientId()));
+        return order;
     }
-
     public  Order requestToOrder(Long id, UpsertOrderRequest request){
         Order order = requestToOrder(request);
         order.setId(id);
@@ -32,11 +31,11 @@ public class OrderMapper {
     }
 
     public OrderResponse orderToResponse(Order order){
-        return OrderResponse.builder()
-                .id(order.getId())
-                .product(order.getProduct())
-                .cost(order.getCost())
-                .build();
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setId(order.getId());
+        orderResponse.setProduct(order.getProduct());
+        orderResponse.setCost(order.getCost());
+        return orderResponse;
     }
 
     public List<OrderResponse> orderListToResponseList(List<Order> orders){

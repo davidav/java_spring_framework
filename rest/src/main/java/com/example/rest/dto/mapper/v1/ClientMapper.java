@@ -17,9 +17,9 @@ public class ClientMapper {
     private final OrderMapper orderMapper;
 
     public Client requestToClient(UpsertClientRequest request){
-        return Client.builder()
-                .name(request.getName())
-                .build();
+        Client client = new Client();
+        client.setName(request.getName());
+        return client;
         }
 
     public Client requestToClient(Long id, UpsertClientRequest request){
@@ -27,15 +27,14 @@ public class ClientMapper {
         client.setId(id);
 
         return client;
-
     }
 
     public ClientResponse clientToResponse(Client client){
-        return ClientResponse.builder()
-                .id(client.getId())
-                .name(client.getName())
-                .orders(orderMapper.orderListToResponseList(client.getOrders()))
-                .build();
+        ClientResponse clientResponse = new ClientResponse();
+        clientResponse.setId(client.getId());
+        clientResponse.setName(client.getName());
+        clientResponse.setOrders(orderMapper.orderListToResponseList(client.getOrders()));
+        return clientResponse;
     }
 
     public ClientListResponse clientListToClientListResponse(List<Client> clients){
@@ -47,7 +46,5 @@ public class ClientMapper {
         );
         return response;
     }
-
-
 
 }

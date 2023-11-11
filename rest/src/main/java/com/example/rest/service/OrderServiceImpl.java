@@ -38,12 +38,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order update(Order order) {
-        checkForUpdate(order.getId());
+//        checkForUpdate(order.getId());
         return orderRepository.update(order);
     }
 
     @Override
     public void deleteById(Long id) {
+        Order order = findById(id);
+        order.getClient().removeOrder(id);
         orderRepository.deleteById(id);
     }
 
