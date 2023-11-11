@@ -28,6 +28,7 @@ dependencies {
 //	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("net.javacrumbs.json-unit:json-unit:2.38.0")
 }
 
 tasks.withType<Test> {

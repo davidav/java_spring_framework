@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
     private Long id;
     private String product;

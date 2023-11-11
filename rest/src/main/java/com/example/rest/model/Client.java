@@ -1,7 +1,9 @@
 package com.example.rest.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
     private Long id;
     private String name;
