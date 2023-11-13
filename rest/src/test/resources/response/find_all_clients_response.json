@@ -2,12 +2,12 @@
   "clients": [
     {
       "id": 1,
-      "name": "Client",
+      "name": "Client 1",
       "orders": []
     },
     {
       "id": 2,
-      "name": "Client",
+      "name": "Client 2",
       "orders": [
         {
           "id": 1,

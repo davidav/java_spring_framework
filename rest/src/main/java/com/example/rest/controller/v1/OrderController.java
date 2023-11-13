@@ -6,6 +6,7 @@ import com.example.rest.dto.UpsertOrderRequest;
 import com.example.rest.dto.mapper.v1.OrderMapper;
 import com.example.rest.model.Order;
 import com.example.rest.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponse> create(@RequestBody UpsertOrderRequest request){
+    public ResponseEntity<OrderResponse> create(@RequestBody @Valid UpsertOrderRequest request){
         Order newOrder = orderService.save(orderMapper.requestToOrder(request));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(orderMapper.orderToResponse(newOrder));
@@ -40,7 +41,7 @@ public class OrderController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderResponse> update(@PathVariable Long id, @RequestBody UpsertOrderRequest request){
+    public ResponseEntity<OrderResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertOrderRequest request){
         Order updatedOrder = orderService.update(orderMapper.requestToOrder(id, request));
         return ResponseEntity.ok(orderMapper.orderToResponse(updatedOrder));
     }

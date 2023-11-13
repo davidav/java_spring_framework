@@ -25,7 +25,7 @@ public class AbstractTestController {
     protected ObjectMapper objectMapper;
 
     protected Client createClient(Long id, Order order){
-        Client client = new Client(id,"Client", new ArrayList<>());
+        Client client = new Client(id,"Client " + id, new ArrayList<>());
         if (order != null){
             order.setClient(client);
             client.addOrder(order);
@@ -44,8 +44,10 @@ public class AbstractTestController {
        );
     }
 
+
+
     protected ClientResponse createClientResponse(Long id, OrderResponse orderResponse){
-        ClientResponse clientResponse = new ClientResponse( id,"Client " + 1, new ArrayList<>());
+        ClientResponse clientResponse = new ClientResponse( id,"Client " + id, new ArrayList<>());
         if (orderResponse != null){
             clientResponse.getOrders().add(orderResponse);
         }

@@ -6,6 +6,7 @@ import com.example.rest.dto.UpsertClientRequest;
 import com.example.rest.dto.mapper.v1.ClientMapper;
 import com.example.rest.model.Client;
 import com.example.rest.service.ClientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientResponse> create(@RequestBody UpsertClientRequest request){
+    public ResponseEntity<ClientResponse> create(@RequestBody @Valid UpsertClientRequest request){
         Client newClient = clientService.save(clientMapper.requestToClient(request));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(clientMapper.clientToResponse(newClient));
