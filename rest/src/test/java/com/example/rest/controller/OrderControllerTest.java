@@ -1,4 +1,4 @@
-package com.example.rest.web.controller;
+package com.example.rest.controller;
 
 import com.example.rest.AbstractTestController;
 import com.example.rest.StringTestUtils;
