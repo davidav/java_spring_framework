@@ -21,7 +21,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(AppHelperException.class)
     public ResponseEntity<ErrorResponse> notFound(AppHelperException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse("Клиент не найден"));
+                .body(new ErrorResponse(ex.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
