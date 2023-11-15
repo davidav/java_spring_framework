@@ -4,12 +4,12 @@ spring:
   jpa:
     generate-ddl: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/app_db
+    url: jdbc:postgresql://localhost:5432/app
     username: postgres
     password: postgres
     hikari:
-      schema: app_schema
-      connection-init-sql: CREATE SCHEMA IF NOT EXIST app_schema
+      schema: app
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS app
       connection-timeout: 10000
 
 app:

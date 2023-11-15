@@ -5,11 +5,13 @@ import com.example.rest.repository.DBClientRepository;
 import com.example.rest.util.AppUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
 @Service
+@Primary
 @RequiredArgsConstructor
 public class DBClientServiceImpl implements ClientService{
 

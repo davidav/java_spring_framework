@@ -5,6 +5,7 @@ import com.example.rest.model.Client;
 import com.example.rest.model.Order;
 import com.example.rest.util.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.text.MessageFormat;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Repository
+@Component
 public class InMemoryOrderRepositoryImpl implements OrderRepository {
 
     private ClientRepository clientRepository;
