@@ -5,7 +5,6 @@ import com.example.rest.StringTestUtils;
 import com.example.rest.dto.*;
 import com.example.rest.dto.mapper.v1.OrderMapper;
 import com.example.rest.exception.AppHelperException;
-import com.example.rest.model.Client;
 import com.example.rest.model.Order;
 import com.example.rest.service.OrderService;
 
