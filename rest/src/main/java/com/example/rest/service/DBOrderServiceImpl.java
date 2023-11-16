@@ -1,13 +1,17 @@
 package com.example.rest.service;
 
 
+import com.example.rest.dto.OrderFilter;
 import com.example.rest.model.Client;
 import com.example.rest.model.Order;
 import com.example.rest.repository.DBOrderRepository;
+import com.example.rest.repository.OrderSpecification;
 import com.example.rest.util.AppUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -20,6 +24,13 @@ public class DBOrderServiceImpl implements OrderService {
 
     private final DBOrderRepository orderRepository;
     private final ClientService clientService;
+
+    @Override
+    public List<Order> filterBy(OrderFilter filter) {
+        return orderRepository.findAll(
+                (OrderSpecification.withFilter(filter)),
+                PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
+    }
 
     @Override
     public List<Order> findAll() {

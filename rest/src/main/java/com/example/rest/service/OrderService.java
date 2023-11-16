@@ -1,6 +1,7 @@
 package com.example.rest.service;
 
 
+import com.example.rest.dto.OrderFilter;
 import com.example.rest.exception.AppHelperException;
 import com.example.rest.model.Order;
 
@@ -10,6 +11,8 @@ import java.util.List;
 
 
 public interface OrderService {
+
+    List<Order> filterBy(OrderFilter filter);
 
     List<Order> findAll();
 

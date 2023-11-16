@@ -1,5 +1,6 @@
 package com.example.rest.controller.v2;
 
+import com.example.rest.dto.OrderFilter;
 import com.example.rest.dto.OrderListResponse;
 import com.example.rest.dto.OrderResponse;
 import com.example.rest.dto.UpsertOrderRequest;
@@ -19,6 +20,13 @@ public class OrderControllerV2 {
 
     private final OrderService orderService;
     private final OrderMapperV2 orderMapper;
+
+    @GetMapping("/filter")
+    public ResponseEntity<OrderListResponse> findAllByFilter(OrderFilter filter) {
+        return ResponseEntity.ok(
+                orderMapper.orderListToOrderListResponse(
+                        orderService.filterBy(filter)));
+    }
 
     @GetMapping
     public ResponseEntity<OrderListResponse> findAll() {

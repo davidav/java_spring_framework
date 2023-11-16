@@ -5,8 +5,8 @@ spring:
     generate-ddl: true
   datasource:
     url: jdbc:postgresql://localhost:5432/app
-    username: postgres
-    password: postgres
+    username: 12345
+    password: 12345
     hikari:
       schema: app
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS app
