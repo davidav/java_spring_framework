@@ -1,16 +1,18 @@
 package com.example.rest.controller.v2;
 
-import com.example.rest.dto.ClientListResponse;
-import com.example.rest.dto.ClientResponse;
-import com.example.rest.dto.UpsertClientRequest;
+import com.example.rest.dto.*;
 import com.example.rest.dto.mapper.v2.ClientMapperV2;
 import com.example.rest.model.Client;
+import com.example.rest.model.Order;
 import com.example.rest.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v2/client")
@@ -51,9 +53,24 @@ public class ClientControllerV2 {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         clientService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/save-with-orders")
+    public ResponseEntity<ClientResponse> createWithOrders(@RequestBody CreateClientWithOrderRequest request) {
+        Client client = Client.builder()
+                .name(request.getName())
+                .build();
+        List<Order> orders = request.getOrders().stream()
+                .map(orderRequest -> Order.builder()
+                        .product(orderRequest.getProduct())
+                        .cost(orderRequest.getCost())
+                        .build())
+                .toList();
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(clientMapper.clientToResponse(clientService.saveWithOrders(client, orders)));
+    }
 }

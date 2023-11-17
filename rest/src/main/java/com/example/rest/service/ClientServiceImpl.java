@@ -2,8 +2,10 @@ package com.example.rest.service;
 
 import com.example.rest.exception.AppHelperException;
 import com.example.rest.model.Client;
+import com.example.rest.model.Order;
 import com.example.rest.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -42,5 +44,10 @@ public class ClientServiceImpl implements ClientService {
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
 
+    }
+
+    @Override
+    public Client saveWithOrders(Client client, List<Order> orders) {
+        throw new NotImplementedException();
     }
 }

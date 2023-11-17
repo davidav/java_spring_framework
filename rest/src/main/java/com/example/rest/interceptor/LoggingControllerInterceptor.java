@@ -10,19 +10,19 @@ public class LoggingControllerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("LoggingControllerInterceptor -> запрос готовиться к отправке в контроллер");
+//        log.info("LoggingControllerInterceptor -> запрос готовиться к отправке в контроллер");
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("LoggingControllerInterceptor -> запрос обработан, подготовка к отправке клиенту");
+//        log.info("LoggingControllerInterceptor -> запрос обработан, подготовка к отправке клиенту");
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        log.info("LoggingControllerInterceptor -> ответ оправлен");
+//        log.info("LoggingControllerInterceptor -> ответ оправлен");
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 }

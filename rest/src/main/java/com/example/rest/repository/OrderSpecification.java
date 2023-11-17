@@ -23,7 +23,7 @@ public interface OrderSpecification {
             if (updateBefore == null){
                 return null;
             }
-            return criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), updateBefore);
+            return criteriaBuilder.lessThanOrEqualTo(root.get("updateAt"), updateBefore);
         });
     }
 
@@ -32,18 +32,18 @@ public interface OrderSpecification {
             if (createBefore == null){
                 return null;
             }
-            return criteriaBuilder.lessThanOrEqualTo(root.get("updateAt"), createBefore);
+            return criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), createBefore);
         });
 
     }
 
     static Specification<Order> buClientId(Long clientId) {
-        return ((root, query, criteriaBuilder) -> {
+        return (root, query, criteriaBuilder) -> {
             if (clientId == null){
                 return null;
             }
             return criteriaBuilder.equal(root.get("client").get("id"), clientId);
-        });
+        };
     }
 
     static Specification<Order> byCostRange(BigDecimal minCost, BigDecimal maxCost) {
