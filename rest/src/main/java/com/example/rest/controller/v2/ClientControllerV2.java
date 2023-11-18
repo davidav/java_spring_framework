@@ -34,7 +34,6 @@ public class ClientControllerV2 {
         return ResponseEntity.ok(
                 clientMapper.clientToResponse(
                         clientService.findById(id)));
-
     }
 
     @PostMapping
