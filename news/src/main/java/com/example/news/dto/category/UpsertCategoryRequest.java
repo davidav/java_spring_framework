@@ -1,4 +1,4 @@
-package com.example.news.dto.user;
+package com.example.news.dto.category;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,15 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpsertUserRequest {
+public class UpsertCategoryRequest {
 
     @NotBlank(message = "Имя должно быть")
     @Size(min = 3, max = 30, message = "Имя должно быть от {min} до {max} символов")
-    private String firstName;
-
-    @NotBlank(message = "Фамилия должна быть")
-    @Size(min = 3, max = 30, message = "Фамилия должна быть от {min} до {max} символов")
-    private String secondName;
-
+    private String name;
 
 }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 @Data
 @AllArgsConstructor
@@ -13,8 +14,11 @@ import java.util.List;
 public class UserResponse {
 
     private String firstName;
-    private String lastName;
-    private List<News> news;
-    private List<Comment> comments;
+
+    private String secondName;
+
+    private List<News> news = new ArrayList<>();
+
+    private List<Comment> comments = new ArrayList<>();
 
 }

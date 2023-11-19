@@ -6,6 +6,7 @@ import com.example.news.dto.user.UserResponse;
 import com.example.news.dto.mapper.UserMapper;
 import com.example.news.model.User;
 import com.example.news.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
+@Tag(name = "User", description = "User API")
 public class UserController {
 
     private final UserService userService;
@@ -54,9 +56,8 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
+
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

@@ -33,7 +33,7 @@ public class DBClientServiceImpl implements ClientService {
     public Client findById(Long id) {
         return clientRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format(
-                        "Клиент с id {} не наден", id
+                        "Клиент с id {} не найден", id
                 )));
     }
 
