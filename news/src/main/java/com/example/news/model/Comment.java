@@ -1,5 +1,6 @@
 package com.example.news.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,11 +35,13 @@ public class Comment {
     @ManyToOne()
     @JoinColumn(name = "news_id")
     @ToString.Exclude
+    @JsonIgnore
     private News news;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
     @ToString.Exclude
+    @JsonIgnore
     private User user;
 
 

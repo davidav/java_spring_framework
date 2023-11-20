@@ -8,6 +8,7 @@ import com.example.rest.repository.DBOrderRepository;
 import com.example.rest.util.AppUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.helpers.MessageFormatter;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,9 +33,8 @@ public class DBClientServiceImpl implements ClientService {
     @Override
     public Client findById(Long id) {
         return clientRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format(
-                        "Клиент с id {} не найден", id
-                )));
+                .orElseThrow(() -> new EntityNotFoundException(MessageFormatter.format(
+                        "Клиент с id {} не найден", id).getMessage()));
     }
 
     @Override

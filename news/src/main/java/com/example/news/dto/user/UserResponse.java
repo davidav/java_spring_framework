@@ -17,8 +17,8 @@ public class UserResponse {
 
     private String secondName;
 
-    private List<News> news = new ArrayList<>();
+    private List<News> newses = new ArrayList<>();
 
-    private List<Comment> comments = new ArrayList<>();
+//    private List<Comment> comments = new ArrayList<>();
 
 }

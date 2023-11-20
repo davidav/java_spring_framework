@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -41,4 +42,31 @@ public class User {
     @ToString.Exclude
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    public void addNews(News news){
+        if(newses == null){
+            newses = new ArrayList<>();
+        }
+        newses.add(news);
+    }
+
+    public void removeNews(Long newsId){
+        newses = newses.stream()
+                .filter(news -> !news.getId().equals(newsId))
+                .collect(Collectors.toList());
+    }
+
+    public void addComment(Comment comment){
+        if(comments == null){
+            comments = new ArrayList<>();
+        }
+        comments.add(comment);
+    }
+
+    public void removeComment(Long commentId){
+        comments = comments.stream()
+                .filter(comment -> !comment.getId().equals(commentId))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.news.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,11 +40,13 @@ public class News {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     @ToString.Exclude
+    @JsonIgnore
     private User user;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
     @ToString.Exclude
+    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "news", cascade = CascadeType.ALL)
@@ -51,4 +54,10 @@ public class News {
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
+    public void addComment(Comment comment) {
+        if (comments == null){
+            comments = new ArrayList<>();
+        }
+        comments.add(comment);
+    }
 }

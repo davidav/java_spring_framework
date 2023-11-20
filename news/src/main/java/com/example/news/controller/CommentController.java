@@ -35,7 +35,7 @@ public class CommentController {
     public ResponseEntity<CommentResponse> findById(@PathVariable Long id) {
 
         return ResponseEntity.ok(
-                commentMapper.userToResponse(
+                commentMapper.commentToResponse(
                         commentService.findById(id)));
     }
 

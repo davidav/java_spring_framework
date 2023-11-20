@@ -25,5 +25,4 @@ public interface CategoryMapper {
 
     Category requestToCategory(Long id,UpsertCategoryRequest request);
 
-    CategoryResponse userToResponse(Category category);
 }

@@ -27,4 +27,10 @@ public class Category {
     @Builder.Default
     private List<News> newses = new ArrayList<>();
 
+    public void addNews(News news) {
+        if (newses == null){
+            newses = new ArrayList<>();
+        }
+        newses.add(news);
+    }
 }

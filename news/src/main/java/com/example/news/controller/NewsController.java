@@ -3,6 +3,7 @@ package com.example.news.controller;
 import com.example.news.dto.mapper.NewsMapper;
 import com.example.news.dto.news.NewsListResponse;
 import com.example.news.dto.news.NewsResponse;
+import com.example.news.dto.news.OneNewsResponse;
 import com.example.news.dto.news.UpsertNewsRequest;
 import com.example.news.model.News;
 import com.example.news.service.NewsService;
@@ -31,10 +32,10 @@ public class NewsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<NewsResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<OneNewsResponse> findById(@PathVariable Long id) {
 
         return ResponseEntity.ok(
-                newsMapper.newsToResponse(
+                newsMapper.oneNewsToResponse(
                         newsService.findById(id)));
     }
 

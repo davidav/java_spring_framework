@@ -1,8 +1,8 @@
 package com.example.news.dto.mapper;
 
+import com.example.news.dto.comment.UpsertCommentRequest;
 import com.example.news.dto.comment.CommentListResponse;
 import com.example.news.dto.comment.CommentResponse;
-import com.example.news.dto.comment.UpsertCommentRequest;
 import com.example.news.model.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -20,9 +20,6 @@ public interface CommentMapper {
     }
 
     CommentResponse commentToResponse(Comment comment);
-
-    CommentResponse userToResponse(Comment byId);
-
 
     Comment requestToComment(UpsertCommentRequest request);
 
