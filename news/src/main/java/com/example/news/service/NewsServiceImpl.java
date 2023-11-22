@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Editable
+    @Transactional
     public News update(News news) {
         News existedNews = findById(news.getId());
         AppHelperUtils.copyNonNullProperties(news, existedNews);

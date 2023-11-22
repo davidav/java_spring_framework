@@ -1,6 +1,7 @@
 package com.example.news.dto.user;
 
-import com.example.news.model.Comment;
+
+
 import com.example.news.model.News;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,5 @@ public class UserResponse {
     private String secondName;
 
     private List<News> newses = new ArrayList<>();
-
-//    private List<Comment> comments = new ArrayList<>();
 
 }

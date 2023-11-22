@@ -2,6 +2,7 @@ package com.example.news.dto.news;
 
 import com.example.news.model.Comment;
 import com.example.news.validation.UserFilterValid;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,5 +20,8 @@ public class OneNewsResponse {
 
     private List<Comment> comments;
 
+    private Long userId;
+
+    private Long categoryId;
 
 }
