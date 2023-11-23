@@ -46,8 +46,8 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         NewsResponse newsResponse = new NewsResponse();
         newsResponse.setTitle(news.getTitle());
         newsResponse.setText(news.getText());
-        newsResponse.setUserId(userService.findById(news.getUser().getId()).getId());
-        newsResponse.setCategoryId(categoryService.findById(news.getCategory().getId()).getId());
+        newsResponse.setUserId(news.getUser().getId());
+        newsResponse.setCategoryId(news.getCategory().getId());
         newsResponse.setCountComments(news.getComments().size());
         return newsResponse;
     }
@@ -56,8 +56,8 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         OneNewsResponse oneNewsResponse = new OneNewsResponse();
         oneNewsResponse.setTitle(news.getTitle());
         oneNewsResponse.setText(news.getText());
-        oneNewsResponse.setUserId(userService.findById(news.getUser().getId()).getId());
-        oneNewsResponse.setCategoryId(categoryService.findById(news.getCategory().getId()).getId());
+        oneNewsResponse.setUserId(news.getUser().getId());
+        oneNewsResponse.setCategoryId(news.getCategory().getId());
         oneNewsResponse.setComments(news.getComments());
         return oneNewsResponse;
     }

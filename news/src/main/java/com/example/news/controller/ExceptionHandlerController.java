@@ -4,6 +4,7 @@ package com.example.news.controller;
 import com.example.news.dto.ErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,12 @@ public class ExceptionHandlerController {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(errorMessage));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> noAuthentication(AuthenticationException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ErrorResponse(ex.getMessage()));
     }
 
 }

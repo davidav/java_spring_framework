@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final UserService userService;
+    private final NewsService newsService;
 
 
     @Override
@@ -30,8 +33,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Comment save(Comment comment) {
-        return commentRepository.save(comment);
+        Comment savedCommit = commentRepository.save(comment);
+        userService.update(savedCommit.getUser());
+        newsService.update(savedCommit.getNews());
+        return savedCommit;
     }
 
     @Override
@@ -45,5 +52,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
+
     }
 }

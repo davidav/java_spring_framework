@@ -1,5 +1,6 @@
 package com.example.news.dto.mapper;
 
+import com.example.news.dto.comment.CommentResponse;
 import com.example.news.dto.comment.UpsertCommentRequest;
 import com.example.news.model.Comment;
 import com.example.news.model.News;
@@ -24,9 +25,19 @@ public abstract class CommentMapperDelegate implements CommentMapper{
         News news = newsService.findById(request.getNewsId());
         comment.setNews(news);
 
-        user.addComment(comment);
-        news.addComment(comment);
+//        user.addComment(comment);
+//        news.addComment(comment);
 
         return comment;
+    }
+
+    @Override
+    public CommentResponse commentToResponse(Comment comment) {
+        CommentResponse response = new CommentResponse();
+        response.setComment(comment.getComment());
+        response.setUserId(comment.getUser().getId());
+        response.setNewsId(comment.getNews().getId());
+
+        return response;
     }
 }

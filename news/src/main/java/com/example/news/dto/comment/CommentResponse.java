@@ -11,4 +11,8 @@ public class CommentResponse {
 
     private String comment;
 
+    private Long userId;
+
+    private Long newsId;
+
 }

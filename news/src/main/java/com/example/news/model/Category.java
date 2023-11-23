@@ -2,7 +2,10 @@ package com.example.news.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,14 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @CreationTimestamp
+    @Column(name = "create_at")
+    private Instant createAt;
+
+    @UpdateTimestamp
+    @Column(name = "update_at")
+    private Instant updateAt;
 
     @Column(name = "name")
     private String name;

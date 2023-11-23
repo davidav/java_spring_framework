@@ -1,8 +1,7 @@
 package com.example.news.service;
 
-import com.example.news.aop.Editable;
+import com.example.news.aop.NewsEditAble;
 import com.example.news.model.News;
-import com.example.news.model.User;
 import com.example.news.repository.NewsRepository;
 import com.example.news.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,8 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class NewsServiceImpl implements NewsService {
-
     private final NewsRepository newsRepository;
+    private final UserService userService;
+    private final CategoryService categoryService;
 
     @Override
     public List<News> findAll() {
@@ -36,14 +36,17 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Transactional
     public News save(News news) {
+        News savedNews = newsRepository.save(news);
+        userService.update(news.getUser());
+        categoryService.update(news.getCategory());
 
-        return newsRepository.save(news);
+        return savedNews;
     }
 
     @Override
-    @Editable
-    @Transactional
+    @NewsEditAble
     public News update(News news) {
         News existedNews = findById(news.getId());
         AppHelperUtils.copyNonNullProperties(news, existedNews);
@@ -52,7 +55,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-//    @Deletable
+    @NewsEditAble
     public void deleteById(Long id) {
         newsRepository.deleteById(id);
     }
