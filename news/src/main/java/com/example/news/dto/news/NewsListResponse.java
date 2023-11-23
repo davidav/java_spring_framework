@@ -11,6 +11,6 @@ import java.util.List;
 @UserFilterValid
 public class NewsListResponse {
 
-    private List<NewsResponse> newses;
+    private List<NewsWithoutContactsResponse> newses;
 
 }

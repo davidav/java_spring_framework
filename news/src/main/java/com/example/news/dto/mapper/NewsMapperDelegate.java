@@ -1,7 +1,6 @@
 package com.example.news.dto.mapper;
 
 import com.example.news.dto.news.NewsResponse;
-import com.example.news.dto.news.OneNewsResponse;
 import com.example.news.dto.news.UpsertNewsRequest;
 import com.example.news.model.Category;
 import com.example.news.model.News;
@@ -52,8 +51,8 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         return newsResponse;
     }
     @Override
-    public OneNewsResponse oneNewsToResponse(News news) {
-        OneNewsResponse oneNewsResponse = new OneNewsResponse();
+    public NewsResponse NewsToResponse(News news) {
+        NewsResponse oneNewsResponse = new NewsResponse();
         oneNewsResponse.setTitle(news.getTitle());
         oneNewsResponse.setText(news.getText());
         oneNewsResponse.setUserId(news.getUser().getId());

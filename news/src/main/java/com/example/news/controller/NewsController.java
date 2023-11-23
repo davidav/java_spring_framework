@@ -2,7 +2,7 @@ package com.example.news.controller;
 
 import com.example.news.dto.mapper.NewsMapper;
 import com.example.news.dto.news.NewsListResponse;
-import com.example.news.dto.news.OneNewsResponse;
+import com.example.news.dto.news.NewsResponse;
 import com.example.news.dto.news.UpsertNewsRequest;
 import com.example.news.model.News;
 import com.example.news.service.NewsService;
@@ -31,28 +31,28 @@ public class NewsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OneNewsResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<NewsResponse> findById(@PathVariable Long id) {
 
         return ResponseEntity.ok(
-                newsMapper.oneNewsToResponse(
+                newsMapper.newsToResponse(
                         newsService.findById(id)));
     }
 
     @PostMapping
-    public ResponseEntity<OneNewsResponse> create(@RequestBody @Valid UpsertNewsRequest request) {
+    public ResponseEntity<NewsResponse> create(@RequestBody @Valid UpsertNewsRequest request) {
         News newNews = newsService.save(newsMapper.requestToNews(request));
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(newsMapper.oneNewsToResponse(newNews));
+                .body(newsMapper.newsToResponse(newNews));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OneNewsResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertNewsRequest request) {
+    public ResponseEntity<NewsResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertNewsRequest request) {
         News updateNews = newsService.update(newsMapper.requestToNews(id, request));
 
 //todo error - detached entity passed to persist
 
-        return ResponseEntity.ok(newsMapper.oneNewsToResponse(updateNews));
+        return ResponseEntity.ok(newsMapper.newsToResponse(updateNews));
     }
 
     @DeleteMapping("/{id}")

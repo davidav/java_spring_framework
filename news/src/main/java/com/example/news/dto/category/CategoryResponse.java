@@ -12,6 +12,6 @@ public class CategoryResponse {
 
     private String name;
 
-    private List<News> newses = new ArrayList<>();
+    private List<News> newses;
 
 }
