@@ -1,6 +1,7 @@
 package com.example.news.dto.mapper;
 
 import com.example.news.dto.news.NewsResponse;
+import com.example.news.dto.news.NewsWithoutContactsResponse;
 import com.example.news.dto.news.UpsertNewsRequest;
 import com.example.news.model.Category;
 import com.example.news.model.News;
@@ -27,9 +28,6 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         Category category = categoryService.findById(request.getCategoryId());
         news.setCategory(category);
 
-        user.addNews(news);
-        category.addNews(news);
-
         return news;
     }
 
@@ -40,26 +38,29 @@ public abstract class NewsMapperDelegate implements NewsMapper {
 
         return news;
     }
+
     @Override
     public NewsResponse newsToResponse(News news) {
-        NewsResponse newsResponse = new NewsResponse();
-        newsResponse.setTitle(news.getTitle());
-        newsResponse.setText(news.getText());
-        newsResponse.setUserId(news.getUser().getId());
-        newsResponse.setCategoryId(news.getCategory().getId());
-        newsResponse.setCountComments(news.getComments().size());
-        return newsResponse;
-    }
-    @Override
-    public NewsResponse NewsToResponse(News news) {
-        NewsResponse oneNewsResponse = new NewsResponse();
-        oneNewsResponse.setTitle(news.getTitle());
-        oneNewsResponse.setText(news.getText());
-        oneNewsResponse.setUserId(news.getUser().getId());
-        oneNewsResponse.setCategoryId(news.getCategory().getId());
-        oneNewsResponse.setComments(news.getComments());
-        return oneNewsResponse;
+        NewsResponse response = new NewsResponse();
+        response.setTitle(news.getTitle());
+        response.setText(news.getText());
+        response.setUserId(news.getUser().getId());
+        response.setCategoryId(news.getCategory().getId());
+        response.setComments(news.getComments());
+
+        return response;
     }
 
+    @Override
+    public NewsWithoutContactsResponse newsWithoutContactsToResponse(News news) {
+        NewsWithoutContactsResponse response = new NewsWithoutContactsResponse();
+        response.setTitle(news.getTitle());
+        response.setText(news.getText());
+        response.setUserId(news.getUser().getId());
+        response.setCategoryId(news.getCategory().getId());
+        response.setCountComments(news.getComments().size());
+
+        return response;
+    }
 
 }

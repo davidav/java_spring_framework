@@ -4,12 +4,14 @@ import com.example.news.dto.user.UpsertUserRequest;
 import com.example.news.dto.user.UserListResponse;
 import com.example.news.dto.user.UserResponse;
 import com.example.news.model.User;
+import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@DecoratedWith(UserMapperDelegate.class)
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
