@@ -1,6 +1,7 @@
 package com.example.news.service;
 
-import com.example.news.aop.NewsEditAble;
+import com.example.news.aop.NewsDeleteAvailable;
+import com.example.news.aop.NewsEditAvailable;
 import com.example.news.model.News;
 import com.example.news.repository.NewsRepository;
 import com.example.news.util.AppHelperUtils;
@@ -32,7 +33,7 @@ public class NewsServiceImpl implements NewsService {
     public News findById(Long id) {
         return newsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormatter.format("Новость с id {} не найдена", id).getMessage()));
+                        MessageFormatter.format("NewsServiceImpl -> Новость с id {} не найдена", id).getMessage()));
     }
 
     @Override
@@ -46,7 +47,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @NewsEditAble
+    @NewsEditAvailable
     public News update(News news) {
         News existedNews = findById(news.getId());
         AppHelperUtils.copyNonNullProperties(news, existedNews);
@@ -55,8 +56,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @NewsEditAble
-    public void deleteById(Long id) {
+    @NewsDeleteAvailable
+    public void deleteById(Long id, Long userId) {
         newsRepository.deleteById(id);
     }
 }

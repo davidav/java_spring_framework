@@ -1,5 +1,7 @@
 package com.example.news.service;
 
+import com.example.news.aop.CommentDeleteAvailable;
+import com.example.news.aop.CommentEditAvailable;
 import com.example.news.model.Comment;
 import com.example.news.repository.CommentRepository;
 import com.example.news.util.AppHelperUtils;
@@ -42,6 +44,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @CommentEditAvailable
     public Comment update(Comment comment) {
         Comment existedComment = findById(comment.getId());
         AppHelperUtils.copyNonNullProperties(comment, existedComment);
@@ -50,7 +53,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    @CommentDeleteAvailable
+    public void deleteById(Long id, Long userId) {
         commentRepository.deleteById(id);
 
     }

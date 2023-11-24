@@ -49,14 +49,15 @@ public class CommentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CommentResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertCommentRequest request) {
-        Comment updateComment = commentService.update(commentMapper.requestToComment(id, request));
+        Comment comment = commentMapper.requestToComment(id, request);
+        Comment updateComment = commentService.update(comment);
 
         return ResponseEntity.ok(commentMapper.commentToResponse(updateComment));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        commentService.deleteById(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, @RequestParam Long userId) {
+        commentService.deleteById(id, userId);
 
         return ResponseEntity.noContent().build();
     }

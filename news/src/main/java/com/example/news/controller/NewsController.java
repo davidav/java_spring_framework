@@ -49,15 +49,12 @@ public class NewsController {
     @PutMapping("/{id}")
     public ResponseEntity<NewsResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertNewsRequest request) {
         News updateNews = newsService.update(newsMapper.requestToNews(id, request));
-
-//todo error - detached entity passed to persist
-
         return ResponseEntity.ok(newsMapper.newsToResponse(updateNews));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        newsService.deleteById(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, @RequestParam Long userId) {
+        newsService.deleteById(id, userId);
 
         return ResponseEntity.noContent().build();
     }

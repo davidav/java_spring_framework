@@ -13,6 +13,6 @@ public interface NewsService {
 
     News update(News news);
 
-    void deleteById(Long id);
+    void deleteById(Long id, Long userId);
 
 }

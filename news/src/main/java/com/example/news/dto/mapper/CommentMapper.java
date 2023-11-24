@@ -4,12 +4,13 @@ import com.example.news.dto.comment.UpsertCommentRequest;
 import com.example.news.dto.comment.CommentListResponse;
 import com.example.news.dto.comment.CommentResponse;
 import com.example.news.model.Comment;
+import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@DecoratedWith(CommentMapperDelegate.class)
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CommentMapper {
 
