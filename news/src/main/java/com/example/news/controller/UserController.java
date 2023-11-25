@@ -1,6 +1,7 @@
 package com.example.news.controller;
 
 import com.example.news.dto.user.UpsertUserRequest;
+import com.example.news.dto.user.UserFilter;
 import com.example.news.dto.user.UserListResponse;
 import com.example.news.dto.user.UserResponse;
 import com.example.news.dto.mapper.UserMapper;
@@ -22,13 +23,21 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @GetMapping
-    public ResponseEntity<UserListResponse> findAll() {
 
+    @GetMapping("/filter")
+    public ResponseEntity<UserListResponse> findAllByFilter(@Valid UserFilter filter) {
         return ResponseEntity.ok(
                 userMapper.userListToUserListResponse(
-                        userService.findAll()));
+                        userService.filterBy(filter)));
     }
+
+//    @GetMapping
+//    public ResponseEntity<UserListResponse> findAll() {
+//
+//        return ResponseEntity.ok(
+//                userMapper.userListToUserListResponse(
+//                        userService.findAll()));
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findById(@PathVariable Long id) {

@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UserFilterValid {
 
-    String message() default "Поля пагинации должны быть указаны. Если указываете minCost или maxCost, то оба поля должны быть указаны";
+    String message() default "Поля пагинации должны быть указаны";
 
     Class<?>[] groups() default {};
 

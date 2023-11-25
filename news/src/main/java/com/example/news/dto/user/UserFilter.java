@@ -17,7 +17,6 @@ public class UserFilter {
     private String secondName;
     private Instant createBefore;
     private Instant updateBefore;
-    private Long clientId;
-
+    private Long userId;
 
 }

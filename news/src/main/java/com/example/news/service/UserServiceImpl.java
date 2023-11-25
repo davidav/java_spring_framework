@@ -1,13 +1,16 @@
 package com.example.news.service;
 
-import com.example.news.model.News;
+import com.example.news.dto.user.UserFilter;
 import com.example.news.model.User;
 import com.example.news.repository.UserRepository;
+import com.example.news.repository.UserSpecification;
 import com.example.news.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -15,6 +18,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Override
+    public List<User> filterBy(UserFilter filter) {
+        return userRepository.findAll(
+                (UserSpecification.withFilter(filter)),
+                PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
+    }
 
     @Override
     public List<User> findAll() {

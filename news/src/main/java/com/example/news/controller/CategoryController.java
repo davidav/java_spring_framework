@@ -1,5 +1,6 @@
 package com.example.news.controller;
 
+import com.example.news.dto.category.CategoryFilter;
 import com.example.news.dto.category.CategoryListResponse;
 import com.example.news.dto.category.CategoryResponse;
 import com.example.news.dto.category.UpsertCategoryRequest;
@@ -22,13 +23,22 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
-    @GetMapping
-    public ResponseEntity<CategoryListResponse> findAll() {
 
+    @GetMapping("/filter")
+    public ResponseEntity<CategoryListResponse> findAllByFilter(@Valid CategoryFilter filter) {
         return ResponseEntity.ok(
                 categoryMapper.categoryListToCategoryListResponse(
-                        categoryService.findAll()));
+                        categoryService.filterBy(filter)));
     }
+
+
+//    @GetMapping
+//    public ResponseEntity<CategoryListResponse> findAll() {
+//
+//        return ResponseEntity.ok(
+//                categoryMapper.categoryListToCategoryListResponse(
+//                        categoryService.findAll()));
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {

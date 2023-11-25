@@ -1,11 +1,14 @@
 package com.example.news.service;
 
+import com.example.news.dto.category.CategoryFilter;
 import com.example.news.model.Category;
 import com.example.news.repository.CategoryRepository;
+import com.example.news.repository.CategorySpecification;
 import com.example.news.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    @Override
+    public List<Category> filterBy(CategoryFilter filter) {
+        return categoryRepository.findAll(
+                (CategorySpecification.withFilter(filter)),
+                PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
+    }
     @Override
     public List<Category> findAll() {
         return categoryRepository.findAll();
@@ -45,4 +54,6 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
     }
+
+
 }

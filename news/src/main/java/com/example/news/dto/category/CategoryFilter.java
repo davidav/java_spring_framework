@@ -1,5 +1,6 @@
 package com.example.news.dto.category;
 
+import com.example.news.validation.CategoryFilterValid;
 import com.example.news.validation.UserFilterValid;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import java.time.Instant;
 
 @Data
 @NoArgsConstructor
-@UserFilterValid
+@CategoryFilterValid
 public class CategoryFilter {
 
     private Integer pageSize;
