@@ -1,5 +1,6 @@
 package com.example.news.service;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.dto.category.CategoryFilter;
 import com.example.news.model.Category;
 import com.example.news.repository.CategoryRepository;
@@ -26,8 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
                 PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
     }
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<Category> findAll(PagesRequest request) {
+        return categoryRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize())).getContent();
     }
 
     @Override

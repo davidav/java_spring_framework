@@ -2,6 +2,7 @@ package com.example.news.service;
 
 import com.example.news.aop.NewsDeleteAvailable;
 import com.example.news.aop.NewsEditAvailable;
+import com.example.news.dto.PagesRequest;
 import com.example.news.model.News;
 import com.example.news.repository.NewsRepository;
 import com.example.news.util.AppHelperUtils;
@@ -9,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +21,15 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class NewsServiceImpl implements NewsService {
+ public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
     private final UserService userService;
     private final CategoryService categoryService;
 
     @Override
-    public List<News> findAll() {
-        return newsRepository.findAll();
+    public List<News> findAll(PagesRequest request) {
+        return newsRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize())).getContent();
     }
 
     @Override

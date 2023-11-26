@@ -1,5 +1,6 @@
 package com.example.news.controller;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.dto.user.UpsertUserRequest;
 import com.example.news.dto.user.UserFilter;
 import com.example.news.dto.user.UserListResponse;
@@ -31,13 +32,13 @@ public class UserController {
                         userService.filterBy(filter)));
     }
 
-//    @GetMapping
-//    public ResponseEntity<UserListResponse> findAll() {
-//
-//        return ResponseEntity.ok(
-//                userMapper.userListToUserListResponse(
-//                        userService.findAll()));
-//    }
+    @GetMapping
+    public ResponseEntity<UserListResponse> findAll(@Valid PagesRequest request) {
+
+        return ResponseEntity.ok(
+                userMapper.userListToUserListResponse(
+                        userService.findAll(request)));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findById(@PathVariable Long id) {

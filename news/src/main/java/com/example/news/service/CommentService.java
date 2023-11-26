@@ -1,12 +1,13 @@
 package com.example.news.service;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.model.Comment;
 
 import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> findAll();
+    List<Comment> findAll(PagesRequest request);
 
     Comment findById(Long id);
 

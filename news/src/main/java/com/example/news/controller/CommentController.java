@@ -1,5 +1,6 @@
 package com.example.news.controller;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.dto.comment.CommentListResponse;
 import com.example.news.dto.comment.CommentResponse;
 import com.example.news.dto.comment.UpsertCommentRequest;
@@ -24,11 +25,11 @@ public class CommentController {
     private final CommentMapper commentMapper;
 
     @GetMapping
-    public ResponseEntity<CommentListResponse> findAll() {
+    public ResponseEntity<CommentListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
                 commentMapper.commentListToCommentListResponse(
-                        commentService.findAll()));
+                        commentService.findAll(request)));
     }
 
     @GetMapping("/{id}")

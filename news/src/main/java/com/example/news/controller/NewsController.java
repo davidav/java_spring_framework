@@ -1,5 +1,6 @@
 package com.example.news.controller;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.dto.mapper.NewsMapper;
 import com.example.news.dto.news.NewsListResponse;
 import com.example.news.dto.news.NewsResponse;
@@ -23,11 +24,11 @@ public class NewsController {
     private final NewsMapper newsMapper;
 
     @GetMapping
-    public ResponseEntity<NewsListResponse> findAll() {
+    public ResponseEntity<NewsListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
                 newsMapper.newsListToNewsListResponse(
-                        newsService.findAll()));
+                        newsService.findAll(request)));
     }
 
     @GetMapping("/{id}")

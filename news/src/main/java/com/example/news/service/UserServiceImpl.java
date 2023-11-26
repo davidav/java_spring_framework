@@ -1,5 +1,6 @@
 package com.example.news.service;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.dto.user.UserFilter;
 import com.example.news.model.User;
 import com.example.news.repository.UserRepository;
@@ -24,12 +25,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(
                 (UserSpecification.withFilter(filter)),
                 PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
+
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
+    public List<User> findAll(PagesRequest request) {
+        return userRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize())).getContent();
+        }
 
     @Override
     public User findById(Long id) {

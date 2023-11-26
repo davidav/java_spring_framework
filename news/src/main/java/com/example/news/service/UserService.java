@@ -1,5 +1,6 @@
 package com.example.news.service;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.dto.user.UserFilter;
 import com.example.news.model.User;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,7 @@ public interface UserService {
 
     List<User> filterBy(UserFilter filter);
 
-    List<User> findAll();
+    List<User> findAll(PagesRequest request);
 
     User findById(Long id);
 

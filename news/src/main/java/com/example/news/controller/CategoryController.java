@@ -1,5 +1,6 @@
 package com.example.news.controller;
 
+import com.example.news.dto.PagesRequest;
 import com.example.news.dto.category.CategoryFilter;
 import com.example.news.dto.category.CategoryListResponse;
 import com.example.news.dto.category.CategoryResponse;
@@ -32,13 +33,13 @@ public class CategoryController {
     }
 
 
-//    @GetMapping
-//    public ResponseEntity<CategoryListResponse> findAll() {
-//
-//        return ResponseEntity.ok(
-//                categoryMapper.categoryListToCategoryListResponse(
-//                        categoryService.findAll()));
-//    }
+    @GetMapping
+    public ResponseEntity<CategoryListResponse> findAll(@Valid PagesRequest request) {
+
+        return ResponseEntity.ok(
+                categoryMapper.categoryListToCategoryListResponse(
+                        categoryService.findAll(request)));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {

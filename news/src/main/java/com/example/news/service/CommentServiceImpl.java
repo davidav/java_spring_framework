@@ -2,12 +2,14 @@ package com.example.news.service;
 
 import com.example.news.aop.CommentDeleteAvailable;
 import com.example.news.aop.CommentEditAvailable;
+import com.example.news.dto.PagesRequest;
 import com.example.news.model.Comment;
 import com.example.news.repository.CommentRepository;
 import com.example.news.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,9 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public List<Comment> findAll() {
-        return commentRepository.findAll();
+    public List<Comment> findAll(PagesRequest request) {
+        return commentRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize())).getContent();
     }
 
     @Override
