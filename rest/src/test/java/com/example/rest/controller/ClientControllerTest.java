@@ -100,8 +100,8 @@ public class ClientControllerTest extends AbstractTestController {
         Mockito.when(clientMapper.clientToResponse(createdClient)).thenReturn(clientResponse);
 
         String actualResponse = mockMvc.perform(post("/api/v1/client")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()

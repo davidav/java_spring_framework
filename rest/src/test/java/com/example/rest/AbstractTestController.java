@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
-public class AbstractTestController {
+//@ActiveProfiles("test")
+public abstract class AbstractTestController {
 
     @Autowired
     protected MockMvc mockMvc;

@@ -10,6 +10,8 @@ import com.example.news.service.CategoryService;
 import com.example.news.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.stream.Collectors;
+
 
 public abstract class NewsMapperDelegate implements NewsMapper {
 
@@ -17,6 +19,8 @@ public abstract class NewsMapperDelegate implements NewsMapper {
     private UserService userService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Override
     public News requestToNews(UpsertNewsRequest request) {
@@ -46,7 +50,9 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         response.setText(news.getText());
         response.setUserId(news.getUser().getId());
         response.setCategoryId(news.getCategory().getId());
-        response.setComments(news.getComments());
+        response.setComments(news.getComments().stream()
+                .map(commentMapper::commentToResponse)
+                .collect(Collectors.toList()));
 
         return response;
     }
