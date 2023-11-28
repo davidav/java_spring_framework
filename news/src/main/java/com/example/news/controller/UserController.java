@@ -31,6 +31,11 @@ public class UserController {
     private final UserMapper userMapper;
 
 
+    @Operation(
+            summary = "Get paginated all users matching the filter",
+            description = "Get all users by filter. Returns paginated users matching the filter",
+            tags = {"user"}
+    )
     @GetMapping("/filter")
     public ResponseEntity<UserListResponse> findAllByFilter(@Valid UserFilter filter) {
         return ResponseEntity.ok(
@@ -39,8 +44,8 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Get all users",
-            description = "Get all users. Return list of users",
+            summary = "Get paginated all users",
+            description = "Get all users. Return list of paginated users",
             tags = {"user"}
     )
     @GetMapping
@@ -50,9 +55,10 @@ public class UserController {
                 userMapper.userListToUserListResponse(
                         userService.findAll(request)));
     }
+
     @Operation(
             summary = "Get user by id",
-            description = "Return firstName, secondName, countNewses, countComments",
+            description = "Return firstName, secondName, countNewses, countComments user's with a specific ID",
             tags = {"user", "id"}
     )
     @ApiResponses({
@@ -73,6 +79,21 @@ public class UserController {
                         userService.findById(id)));
     }
 
+    @Operation(
+            summary = "Create new user",
+            description = "Return new user",
+            tags = {"user", "id"}
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    content = {@Content(schema = @Schema(implementation = UserResponse.class), mediaType = "application/json")}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")}
+            )
+    })
     @PostMapping
     public ResponseEntity<UserResponse> create(@RequestBody @Valid UpsertUserRequest request) {
         User newUser = userService.save(userMapper.requestToUser(request));
@@ -81,6 +102,21 @@ public class UserController {
                 .body(userMapper.userToResponse(newUser));
     }
 
+    @Operation(
+            summary = "Edit user",
+            description = "Return edited user",
+            tags = {"user", "id"}
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = {@Content(schema = @Schema(implementation = UserResponse.class), mediaType = "application/json")}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")}
+            )
+    })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertUserRequest request) {
         User updateUser = userService.update(userMapper.requestToUser(id, request));
@@ -88,6 +124,11 @@ public class UserController {
         return ResponseEntity.ok(userMapper.userToResponse(updateUser));
     }
 
+    @Operation(
+            summary = "Delete user",
+            description = "Delete user with a specific ID",
+            tags = {"user", "id"}
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
