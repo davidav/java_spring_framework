@@ -8,7 +8,6 @@ import com.example.news.dto.category.CategoryResponse;
 import com.example.news.dto.category.UpsertCategoryRequest;
 import com.example.news.dto.mapper.CategoryMapper;
 import com.example.news.dto.news.NewsWithoutContactsResponse;
-import com.example.news.dto.user.UpsertUserRequest;
 import com.example.news.model.Category;
 import com.example.news.model.Comment;
 import com.example.news.model.News;
@@ -24,6 +23,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;

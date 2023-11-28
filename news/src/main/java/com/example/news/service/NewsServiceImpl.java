@@ -36,7 +36,7 @@ import java.util.List;
     public News findById(Long id) {
         return newsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormatter.format("NewsServiceImpl -> Новость с id {} не найдена", id).getMessage()));
+                        MessageFormatter.format("Новость с id {} не найдена", id).getMessage()));
     }
 
     @Override
