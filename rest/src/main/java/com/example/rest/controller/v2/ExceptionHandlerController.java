@@ -1,8 +1,9 @@
-package com.example.rest.controller.v1;
+package com.example.rest.controller.v2;
 
 
 import com.example.rest.dto.ErrorResponse;
 import com.example.rest.exception.AppHelperException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,12 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(AppHelperException.class)
     public ResponseEntity<ErrorResponse> notFound(AppHelperException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(ex.getMessage()));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> notFound(EntityNotFoundException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(ex.getMessage()));
     }

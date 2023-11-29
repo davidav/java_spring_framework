@@ -1,0 +1,11 @@
+{
+  "newses": [
+    {
+      "title": "Title news 1",
+      "text": "Text news 1 Text news 1 Text news 1",
+      "countComments": 1,
+      "userId": 1,
+      "categoryId": 1
+    }
+  ]
+}

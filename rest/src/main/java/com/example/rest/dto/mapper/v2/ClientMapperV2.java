@@ -27,7 +27,4 @@ public interface ClientMapperV2 {
         return response;
     }
 
-
-
-
 }
