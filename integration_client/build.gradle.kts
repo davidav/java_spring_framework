@@ -27,6 +27,9 @@ extra["springCloudVersion"] = "2023.0.0-RC1"
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+	implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
