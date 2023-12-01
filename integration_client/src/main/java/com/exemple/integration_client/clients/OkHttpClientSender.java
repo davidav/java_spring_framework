@@ -39,7 +39,7 @@ public class OkHttpClientSender {
                         RequestBody.create(MediaType.parse("application/octet-stream"), file.getBytes()));
 
         Request request = new Request.Builder()
-                .url(baseUrl)
+                .url(baseUrl + "/api/v1/file/upload")
                 .header("Content-Type", "multipart/form-data")
                 .post(builder.build())
                 .build();
@@ -56,7 +56,7 @@ public class OkHttpClientSender {
 
     public Resource downloadFile(String fileName) {
         Request request = new Request.Builder()
-                .url(baseUrl + "/api/v1/file/download/ " + fileName)
+                .url(baseUrl + "/api/v1/file/download/" + fileName)
                 .header("Accept", "application/octet-stream")
                 .get()
                 .build();
@@ -84,7 +84,7 @@ public class OkHttpClientSender {
 
     public EntityModel getEntityByName(String name) {
         Request request = new Request.Builder()
-                .url(baseUrl + "/api/v1/entity" + name)
+                .url(baseUrl + "/api/v1/entity/" + name)
                 .build();
         return processResponses(request, new TypeReference<>() {
         });
@@ -114,7 +114,7 @@ public class OkHttpClientSender {
         RequestBody body = RequestBody.create(requestBody, JSON);
 
         Request httpRequest = new Request.Builder()
-                .url(baseUrl + "/api/v1/entity " + id)
+                .url(baseUrl + "/api/v1/entity/" + id)
                 .put(body)
                 .build();
 
@@ -125,7 +125,7 @@ public class OkHttpClientSender {
     @SneakyThrows
     public void deleteEntityById(UUID id) {
         Request request = new Request.Builder()
-                .url(baseUrl + "/api/v1/entity " + id)
+                .url(baseUrl + "/api/v1/entity/" + id)
                 .delete()
                 .build();
         try (Response response = okHttpClient.newCall(request).execute()) {

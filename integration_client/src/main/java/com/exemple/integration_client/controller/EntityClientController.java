@@ -1,6 +1,9 @@
 package com.exemple.integration_client.controller;
 
 import com.exemple.integration_client.clients.OkHttpClientSender;
+import com.exemple.integration_client.clients.OpenFeignClient;
+import com.exemple.integration_client.clients.RestTemplateClient;
+import com.exemple.integration_client.clients.WebClientSender;
 import com.exemple.integration_client.entity.EntityModel;
 import com.exemple.integration_client.entity.UpsertEntityRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +19,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EntityClientController {
 
-    private final OkHttpClientSender client;
+//    private final OkHttpClientSender client;
+//    private final RestTemplateClient client;
+//    private final WebClientSender client;
+    private final OpenFeignClient client;
 
     @GetMapping
     public ResponseEntity<List<EntityModel>> entityList(){
@@ -41,7 +47,7 @@ public class EntityClientController {
     @DeleteMapping("/{id}")
     public ResponseEntity<EntityModel> deleteEntity(@PathVariable UUID id){
         client.deleteEntityById(id);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
 
