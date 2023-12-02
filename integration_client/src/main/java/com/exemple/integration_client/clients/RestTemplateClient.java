@@ -1,7 +1,7 @@
 package com.exemple.integration_client.clients;
 
-import com.exemple.integration_client.entity.EntityModel;
-import com.exemple.integration_client.entity.UpsertEntityRequest;
+import com.exemple.integration_client.model.EntityModel;
+import com.exemple.integration_client.model.UpsertEntityRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

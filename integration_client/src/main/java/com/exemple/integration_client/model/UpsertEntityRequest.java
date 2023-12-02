@@ -1,4 +1,4 @@
-package com.exemple.integration_client.entity;
+package com.exemple.integration_client.model;
 
 import lombok.Data;
 
