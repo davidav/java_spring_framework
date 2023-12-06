@@ -20,27 +20,33 @@ import java.util.stream.Collectors;
 public class EntityClientController {
 
     //    private final OkHttpClientSender client;
-//    private final RestTemplateClient client;
-//    private final WebClientSender client;
+    //    private final RestTemplateClient client;
+    //    private final WebClientSender client;
     private final OpenFeignClient client;
 
     private final DataBaseEntityService service;
 
     @GetMapping
     public ResponseEntity<List<EntityModel>> entityList() {
-//        return ResponseEntity.ok(client.getList());
+    //        return ResponseEntity.ok(client.getList());
         return ResponseEntity.ok(service.findAll().stream().map(EntityModel::from).collect(Collectors.toList()));
     }
 
+    @GetMapping("/by-id/{id}")
+    public ResponseEntity<EntityModel> entityById(@PathVariable UUID id){
+        return ResponseEntity.ok(EntityModel.from(service.findById(id)));
+    }
+
+
     @GetMapping("/{name}")
     public ResponseEntity<EntityModel> entityByName(@PathVariable String name) {
-//        return ResponseEntity.ok(client.getEntityByName(name));
+    //        return ResponseEntity.ok(client.getEntityByName(name));
         return ResponseEntity.ok(EntityModel.from(service.findByName(name)));
     }
 
     @PostMapping()
     public ResponseEntity<EntityModel> createEntity(@RequestBody UpsertEntityRequest upsertEntityRequest) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(client.createEntity(upsertEntityRequest));
+    //        return ResponseEntity.status(HttpStatus.CREATED).body(client.createEntity(upsertEntityRequest));
         var newEntity = client.createEntity(upsertEntityRequest);
         var saveEntity = service.create(DataBaseEntity.from(newEntity));
         return ResponseEntity.status(HttpStatus.CREATED).body(EntityModel.from(saveEntity));
@@ -49,7 +55,7 @@ public class EntityClientController {
 
     @PutMapping({"/{id}"})
     public ResponseEntity<EntityModel> updateEntity(@PathVariable UUID id, @RequestBody UpsertEntityRequest upsertEntityRequest) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(client.updateEntity(id, upsertEntityRequest));
+    //        return ResponseEntity.status(HttpStatus.CREATED).body(client.updateEntity(id, upsertEntityRequest));
         var updateEntity = client.updateEntity(id, upsertEntityRequest);
         var updateDBEntity = service.update(id , DataBaseEntity.from(updateEntity));
         return ResponseEntity.ok(EntityModel.from(updateDBEntity));
@@ -58,7 +64,7 @@ public class EntityClientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<EntityModel> deleteEntity(@PathVariable UUID id) {
-//        client.deleteEntityById(id);
+    //        client.deleteEntityById(id);
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }

@@ -29,7 +29,10 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("io.lettuce:lettuce-core")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
+	implementation("com.google.guava:guava:32.1.3-jre")
 
 	runtimeOnly("org.postgresql:postgresql")
 
@@ -37,7 +40,14 @@ dependencies {
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	testImplementation("com.redis.testcontainers:testcontainers-redis-junit-jupiter:1.4.6")
+	testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+	testImplementation("org.testcontainers:postgresql:1.17.6")
+	testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
+	testImplementation("net.javacrumbs.json-unit:2.38.0")
 }
 
 dependencyManagement {

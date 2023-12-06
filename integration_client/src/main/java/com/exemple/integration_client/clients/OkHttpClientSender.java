@@ -78,8 +78,7 @@ public class OkHttpClientSender {
                 .url(baseUrl + "/api/v1/entity")
                 .build();
 
-        return processResponses(request, new TypeReference<>() {
-        });
+        return processResponses(request, new TypeReference<>() {});
     }
 
     public EntityModel getEntityByName(String name) {
@@ -135,7 +134,6 @@ public class OkHttpClientSender {
 
         }
     }
-
 
     @SneakyThrows
     private <T> T processResponses(Request request, TypeReference<T> typeReference) {
