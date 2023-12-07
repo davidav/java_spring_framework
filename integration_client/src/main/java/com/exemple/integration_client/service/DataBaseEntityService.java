@@ -56,12 +56,11 @@ public class DataBaseEntityService {
         return repository.save(forSave);
     }
 
-//    @Caching(evict = {
-//            @CacheEvict(value = "databaseEntities", allEntries = true),
-//            @CacheEvict(value = "databaseEntityByName", allEntries = true)
-//    })
-
-    @CacheEvict(cacheNames = AppCacheProperties.CacheNames.DATABASE_ENTITY_BY_ID, key = "#id", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(value = "databaseEntities", allEntries = true),
+            @CacheEvict(value = "databaseEntityByName", allEntries = true)
+    })
+//    @CacheEvict(cacheNames = AppCacheProperties.CacheNames.DATABASE_ENTITY_BY_ID, key = "#id", beforeInvocation = true)
     public DataBaseEntity update(UUID id, DataBaseEntity entity) {
         DataBaseEntity forUpdate = findById(id);
 
@@ -71,11 +70,11 @@ public class DataBaseEntityService {
         return repository.save(forUpdate);
     }
 
-    //    @Caching(evict = {
-//            @CacheEvict(value = "databaseEntities", allEntries = true),
-//            @CacheEvict(value = "databaseEntityByName", allEntries = true)
-//    })
-    @CacheEvict(cacheNames = AppCacheProperties.CacheNames.DATABASE_ENTITY_BY_ID, key = "#id", beforeInvocation = true)
+        @Caching(evict = {
+            @CacheEvict(value = "databaseEntities", allEntries = true),
+            @CacheEvict(value = "databaseEntityByName", allEntries = true)
+    })
+//    @CacheEvict(cacheNames = AppCacheProperties.CacheNames.DATABASE_ENTITY_BY_ID, key = "#id", beforeInvocation = true)
     public void deleteById(UUID id) {
         repository.deleteById(id);
     }
