@@ -14,9 +14,7 @@ import java.util.Map;
 public class AppCacheProperties {
 
     private final List<String> cacheNames = new ArrayList<>();
-
     private final Map<String, CacheProperties> caches = new HashMap<>();
-
     private CacheType cacheType;
 
     @Data
@@ -27,12 +25,9 @@ public class AppCacheProperties {
     }
 
     public interface CacheNames{
-
         String DATA_ENTITIES = "databaseEntities";
         String DATABASE_ENTITY_BY_NAME = "databaseEntityByName";
-
         String DATABASE_ENTITY_BY_ID = "databaseEntityById";
-
     }
 
     public enum CacheType{
