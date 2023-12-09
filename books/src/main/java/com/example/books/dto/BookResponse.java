@@ -8,5 +8,5 @@ import lombok.Data;
 public class BookResponse {
     private String title;
     private String author;
-    private String category;
+    private String categoryName;
 }

@@ -19,6 +19,7 @@ public class Category {
     private String name;
 
     @OneToOne
+    @ToString.Exclude
     private Book book;
 
 }
