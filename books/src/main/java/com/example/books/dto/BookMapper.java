@@ -1,8 +1,5 @@
-package com.example.books.mapper.v2;
+package com.example.books.dto;
 
-import com.example.books.dto.BookListResponse;
-import com.example.books.dto.BookResponse;
-import com.example.books.dto.UpsertBookRequest;
 import com.example.books.model.Book;
 import com.example.books.service.CategoryService;
 import lombok.RequiredArgsConstructor;

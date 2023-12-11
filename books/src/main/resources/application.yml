@@ -14,18 +14,12 @@ spring:
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS books
       connection-timeout: 10000
 app:
-  redis:
-    enable: true
   cache:
-    cacheType: redis
     cache-names:
-      - databaseEntities
-      - databaseEntityByName
-      - databaseEntityById
+      - bookByTitleAndAuthor
+      - booksByCategoryName
     caches:
-      databaseEntities:
+      bookByTitleAndAuthor:
         expiry: 10m
-      databaseEntityByName:
-        expiry: 10m
-      databaseEntityById:
+      booksByCategoryName:
         expiry: 10m

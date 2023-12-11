@@ -3,21 +3,20 @@ package com.example.books.service;
 
 import com.example.books.dto.BookListResponse;
 import com.example.books.dto.BookResponse;
-import com.example.books.dto.UpsertBookRequest;
-import com.example.books.model.Book;
 
-import java.util.List;
+
 
 public interface BookService {
     BookResponse findByTitleAndAuthor(String title, String author);
 
     BookListResponse findAllByCategoryName(String categoryName);
 
-    BookResponse create(UpsertBookRequest request);
+    BookResponse create(String title, String author, String categoryName);
 
-    BookResponse update(Long id, UpsertBookRequest request);
+    BookResponse update(Long id, String title, String author, String categoryName);
 
     void delete(Long id);
+
 
 }
 

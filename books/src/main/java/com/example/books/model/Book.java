@@ -1,7 +1,9 @@
 package com.example.books.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Builder
 @Getter
@@ -11,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
-public class Book {
+public class Book{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +23,10 @@ public class Book {
 
     private String author;
 
-    @OneToOne
+    @ManyToOne()
+    @JoinColumn(name = "category_id")
     @ToString.Exclude
+    @JsonIgnore
     private Category category;
 
 }

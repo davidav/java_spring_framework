@@ -4,8 +4,6 @@ package com.example.books.controller;
 import com.example.books.dto.BookListResponse;
 import com.example.books.dto.BookResponse;
 import com.example.books.dto.UpsertBookRequest;
-import com.example.books.mapper.v2.BookMapper;
-import com.example.books.model.Book;
 import com.example.books.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +22,6 @@ public class BookController {
     @GetMapping("/{title}/{author}")
     public ResponseEntity<BookResponse> findBookByTitleAndAuthor(@PathVariable("title") String title,
                                                                  @PathVariable("author") String author) {
-
         return ResponseEntity.ok(bookService.findByTitleAndAuthor(title, author));
     }
 
@@ -35,29 +32,28 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<BookResponse> create(@RequestBody UpsertBookRequest request){
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                bookService.create(request));
+        String title = request.getTitle();
+        String author = request.getAuthor();
+        String categoryName = request.getCategoryName();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create(title, author, categoryName));
 
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BookResponse> update(@PathVariable("id") Long id,
-                                               @RequestBody UpsertBookRequest upsertBookRequest){
-        Book book = bookMapper.requestToBook(upsertBookRequest);
-        return ResponseEntity.ok(bookMapper.bookToResponse(
-                bookService.update(id, book)));
-    }
+                                               @RequestBody UpsertBookRequest request){
+        String title = request.getTitle();
+        String author = request.getAuthor();
+        String categoryName = request.getCategoryName();
 
+        return ResponseEntity.ok(bookService.update(id, title, author, categoryName));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         bookService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
-
-
-
 
 }
