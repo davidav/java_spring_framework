@@ -1,4 +1,5 @@
-package com.exemple.integration_client.config.properties;
+package com.example.books.config.properties;
+
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,7 +16,6 @@ public class AppCacheProperties {
 
     private final List<String> cacheNames = new ArrayList<>();
     private final Map<String, CacheProperties> caches = new HashMap<>();
-    private CacheType cacheType;
 
     @Data
     public static class CacheProperties{
@@ -25,13 +25,8 @@ public class AppCacheProperties {
     }
 
     public interface CacheNames{
-        String DATA_ENTITIES = "databaseEntities";
-        String DATABASE_ENTITY_BY_NAME = "databaseEntityByName";
-        String DATABASE_ENTITY_BY_ID = "databaseEntityById";
-    }
-
-    public enum CacheType{
-        IN_MEMORY, REDIS
+        String BOOK_BY_TITLE_AND_AUTHOR = "bookByTitleAndAuthor";
+        String BOOKS_BY_CATEGORY_NAME = "booksByCategoryName";
     }
 
 }
