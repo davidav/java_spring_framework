@@ -31,7 +31,8 @@ public class KafkaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<KafkaMessage> getById(@PathVariable Long id){
-        return ResponseEntity.ok(kafkaMessageService.getById(id).orElseThrow());
+        KafkaMessage body = kafkaMessageService.getById(id).orElseThrow();
+        return ResponseEntity.ok(body);
     }
 
 
