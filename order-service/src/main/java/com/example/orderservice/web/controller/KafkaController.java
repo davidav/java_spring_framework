@@ -22,7 +22,12 @@ public class KafkaController {
     @PostMapping("/send")
     public ResponseEntity<String> sendMessage(@RequestBody Order order){
 
-        kafkaTemplate.send(topicName, OrderEvent.from(order));
+        kafkaTemplate.send(topicName,
+                OrderEvent.builder()
+                        .product(order.getProduct())
+                        .quantity(order.getQuantity())
+                        .build());
+
         return ResponseEntity.ok("Message send to kafka");
     }
 

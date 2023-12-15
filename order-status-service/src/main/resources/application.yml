@@ -7,6 +7,6 @@ app:
   kafka:
     kafkaOrderTopic: "order-topic"
     kafkaOrderStatusTopic: "order-status-topic"
-    kafkaOrderGroupId: "kafka-order-group-id"
+    kafkaOrderGroupId: "order-group-id"
 server:
   port: 8082

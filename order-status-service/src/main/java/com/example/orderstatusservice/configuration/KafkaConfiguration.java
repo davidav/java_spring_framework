@@ -1,9 +1,8 @@
 package com.example.orderstatusservice.configuration;
 
 
-import com.example.orderstatusservice.model.OrderEvent;
-import com.example.orderstatusservice.model.StatusEvent;
-
+import com.example.orderservice.model.OrderEvent;
+import com.example.orderservice.model.StatusEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -66,5 +65,5 @@ public class KafkaConfiguration {
         factory.setConsumerFactory(kafkaMessageConsumerFactory);
 
         return factory;
-            }
+    }
 }

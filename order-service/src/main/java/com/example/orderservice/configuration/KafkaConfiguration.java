@@ -1,7 +1,5 @@
 package com.example.orderservice.configuration;
 
-
-
 import com.example.orderservice.model.OrderEvent;
 import com.example.orderservice.model.StatusEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +14,6 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-
 import java.util.HashMap;
 import java.util.Map;
 

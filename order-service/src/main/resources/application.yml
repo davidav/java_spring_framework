@@ -6,4 +6,4 @@ app:
   kafka:
     kafkaOrderTopic: "order-topic"
     kafkaOrderStatusTopic: "order-status-topic"
-    kafkaOrderStatusGroupId: "kafka-order-status-group-id"
+    kafkaOrderStatusGroupId: "order-status-group-id"

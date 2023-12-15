@@ -2,14 +2,11 @@ package com.example.orderservice.model;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.io.Serializable;
 import java.time.Instant;
+
 @Data
 @Builder
-public class StatusEvent implements Serializable {
-
+public class StatusEvent{
     private String status;
     private Instant date;
-
 }
