@@ -1,11 +1,10 @@
-package com.example.tasktracker.entity;
+package com.example.tasktracker.dto.task;
 
+import com.example.tasktracker.entity.TaskStatus;
+import com.example.tasktracker.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.ReadOnlyProperty;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.Set;
@@ -13,10 +12,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "tasks")
-public class Task {
+public class TaskResponse {
 
-    @Id
     private String id;
 
     private String name;
@@ -29,19 +26,10 @@ public class Task {
 
     private TaskStatus status;
 
-    private String authorId;
-
-    private String assigneeId;
-
-    private Set<String> observerIds;
-
-    @ReadOnlyProperty
     private User author;
 
-    @ReadOnlyProperty
     private User assignee;
 
-    @ReadOnlyProperty
     private Set<User> observers;
 
 }
