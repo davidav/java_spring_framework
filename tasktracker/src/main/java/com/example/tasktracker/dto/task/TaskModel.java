@@ -3,6 +3,7 @@ package com.example.tasktracker.dto.task;
 import com.example.tasktracker.entity.TaskStatus;
 import com.example.tasktracker.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +11,10 @@ import java.time.Instant;
 import java.util.Set;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskResponse {
+public class TaskModel {
 
     private String id;
 

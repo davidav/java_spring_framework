@@ -9,6 +9,6 @@ import java.util.List;
 @NoArgsConstructor
 public class UserFluxResponse {
 
-    private List<UserResponse> users;
+    private List<UserModel> users;
 
 }
