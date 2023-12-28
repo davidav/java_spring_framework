@@ -41,7 +41,8 @@ public class UserHandler {
                     log.info("UserHandler -> create: {}", userModel);
                     return userService.save(userModel);
                 })
-                .flatMap(user -> ServerResponse.created(URI.create("/api/v1/user/" + user.getId())).build());
+                .flatMap(user -> ServerResponse.created(URI.create("/api/v1/user/" + user.getId()))
+                        .build());
     }
 
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
@@ -52,8 +53,8 @@ public class UserHandler {
                     return userService.update(serverRequest.pathVariable("id"), userModel);
                 })
                 .flatMap(userModelMono ->
-                        ServerResponse..ok()
-                                .body(BodyInserters.fromValue(userModelMono)));
+                        ServerResponse.ok()
+                                .body(BodyInserters.fromProducer(userModelMono, UserModel.class)));
     }
 
     public Mono<ServerResponse> deleteById(ServerRequest serverRequest) {
