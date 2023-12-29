@@ -1,7 +1,7 @@
 package com.example.tasktracker.dto.task;
 
+import com.example.tasktracker.dto.user.UserModel;
 import com.example.tasktracker.entity.TaskStatus;
-import com.example.tasktracker.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,10 +28,10 @@ public class TaskModel {
 
     private TaskStatus status;
 
-    private User author;
+    private UserModel author;
 
-    private User assignee;
+    private UserModel assignee;
 
-    private Set<User> observers;
+    private Set<UserModel> observers;
 
 }

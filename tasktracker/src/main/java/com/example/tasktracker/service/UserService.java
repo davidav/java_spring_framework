@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -64,4 +65,9 @@ public class UserService {
         return userRepository.deleteById(id);
     }
 
+    public Flux<UserModel> findAllById(Set<String> observerIds) {
+        log.info("UserService -> findAllById");
+        return userRepository.findAllById(observerIds).map(userMapper::userToModel);
+
+    }
 }

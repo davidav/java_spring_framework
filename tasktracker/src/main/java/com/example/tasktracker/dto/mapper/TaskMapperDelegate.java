@@ -6,7 +6,6 @@ import com.example.tasktracker.entity.User;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public abstract class TaskMapperDelegate implements TaskMapper{
 

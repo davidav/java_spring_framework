@@ -1,6 +1,7 @@
 package com.example.tasktracker.handler;
 
 import com.example.tasktracker.dto.task.TaskModel;
+import com.example.tasktracker.dto.user.UserModel;
 import com.example.tasktracker.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,4 +64,16 @@ public class TaskHandler {
                         taskService.deleteById(serverRequest.pathVariable("id")), Void.class));
     }
 
+    public Mono<ServerResponse> addAssignee(ServerRequest serverRequest) {
+        return serverRequest.bodyToMono(UserModel.class)
+                .map(userModel -> {
+                    log.info("TaskHandler -> add assignee {} into task with id {}", userModel, serverRequest.pathVariable("taskId"));
+                    return taskService.addAssignee(serverRequest.pathVariable("taskId"), userModel);
+                })
+                .flatMap(taskModelMono ->
+                        ServerResponse.ok()
+                                .body(BodyInserters.fromProducer(taskModelMono, TaskModel.class)));
+    }
+
 }
+
