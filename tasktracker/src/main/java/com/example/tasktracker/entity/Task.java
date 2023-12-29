@@ -48,4 +48,7 @@ public class Task {
     @ToString.Exclude
     private Set<User> observers;
 
+    public void addAssignee(String id) {
+        this.observerIds.add(id);
+    }
 }

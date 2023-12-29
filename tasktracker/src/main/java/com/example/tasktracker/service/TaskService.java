@@ -65,13 +65,12 @@ public class TaskService {
 
     public Mono<TaskModel> save(TaskModel taskModel) {
         Task task = taskMapper.modelToTask(taskModel);
-        log.info("TaskService -> task after mapper : {}", task);
+        log.info("TaskService -> save - task after mapper : {}", task);
         task.setId(UUID.randomUUID().toString());
         task.setAuthorId(taskModel.getAuthor().getId());
         task.setAssigneeId(taskModel.getAssignee().getId());
         task.setObserverIds(taskModel.getObservers().stream()
                 .map(UserModel::getId).collect(Collectors.toSet()));
-        log.info("TaskService -> task before repo : {}", task);
         return  taskRepository.save(task).map(taskMapper::taskToModel);
     }
 
@@ -99,10 +98,14 @@ public class TaskService {
         return taskRepository.deleteById(id);
     }
 
-    public Mono<TaskModel> addAssignee(String taskId, UserModel userModel) {
-        Mono<Task> existTask = taskRepository.findById(taskId);
+    public Mono<TaskModel> addAssignee(String id, UserModel assignee) {
+        Mono<Task> existedTask = taskRepository.findById(id);//todo error handler
 
-        return null;
+        return existedTask.flatMap(task -> {
+            task.addAssignee(assignee.getId());
+            return taskRepository.save(task).map(taskMapper::taskToModel);
+
+        });
     }
 
 

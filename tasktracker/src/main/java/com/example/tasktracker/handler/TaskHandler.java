@@ -66,9 +66,11 @@ public class TaskHandler {
 
     public Mono<ServerResponse> addAssignee(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(UserModel.class)
-                .map(userModel -> {
-                    log.info("TaskHandler -> add assignee {} into task with id {}", userModel, serverRequest.pathVariable("taskId"));
-                    return taskService.addAssignee(serverRequest.pathVariable("taskId"), userModel);
+                .map(assignee -> {
+                    log.info("TaskHandler -> add assignee {} into task with id {}",
+                            assignee,
+                            serverRequest.pathVariable("id"));
+                    return taskService.addAssignee(serverRequest.pathVariable("id"), assignee);
                 })
                 .flatMap(taskModelMono ->
                         ServerResponse.ok()
@@ -76,4 +78,5 @@ public class TaskHandler {
     }
 
 }
+
 

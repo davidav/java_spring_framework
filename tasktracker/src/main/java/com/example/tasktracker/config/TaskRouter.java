@@ -1,7 +1,6 @@
 package com.example.tasktracker.config;
 
 import com.example.tasktracker.handler.TaskHandler;
-import com.example.tasktracker.handler.UserHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
