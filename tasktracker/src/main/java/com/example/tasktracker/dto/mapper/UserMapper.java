@@ -8,10 +8,7 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
-
-
     UserModel userToModel(User user);
-
     User modelToUser(UserModel model);
 
 }

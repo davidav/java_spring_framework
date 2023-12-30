@@ -17,8 +17,8 @@ public class TaskRouter {
                 .GET("api/v1/task/{id}", taskHandler::findById)
                 .POST("api/v1/task", taskHandler::create)
                 .PUT("api/v1/task/{id}", taskHandler::update)
-                .PUT("api/v1/task/assignee/{taskId}", taskHandler::addAssignee)
                 .DELETE("api/v1/task/{id}", taskHandler::deleteById)
+                .POST("api/v1/task/assignee/{taskId}", taskHandler::addAssignee)
                 .build();
 
     }

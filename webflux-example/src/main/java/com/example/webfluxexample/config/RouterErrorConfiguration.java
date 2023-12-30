@@ -21,7 +21,6 @@ public class RouterErrorConfiguration {
                 Map<String, Object> errorAttributes = super.getErrorAttributes(request, options);
                 errorAttributes.put("error-attribute", "Error in request");
                 errorAttributes.put("status", HttpStatus.BAD_REQUEST.value());
-
                 return errorAttributes;
             }
         };

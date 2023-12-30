@@ -66,7 +66,7 @@ public class UserService {
     }
 
     public Flux<UserModel> findAllById(Set<String> observerIds) {
-        log.info("UserService -> findAllById");
+        log.info("UserService -> findAllById - ids: ");
         return userRepository.findAllById(observerIds).map(userMapper::userToModel);
 
     }

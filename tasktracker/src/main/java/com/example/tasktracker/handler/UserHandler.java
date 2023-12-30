@@ -14,21 +14,18 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class UserHandler {
 
     private final UserService userService;
 
     public Mono<ServerResponse> getAll(ServerRequest serverRequest) {
-        log.info("UserHandler -> getAll");
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromProducer(userService.findAll(), UserModel.class));
     }
 
     public Mono<ServerResponse> findById(ServerRequest serverRequest) {
-        log.info("UserHandler -> findById: {}", serverRequest.pathVariable("id"));
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromProducer(
@@ -38,7 +35,6 @@ public class UserHandler {
     public Mono<ServerResponse> create(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(UserModel.class)
                 .flatMap(userModel -> {
-                    log.info("UserHandler -> create: {}", userModel);
                     return userService.save(userModel);
                 })
                 .flatMap(user -> ServerResponse.created(URI.create("/api/v1/user/" + user.getId()))
@@ -48,7 +44,6 @@ public class UserHandler {
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(UserModel.class)
                 .map(userModel -> {
-                    log.info("UserHandler -> update: {}", userModel);
 
                     return userService.update(serverRequest.pathVariable("id"), userModel);
                 })
@@ -58,7 +53,6 @@ public class UserHandler {
     }
 
     public Mono<ServerResponse> deleteById(ServerRequest serverRequest) {
-        log.info("UserHandler -> deleteById: {}", serverRequest.pathVariable("id"));
         return ServerResponse.ok()
                 .body(BodyInserters.fromProducer(
                         userService.deleteById(serverRequest.pathVariable("id")), Void.class));
@@ -69,7 +63,6 @@ public class UserHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.error(new RuntimeException("Exception in errorRequest")), String.class)
                 .onErrorResume(ex -> {
-                    log.error("Error in errorRequest", ex);
                     return ServerResponse.badRequest().body(Mono.error(ex), String.class);
                 });
     }
