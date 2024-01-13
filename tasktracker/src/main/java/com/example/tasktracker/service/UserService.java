@@ -19,7 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
-
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
@@ -31,7 +30,9 @@ public class UserService {
 
     public Mono<UserModel> findById(String id) {
         log.info("UserService -> findById: {}", id);
-        return userRepository.findById(id).map(userMapper::userToModel);
+        return userRepository.findById(id)
+                .defaultIfEmpty(new User("", "NO_USER_IN_DB", ""))
+                .map(userMapper::userToModel);
     }
 
 
@@ -46,7 +47,6 @@ public class UserService {
     public Mono<UserModel> update(String id, UserModel updateUserModel) {
         User updateUser = userMapper.modelToUser(updateUserModel);
         return userRepository.findById(id).map(existedUser -> {
-                    existedUser.setId(id);
                     if (StringUtils.hasText(updateUser.getUsername())) {
                         existedUser.setUsername(updateUser.getUsername());
                     }
@@ -67,7 +67,9 @@ public class UserService {
 
     public Flux<UserModel> findAllById(Set<String> observerIds) {
         log.info("UserService -> findAllById - ids: ");
-        return userRepository.findAllById(observerIds).map(userMapper::userToModel);
+        return userRepository.findAllById(observerIds)
+                .defaultIfEmpty(new User("", "NO_USER_IN_DB", ""))
+                .map(userMapper::userToModel);
 
     }
 }

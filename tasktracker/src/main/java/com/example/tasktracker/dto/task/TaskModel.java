@@ -17,21 +17,13 @@ import java.util.Set;
 public class TaskModel {
 
     private String id;
-
     private String name;
-
     private String description;
-
     private Instant createdAt;
-
     private Instant updatedAt;
-
     private TaskStatus status;
-
     private UserModel author;
-
     private UserModel assignee;
-
     private Set<UserModel> observers;
 
 }

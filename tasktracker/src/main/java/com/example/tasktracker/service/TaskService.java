@@ -26,7 +26,7 @@ public class TaskService {
     private final UserService userService;
 
     public Flux<TaskModel> findAll() {
-        Flux<Task> tasksFromDB = taskRepository.findAll();//todo error handler
+        Flux<Task> tasksFromDB = taskRepository.findAll();
 
         return tasksFromDB.flatMap(task -> {
             TaskModel taskModel = taskMapper.taskToModel(task);
@@ -38,7 +38,7 @@ public class TaskService {
                     .flatMap(tuple -> {
                         taskModel.setAuthor((UserModel) tuple.get(0));
                         taskModel.setAssignee((UserModel) tuple.get(1));
-                        taskModel.setObservers(new HashSet<>((Collection<UserModel>) tuple.get(2)));
+                        taskModel.setObservers(new HashSet<>((Collection) tuple.get(2)));
                         log.info("TaskService -> findAll - observes; {}", taskModel.getObservers().toString());
                         return Mono.just(taskModel);
                     });
@@ -47,7 +47,7 @@ public class TaskService {
 
     public Mono<TaskModel> findById(String id) {
         log.info("TaskService -> findById: {}", id);
-        Mono<Task> taskMono = taskRepository.findById(id);//todo error handler
+        Mono<Task> taskMono = taskRepository.findById(id);
 
         return taskMono.flatMap(task -> {
             TaskModel taskModel = taskMapper.taskToModel(task);
@@ -67,7 +67,6 @@ public class TaskService {
 
     public Mono<TaskModel> save(TaskModel taskModel) {
         Task task = taskMapper.modelToTask(taskModel);
-        log.info("TaskService -> save - task after mapper : {}", task);
         task.setId(UUID.randomUUID().toString());
         task.setCreatedAt(Instant.now());
         task.setUpdatedAt(Instant.now());
@@ -109,7 +108,7 @@ public class TaskService {
     }
 
     public Mono<TaskModel> addAssignee(String id, UserModel assignee) {
-        Mono<Task> existedTask = taskRepository.findById(id);//todo error handler
+        Mono<Task> existedTask = taskRepository.findById(id);
 
         return existedTask.flatMap(task -> {
             task.addAssignee(assignee.getId());
