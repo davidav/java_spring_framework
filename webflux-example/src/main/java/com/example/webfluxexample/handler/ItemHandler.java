@@ -45,7 +45,7 @@ public class ItemHandler {
                     log.info("Item for create: {}", item);
                     return Mono.just(item);
                 })
-                .flatMap(item -> ServerResponse.created(URI.create("/api/v1/gunctions/item/" + item.getId())).build());
+                .flatMap(item -> ServerResponse.created(URI.create("/api/v1/functions/item/" + item.getId())).build());
     }
 
     public Mono<ServerResponse> errorRequest(ServerRequest serverRequest) {
