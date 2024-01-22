@@ -90,7 +90,6 @@ public class SecurityConfiguration {
 
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            AuthenticationManager authenticationManager) throws Exception {
@@ -109,5 +108,4 @@ public class SecurityConfiguration {
         return http.build();
 
     }
-
 }
