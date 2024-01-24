@@ -1,7 +1,7 @@
 package com.example.news.aop;
 
 import com.example.news.model.Comment;
-import com.example.news.model.News;
+
 import com.example.news.repository.CommentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

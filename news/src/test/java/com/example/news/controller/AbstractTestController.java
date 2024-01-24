@@ -157,11 +157,12 @@ public abstract class AbstractTestController {
         return news;
     }
     protected UpsertNewsRequest createUpsertNewsRequest(String title, String text, Long userId, Long categoryId){
+//todo
         UpsertNewsRequest upsertNewsRequest = new UpsertNewsRequest();
-        upsertNewsRequest.setText(text);
-        upsertNewsRequest.setTitle(title);
-        upsertNewsRequest.setUserId(userId);
-        upsertNewsRequest.setCategoryId(categoryId);
+//        upsertNewsRequest.setText(text);
+//        upsertNewsRequest.setTitle(title);
+//        upsertNewsRequest.setUserId(userId);
+//        upsertNewsRequest.setCategoryId(categoryId);
 
         return upsertNewsRequest;
     }

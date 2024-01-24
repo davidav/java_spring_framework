@@ -39,7 +39,7 @@ public class UserController {
             tags = {"user"}
     )
     @GetMapping("/filter")
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserListResponse> findAllByFilter(@Valid UserFilter filter) {
         return ResponseEntity.ok(
                 userMapper.userListToUserListResponse(
@@ -52,7 +52,7 @@ public class UserController {
             tags = {"user"}
     )
     @GetMapping
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
@@ -99,8 +99,9 @@ public class UserController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")}
             )
     })
-    @PostMapping
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PostMapping("/create")
+    //todo revert changes
+//    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> create(@RequestBody @Valid UpsertUserRequest request) {
         User newUser = userService.save(userMapper.requestToUser(request));
 

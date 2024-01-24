@@ -37,6 +37,12 @@ public abstract class UserMapperDelegate implements UserMapper{
                 .build();
 
     }
+
+    @Override
+    public User requestToUser(Long id, UpsertUserRequest request) {
+        User user = requestToUser(request);
+        user.setId(id);
+        return user;
+    }
+
 }
-
-

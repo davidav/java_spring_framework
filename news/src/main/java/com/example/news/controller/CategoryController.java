@@ -33,11 +33,12 @@ public class CategoryController {
 
     @Operation(
             summary = "Get paginated all categories matching the filter",
-            description = "Get all categories by filter. Returns paginated categories matching the filter",
+            description = "Get all categories by filter. Returns paginated categories matching the filter. " +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"categories"}
     )
     @GetMapping("/filter")
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<CategoryListResponse> findAllByFilter(@Valid CategoryFilter filter) {
         return ResponseEntity.ok(
                 categoryMapper.categoryListToCategoryListResponse(
@@ -47,12 +48,13 @@ public class CategoryController {
 
     @Operation(
             summary = "Get paginated all categories",
-            description = "Get all categories. Return list of paginated categories",
+            description = "Get all categories. Return list of paginated categories. " +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"categories"}
     )
 
     @GetMapping
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<CategoryListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
@@ -63,7 +65,8 @@ public class CategoryController {
 
     @Operation(
             summary = "Get category by id",
-            description = "Return name, list of newses category's with a specific ID",
+            description = "Return name, list of newses category's with a specific ID. " +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"category", "id"}
     )
     @ApiResponses({
@@ -77,7 +80,7 @@ public class CategoryController {
             )
     })
     @GetMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
 
         return ResponseEntity.ok(
@@ -88,7 +91,7 @@ public class CategoryController {
 
     @Operation(
             summary = "Create new category",
-            description = "Return new category",
+            description = "Return new category. Available only to users with a roles ADMIN, MODERATOR",
             tags = {"category", "id"}
     )
     @ApiResponses({
@@ -101,8 +104,9 @@ public class CategoryController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")}
             )
     })
+
     @PostMapping
-    @PreAuthorize(value = "hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<CategoryResponse> create(@RequestBody @Valid UpsertCategoryRequest request) {
         Category newCategory = categoryService.save(categoryMapper.requestToCategory(request));
 
@@ -112,7 +116,7 @@ public class CategoryController {
 
     @Operation(
             summary = "Edit category",
-            description = "Return edited category",
+            description = "Return edited category. Available only to users with a roles ADMIN, MODERATOR",
             tags = {"category", "id"}
     )
     @ApiResponses({
@@ -126,7 +130,7 @@ public class CategoryController {
             )
     })
     @PutMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<CategoryResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertCategoryRequest request) {
         Category updateCategory = categoryService.update(categoryMapper.requestToCategory(id, request));
 
@@ -136,11 +140,11 @@ public class CategoryController {
 
     @Operation(
             summary = "Delete category",
-            description = "Delete category with a specific ID",
+            description = "Delete category with a specific ID. Available only to users with a roles ADMIN, MODERATOR",
             tags = {"category", "id"}
     )
     @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         categoryService.deleteById(id);
 

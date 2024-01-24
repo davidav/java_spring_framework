@@ -22,8 +22,9 @@ public abstract class CommentMapperDelegate implements CommentMapper{
     @Override
     public Comment requestToComment(UpsertCommentRequest request) {
         Comment comment = new Comment();
+
         comment.setComment(request.getComment());
-        User user = userService.findById(request.getUserId(), userDetails);
+        User user = userService.findById(request.getUserId());
         comment.setUser(user);
         News news = newsService.findById(request.getNewsId());
         comment.setNews(news);
