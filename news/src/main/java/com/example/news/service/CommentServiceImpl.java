@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Comment save(Comment comment) {
         Comment savedCommit = commentRepository.save(comment);
-        userService.update(savedCommit.getUser());
+        userService.update(savedCommit.getUser(), userDetails);
         newsService.update(savedCommit.getNews());
         return savedCommit;
     }

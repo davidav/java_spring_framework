@@ -1,6 +1,5 @@
 package com.example.news.aop;
 
-import com.example.news.dto.news.UpsertNewsRequest;
 import com.example.news.model.News;
 import com.example.news.repository.NewsRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.stereotype.Component;
 

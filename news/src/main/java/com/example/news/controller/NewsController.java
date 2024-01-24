@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,10 +31,12 @@ public class NewsController {
 
     @Operation(
             summary = "Get paginated all news",
-            description = "Get all news. Return list of paginated news",
+            description = "Get all news. Return list of paginated news." +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"news"}
     )
     @GetMapping
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<NewsListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
@@ -57,6 +60,7 @@ public class NewsController {
             )
     })
     @GetMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<NewsResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 newsMapper.newsToResponse(
@@ -79,6 +83,7 @@ public class NewsController {
             )
     })
     @PostMapping
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<NewsResponse> create(@RequestBody @Valid UpsertNewsRequest request) {
         News newNews = newsService.save(newsMapper.requestToNews(request));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -126,6 +131,7 @@ public class NewsController {
             )
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id, @RequestParam Long userId) {
         newsService.deleteById(id, userId);
         return ResponseEntity.noContent().build();

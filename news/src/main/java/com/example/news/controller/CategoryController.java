@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,6 +37,7 @@ public class CategoryController {
             tags = {"categories"}
     )
     @GetMapping("/filter")
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<CategoryListResponse> findAllByFilter(@Valid CategoryFilter filter) {
         return ResponseEntity.ok(
                 categoryMapper.categoryListToCategoryListResponse(
@@ -50,13 +52,13 @@ public class CategoryController {
     )
 
     @GetMapping
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<CategoryListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
                 categoryMapper.categoryListToCategoryListResponse(
                         categoryService.findAll(request)));
     }
-
 
 
     @Operation(
@@ -75,6 +77,7 @@ public class CategoryController {
             )
     })
     @GetMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
 
         return ResponseEntity.ok(
@@ -99,6 +102,7 @@ public class CategoryController {
             )
     })
     @PostMapping
+    @PreAuthorize(value = "hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<CategoryResponse> create(@RequestBody @Valid UpsertCategoryRequest request) {
         Category newCategory = categoryService.save(categoryMapper.requestToCategory(request));
 
@@ -122,6 +126,7 @@ public class CategoryController {
             )
     })
     @PutMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<CategoryResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertCategoryRequest request) {
         Category updateCategory = categoryService.update(categoryMapper.requestToCategory(id, request));
 
@@ -135,6 +140,7 @@ public class CategoryController {
             tags = {"category", "id"}
     )
     @DeleteMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('ADMIN','MODERATOR')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         categoryService.deleteById(id);
 

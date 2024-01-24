@@ -9,6 +9,8 @@ import com.example.news.model.User;
 import com.example.news.service.CategoryService;
 import com.example.news.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.stream.Collectors;
 
@@ -21,14 +23,16 @@ public abstract class NewsMapperDelegate implements NewsMapper {
     private CategoryService categoryService;
     @Autowired
     private CommentMapper commentMapper;
+    @Autowired
+    private UserDetails userDetails;
 
     @Override
     public News requestToNews(UpsertNewsRequest request) {
         News news = new News();
+        User existUser = userService.findByLogin(userDetails.getUsername());
         news.setText(request.getText());
         news.setTitle(request.getTitle());
-        User user = userService.findById(request.getUserId());
-        news.setUser(user);
+        news.setUser(existUser);
         Category category = categoryService.findById(request.getCategoryId());
         news.setCategory(category);
 

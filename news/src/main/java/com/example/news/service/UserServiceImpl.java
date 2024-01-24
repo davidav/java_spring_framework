@@ -1,7 +1,9 @@
 package com.example.news.service;
 
+import com.example.news.aop.UserActionByIdAvailable;
 import com.example.news.dto.PagesRequest;
 import com.example.news.dto.user.UserFilter;
+import com.example.news.model.Role;
 import com.example.news.model.User;
 import com.example.news.repository.UserRepository;
 import com.example.news.repository.UserSpecification;
@@ -11,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -25,7 +26,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(
                 (UserSpecification.withFilter(filter)),
                 PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
-
     }
 
     @Override
@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
         }
 
     @Override
+    @UserActionByIdAvailable
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -43,6 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        List<Role> roles = user.getRoles();
+        roles.forEach(role -> role.setUser(user));
         return userRepository.save(user);
     }
 
@@ -55,8 +58,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @UserActionByIdAvailable
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return userRepository.findByLogin(login)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormatter.format("Пользователь с login {} не найден", login).getMessage()));
     }
 
 }

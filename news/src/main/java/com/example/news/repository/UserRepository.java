@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
@@ -15,6 +16,9 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 //    @Override
 //    @EntityGraph(attributePaths = {"newses","comments"})
 //    List<User> findAll();
+
+    @EntityGraph(attributePaths = {"roles"})
+    Optional<User> findByLogin(String login);
 
 
 }

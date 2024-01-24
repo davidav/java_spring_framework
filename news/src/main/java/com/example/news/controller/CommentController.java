@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +36,7 @@ public class CommentController {
             tags = {"news"}
     )
     @GetMapping
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<CommentListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
@@ -58,6 +60,7 @@ public class CommentController {
             )
     })
     @GetMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<CommentResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 commentMapper.commentToResponse(
@@ -80,6 +83,7 @@ public class CommentController {
             )
     })
     @PostMapping
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<CommentResponse> create(@RequestBody @Valid UpsertCommentRequest request) {
         Comment newComment = commentService.save(commentMapper.requestToComment(request));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -102,6 +106,7 @@ public class CommentController {
             )
     })
     @PutMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<CommentResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertCommentRequest request) {
         Comment comment = commentMapper.requestToComment(id, request);
         Comment updateComment = commentService.update(comment);
@@ -123,6 +128,7 @@ public class CommentController {
             )
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id, @RequestParam Long userId) {
         commentService.deleteById(id, userId);
         return ResponseEntity.noContent().build();

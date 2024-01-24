@@ -10,6 +10,7 @@ import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 @DecoratedWith(NewsMapperDelegate.class)

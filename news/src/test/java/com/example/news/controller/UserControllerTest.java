@@ -114,7 +114,7 @@ class UserControllerTest extends AbstractTestController {
         user.addNews(news);
         UserResponse userResponse = createUserResponse("Andre", "David", 1, 1);
 
-        Mockito.when(userService.findById(1L)).thenReturn(user);
+        Mockito.when(userService.findById(1L, userDetails)).thenReturn(user);
         Mockito.when(userMapper.userToResponse(user)).thenReturn(userResponse);
         String actualResponse = mockMvc.perform(get("/api/user/1"))
                 .andExpect(status().isOk())
@@ -124,7 +124,7 @@ class UserControllerTest extends AbstractTestController {
         String expectedResponse = StringTestUtils
                 .readStringFromResource("response/find_user_by_id_response.json");
 
-        Mockito.verify(userService, Mockito.times(1)).findById(1L);
+        Mockito.verify(userService, Mockito.times(1)).findById(1L, userDetails);
         Mockito.verify(userMapper, Mockito.times(1)).userToResponse(user);
         JsonAssert.assertJsonEquals(expectedResponse, actualResponse);
     }
@@ -175,7 +175,7 @@ class UserControllerTest extends AbstractTestController {
         UserResponse userResponse = createUserResponse("Andre", "David", 1, 1);
         UpsertUserRequest request = createUpsertUserRequest("Andre", "David");
 
-        Mockito.when(userService.update(user)).thenReturn(user);
+        Mockito.when(userService.update(user, userDetails)).thenReturn(user);
         Mockito.when(userMapper.requestToUser(1L, request)).thenReturn(user);
         Mockito.when(userMapper.userToResponse(user)).thenReturn(userResponse);
         String actualResponse = mockMvc.perform(put("/api/user/1")
@@ -188,7 +188,7 @@ class UserControllerTest extends AbstractTestController {
         String expectedResponse = StringTestUtils
                 .readStringFromResource("response/update_user_response.json");
 
-        Mockito.verify(userService, Mockito.times(1)).update(user);
+        Mockito.verify(userService, Mockito.times(1)).update(user, userDetails);
         Mockito.verify(userMapper, Mockito.times(1)).userToResponse(user);
         Mockito.verify(userMapper, Mockito.times(1)).requestToUser(1L, request);
         JsonAssert.assertJsonEquals(expectedResponse, actualResponse);
@@ -200,12 +200,12 @@ class UserControllerTest extends AbstractTestController {
 
         mockMvc.perform(delete("/api/user/1"));
 
-        Mockito.verify(userService, Mockito.times(1)).deleteById(1L);
+        Mockito.verify(userService, Mockito.times(1)).deleteById(1L, userDetails);
     }
 
     @Test
     public void whenFindByIdNotExistedUser_thenReturnError() throws Exception{
-        Mockito.when(userService.findById(100L)).thenThrow(new EntityNotFoundException("Пользователь с id 100 не найден"));
+        Mockito.when(userService.findById(100L, userDetails)).thenThrow(new EntityNotFoundException("Пользователь с id 100 не найден"));
 
         var response = mockMvc.perform(get("/api/user/100"))
                 .andExpect(status().isNotFound())
@@ -216,7 +216,7 @@ class UserControllerTest extends AbstractTestController {
         String expectedResponse = StringTestUtils.readStringFromResource(
                 "response/user_by_id_not_found_response.json");
 
-        Mockito.verify(userService, Mockito.times(1)).findById(100L);
+        Mockito.verify(userService, Mockito.times(1)).findById(100L, userDetails);
         JsonAssert.assertJsonEquals(expectedResponse, actualResponse);
     }
 
