@@ -2,7 +2,9 @@ package com.example.news.aop;
 
 import com.example.news.model.Comment;
 
+import com.example.news.model.User;
 import com.example.news.repository.CommentRepository;
+import com.example.news.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +13,11 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 @Aspect
@@ -22,6 +27,7 @@ import java.util.Objects;
 public class CommentAspect {
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     @Before("@annotation(com.example.news.aop.CommentEditAvailable)")
     public void editBefore(JoinPoint joinPoint) throws AuthenticationException {
@@ -29,9 +35,9 @@ public class CommentAspect {
         Comment comment = (Comment) args[0];
         Comment existComment = commentRepository.findById(comment.getId()).orElseThrow(
                 () -> new EntityNotFoundException(MessageFormatter.format(
-                        "Комментарий с id {} не найден", comment.getId()).getMessage()));
+                        "Comment with id {} not found", comment.getId()).getMessage()));
         if (!Objects.equals(comment.getUser().getId(), existComment.getUser().getId())){
-            throw new AuthenticationException("Редактировать Комментарий может только автор");
+            throw new AuthenticationException("Only the creator comment can edit it");
         }
 
     }
@@ -40,12 +46,20 @@ public class CommentAspect {
     public void deleteBefore(JoinPoint joinPoint) throws AuthenticationException {
         Object[] args = joinPoint.getArgs();
         Long id = (Long) args[0];
-        Long userId = (Long) args[1];
-        Comment existComment = commentRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(
-                        MessageFormatter.format("Комментарий с id {} не найден", id).getMessage()));
-        if (!userId.equals(existComment.getUser().getId())) {
-            throw new AuthenticationException("Удалить Комментарий может только автор");
+        UserDetails userDetails = (UserDetails) args[1];
+
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        User existUser = userRepository.findByLogin(userDetails.getUsername())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormatter.format("NewsAspect -> User with id {} not found", id).getMessage()));
+
+        for (String role : roles) {
+            if (role.equals("USER") && roles.size() == 1) {
+                if (!Objects.equals(existUser.getId(), id)) {
+                    throw new AuthenticationException("Delete comment available only to users with a roles " +
+                            "ADMIN, MODERATOR or USER only author");
+                }
+            }
         }
     }
 

@@ -31,15 +31,15 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(
             HttpSecurity http,
-            UserDetailsService userDetailsService,
+            UserDetailsService userDetailsServiceImpl,
             PasswordEncoder passwordEncoder) throws Exception {
 
         var authManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
 
-        authManagerBuilder.userDetailsService(userDetailsService);
+        authManagerBuilder.userDetailsService(userDetailsServiceImpl);
 
         var authProvider = new DaoAuthenticationProvider(passwordEncoder);
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(userDetailsServiceImpl);
         authManagerBuilder.authenticationProvider(authProvider);
 
         return authManagerBuilder.build();
@@ -50,7 +50,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            AuthenticationManager authenticationManager) throws Exception {
         http.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/v1/user/create").permitAll()
+                        .requestMatchers("/api/user/login").permitAll()
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())

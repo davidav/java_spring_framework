@@ -20,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,6 +33,8 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+
 
 
     @Operation(
@@ -77,11 +82,11 @@ public class UserController {
             )
     })
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
 
         return ResponseEntity.ok(
                 userMapper.userToResponse(
-                        userService.findById(id)));
+                        userService.findById(id, userDetails)));
     }
 
     @Operation(
@@ -99,11 +104,12 @@ public class UserController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")}
             )
     })
-    @PostMapping("/create")
+    @PostMapping()
     //todo revert changes
-//    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserResponse> create(@RequestBody @Valid UpsertUserRequest request) {
-        User newUser = userService.save(userMapper.requestToUser(request));
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+//    @Valid
+    public ResponseEntity<UserResponse> create(@RequestBody  UpsertUserRequest request) {
+        User newUser = userService.save(userMapper.requestToUser(request, passwordEncoder));
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userMapper.userToResponse(newUser));
@@ -125,8 +131,10 @@ public class UserController {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertUserRequest request) {
-        User updateUser = userService.update(userMapper.requestToUser(id, request));
+//    @Valid
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody  UpsertUserRequest request,
+                                               @AuthenticationPrincipal UserDetails userDetails) {
+        User updateUser = userService.update(userMapper.requestToUser(id, request, passwordEncoder), userDetails);
 
         return ResponseEntity.ok(userMapper.userToResponse(updateUser));
     }
@@ -138,10 +146,15 @@ public class UserController {
             tags = {"user", "id"}
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        userService.deleteById(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id,@AuthenticationPrincipal UserDetails userDetails) {
+        userService.deleteById(id, userDetails);
 
         return ResponseEntity.noContent().build();
     }
+
+//    @GetMapping("/login")
+//    public ResponseEntity<UserResponse> login(){
+//
+//    }
 
 }

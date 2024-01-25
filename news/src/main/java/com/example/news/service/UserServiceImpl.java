@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository userRepository;;
 
     @Override
     public List<User> filterBy(UserFilter filter) {
@@ -36,10 +37,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @UserActionByIdAvailable
-    public User findById(Long id) {
+    public User findById(Long id, UserDetails userDetails) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormatter.format("Пользователь с id {} не найден", id).getMessage()));
+                        MessageFormatter.format("User with login {} not found", id).getMessage()));
     }
 
     @Override
@@ -50,8 +51,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
-        User existedUser = findById(user.getId());
+    public User update(User user, UserDetails userDetails) {
+        User existedUser = findById(user.getId(), userDetails);
         AppHelperUtils.copyNonNullProperties(user, existedUser);
 
         return userRepository.save(existedUser);
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @UserActionByIdAvailable
-    public void deleteById(Long id) {
+    public void deleteById(Long id, UserDetails userDetails) {
         userRepository.deleteById(id);
     }
 
@@ -67,7 +68,7 @@ public class UserServiceImpl implements UserService {
     public User findByLogin(String login) {
         return userRepository.findByLogin(login)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormatter.format("Пользователь с login {} не найден", login).getMessage()));
+                        MessageFormatter.format("User with login {} not found", login).getMessage()));
     }
 
 }

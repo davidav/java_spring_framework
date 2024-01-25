@@ -5,15 +5,13 @@ import com.example.news.dto.user.UpsertUserRequest;
 import com.example.news.dto.user.UserResponse;
 import com.example.news.model.Role;
 import com.example.news.model.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Collections;
 
-@RequiredArgsConstructor
+
 public abstract class UserMapperDelegate implements UserMapper{
 
-    private final PasswordEncoder passwordEncoder;
+
     @Override
     public UserResponse userToResponse(User user) {
         UserResponse userResponse = new UserResponse();
@@ -26,7 +24,7 @@ public abstract class UserMapperDelegate implements UserMapper{
     }
 
     @Override
-    public User requestToUser(UpsertUserRequest request) {
+    public User requestToUser(UpsertUserRequest request, PasswordEncoder passwordEncoder) {
 
         return User.builder()
                 .firstName(request.getFirstName())
@@ -39,8 +37,8 @@ public abstract class UserMapperDelegate implements UserMapper{
     }
 
     @Override
-    public User requestToUser(Long id, UpsertUserRequest request) {
-        User user = requestToUser(request);
+    public User requestToUser(Long id, UpsertUserRequest request, PasswordEncoder passwordEncoder) {
+        User user = requestToUser(request, passwordEncoder);
         user.setId(id);
         return user;
     }

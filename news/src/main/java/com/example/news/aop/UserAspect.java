@@ -23,13 +23,12 @@ import java.util.Objects;
 public class UserAspect {
 
     private final UserRepository userRepository;
-    private final UserDetails userDetails;
 
     @Before("@annotation(com.example.news.aop.UserActionByIdAvailable)")
     public void userActionByIdBefore(JoinPoint joinPoint) throws AuthenticationException {
         Object[] args = joinPoint.getArgs();
         Long id = (Long) args[0];
-
+        UserDetails userDetails = (UserDetails) args[1];
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         User existUser = userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(MessageFormatter.format(

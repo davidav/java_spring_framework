@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,13 +32,15 @@ public class CommentController {
 
     private final CommentMapper commentMapper;
 
+
     @Operation(
             summary = "Get paginated all comments",
-            description = "Get all comments. Return list of paginated comments",
+            description = "Get all comments. Return list of paginated comments. " +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"news"}
     )
     @GetMapping
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<CommentListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
@@ -46,7 +50,8 @@ public class CommentController {
 
     @Operation(
             summary = "Get comment by id",
-            description = "Return comment, userId, newsId comment's with a specific ID",
+            description = "Return comment, userId, newsId comment's with a specific ID. " +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"comment", "id"}
     )
     @ApiResponses({
@@ -60,7 +65,7 @@ public class CommentController {
             )
     })
     @GetMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<CommentResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 commentMapper.commentToResponse(
@@ -69,7 +74,7 @@ public class CommentController {
 
     @Operation(
             summary = "Create new comment",
-            description = "Return new comment",
+            description = "Return new comment. Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"comment", "id"}
     )
     @ApiResponses({
@@ -83,9 +88,10 @@ public class CommentController {
             )
     })
     @PostMapping
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
-    public ResponseEntity<CommentResponse> create(@RequestBody @Valid UpsertCommentRequest request) {
-        Comment newComment = commentService.save(commentMapper.requestToComment(request));
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
+    public ResponseEntity<CommentResponse> create(@RequestBody @Valid UpsertCommentRequest request,
+                                                  @AuthenticationPrincipal UserDetails userDetails) {
+        Comment newComment = commentService.save(commentMapper.requestToComment(request, userDetails), userDetails);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(commentMapper.commentToResponse(newComment));
     }
@@ -106,16 +112,17 @@ public class CommentController {
             )
     })
     @PutMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
-    public ResponseEntity<CommentResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertCommentRequest request) {
-        Comment comment = commentMapper.requestToComment(id, request);
-        Comment updateComment = commentService.update(comment);
+    public ResponseEntity<CommentResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertCommentRequest request,
+                                                  @AuthenticationPrincipal UserDetails userDetails) {
+        Comment comment = commentMapper.requestToComment(id, request, userDetails);
+        Comment updateComment = commentService.update(comment, userDetails);
         return ResponseEntity.ok(commentMapper.commentToResponse(updateComment));
     }
 
     @Operation(
             summary = "Delete comment",
-            description = "Delete comment with a specific ID. Only the creator comment can delete it",
+            description = "Delete comment with a specific ID. " +
+                    "Available only to users with a roles ADMIN, MODERATOR or USER the creator news",
             tags = {"comment", "id"}
     )
     @ApiResponses({
@@ -128,9 +135,9 @@ public class CommentController {
             )
     })
     @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('USER','ADMIN','MODERATOR')")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id, @RequestParam Long userId) {
-        commentService.deleteById(id, userId);
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        commentService.deleteById(id, userDetails);
         return ResponseEntity.noContent().build();
     }
 }
