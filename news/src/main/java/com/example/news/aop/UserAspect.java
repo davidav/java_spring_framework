@@ -13,6 +13,7 @@ import org.slf4j.helpers.MessageFormatter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -27,20 +28,27 @@ public class UserAspect {
     @Before("@annotation(com.example.news.aop.UserActionByIdAvailable)")
     public void userActionByIdBefore(JoinPoint joinPoint) throws AuthenticationException {
         Object[] args = joinPoint.getArgs();
-        Long id = (Long) args[0];
+        Long id;
+        User user;
+        try {
+            id = (Long) args[0];
+        } catch (ClassCastException ex) {
+            user = (User) args[0];
+            id = user.getId();
+        }
         UserDetails userDetails = (UserDetails) args[1];
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        User existUser = userRepository.findById(id).orElseThrow(
+        User requestingUser = userRepository.findByLogin(userDetails.getUsername()).orElseThrow(
                 () -> new EntityNotFoundException(MessageFormatter.format(
-                        "UserAspect -> User with id {} not found", id).getMessage()));
+                        "UserAspect -> User with login {} not found", userDetails.getUsername()).getMessage()));
 
-        for (String role : roles){
-            if(role.equals("ADMIN") || role.equals("MODERATOR")){
+        for (String role : roles) {
+            if (role.equals("ROLE_ADMIN") || role.equals("ROLE_MODERATOR")) {
                 break;
-            }else if (role.equals("USER") && roles.size() == 1){
-                if (!Objects.equals(existUser.getId(), id)){
+            } else if (role.equals("ROLE_USER") && roles.size() == 1) {
+                if (!Objects.equals(id, requestingUser.getId())) {
                     throw new AuthenticationException("Receive, change, delete information about the user by ID" +
-                            "available only to users with a roles ADMIN, MODERATOR or USER himself");
+                            " available only to users with a roles ADMIN, MODERATOR or USER himself");
                 }
             }
         }

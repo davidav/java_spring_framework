@@ -49,19 +49,20 @@ public class CommentAspect {
         UserDetails userDetails = (UserDetails) args[1];
 
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        User existUser = userRepository.findByLogin(userDetails.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormatter.format("NewsAspect -> User with id {} not found", id).getMessage()));
+        User requestingUser = userRepository.findByLogin(userDetails.getUsername()).orElseThrow(
+                () -> new EntityNotFoundException(MessageFormatter.format(
+                        "UserAspect -> User with login {} not found", userDetails.getUsername()).getMessage()));
 
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(MessageFormatter.format(
+                        "Comment with id {} not found", id).getMessage()));
         for (String role : roles) {
-            if (role.equals("USER") && roles.size() == 1) {
-                if (!Objects.equals(existUser.getId(), id)) {
+            if (role.equals("ROLE_USER") && roles.size() == 1) {
+                if (!Objects.equals(requestingUser.getId(), comment.getUser().getId())) {
                     throw new AuthenticationException("Delete comment available only to users with a roles " +
                             "ADMIN, MODERATOR or USER only author");
                 }
             }
         }
     }
-
-
 }

@@ -1,15 +1,17 @@
 package com.example.news.dto.mapper;
 
 
+import com.example.news.dto.user.CreateUserRequest;
 import com.example.news.dto.user.UpsertUserRequest;
 import com.example.news.dto.user.UserResponse;
 import com.example.news.model.Role;
 import com.example.news.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.Collections;
 
 
-public abstract class UserMapperDelegate implements UserMapper{
+public abstract class UserMapperDelegate implements UserMapper {
 
 
     @Override
@@ -24,8 +26,7 @@ public abstract class UserMapperDelegate implements UserMapper{
     }
 
     @Override
-    public User requestToUser(UpsertUserRequest request, PasswordEncoder passwordEncoder) {
-
+    public User requestCreateToUser(CreateUserRequest request, PasswordEncoder passwordEncoder) {
         return User.builder()
                 .firstName(request.getFirstName())
                 .secondName(request.getSecondName())
@@ -33,12 +34,15 @@ public abstract class UserMapperDelegate implements UserMapper{
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roles(Collections.singletonList(Role.from(request.getRoleType())))
                 .build();
-
     }
 
+
     @Override
-    public User requestToUser(Long id, UpsertUserRequest request, PasswordEncoder passwordEncoder) {
-        User user = requestToUser(request, passwordEncoder);
+    public User requestUpdateToUser(Long id, UpsertUserRequest request) {
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .secondName(request.getSecondName())
+                .build();
         user.setId(id);
         return user;
     }

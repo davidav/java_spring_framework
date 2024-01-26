@@ -1,10 +1,1 @@
-{
-  "users":[
-    {
-      "firstName": "Andre",
-      "secondName": "David",
-      "countNewses": 1,
-      "countComments": 1
-    }
-  ]
-}
+{"users":[{"firstName":"admin","secondName":"admin","countNewses":2,"countComments":2}]}

@@ -3,6 +3,7 @@ package com.example.news.service;
 import com.example.news.aop.UserActionByIdAvailable;
 import com.example.news.dto.PagesRequest;
 import com.example.news.dto.user.UserFilter;
+import com.example.news.dto.user.UserForTest;
 import com.example.news.model.Role;
 import com.example.news.model.User;
 import com.example.news.repository.UserRepository;
@@ -12,15 +13,20 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> filterBy(UserFilter filter) {
@@ -51,6 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @UserActionByIdAvailable
     public User update(User user, UserDetails userDetails) {
         User existedUser = findById(user.getId(), userDetails);
         AppHelperUtils.copyNonNullProperties(user, existedUser);
@@ -71,4 +78,12 @@ public class UserServiceImpl implements UserService {
                         MessageFormatter.format("User with login {} not found", login).getMessage()));
     }
 
+    @Override
+    public User createUser(UserForTest testUser) {
+        return User.builder()
+                .login(testUser.getLogin())
+                .password(passwordEncoder.encode(testUser.getPassword()))
+                .roles(Collections.singletonList(Role.from(testUser.getRole())))
+                .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.news.dto.mapper;
 
+import com.example.news.dto.user.CreateUserRequest;
 import com.example.news.dto.user.UpsertUserRequest;
 import com.example.news.dto.user.UserListResponse;
 import com.example.news.dto.user.UserResponse;
@@ -21,9 +22,9 @@ public interface UserMapper {
 
     UserResponse userToResponse(User user);
 
-    User requestToUser(UpsertUserRequest request,PasswordEncoder passwordEncoder);
+    User requestCreateToUser(CreateUserRequest request, PasswordEncoder passwordEncoder);
 
-    User requestToUser(Long id, UpsertUserRequest request, PasswordEncoder passwordEncoder);
+    User requestUpdateToUser(Long id, UpsertUserRequest request);
 
     default UserListResponse userListToUserListResponse(List<User> users){
         UserListResponse response = new UserListResponse();

@@ -3,10 +3,7 @@ package com.example.news.controller;
 import com.example.news.dto.ErrorResponse;
 import com.example.news.dto.PagesRequest;
 import com.example.news.dto.mapper.UserMapper;
-import com.example.news.dto.user.UpsertUserRequest;
-import com.example.news.dto.user.UserFilter;
-import com.example.news.dto.user.UserListResponse;
-import com.example.news.dto.user.UserResponse;
+import com.example.news.dto.user.*;
 import com.example.news.model.User;
 import com.example.news.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -104,12 +101,10 @@ public class UserController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")}
             )
     })
-    @PostMapping()
-    //todo revert changes
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-//    @Valid
-    public ResponseEntity<UserResponse> create(@RequestBody  UpsertUserRequest request) {
-        User newUser = userService.save(userMapper.requestToUser(request, passwordEncoder));
+    @PostMapping//("/create")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")//
+    public ResponseEntity<UserResponse> create(@RequestBody @Valid CreateUserRequest request) {
+        User newUser = userService.save(userMapper.requestCreateToUser(request, passwordEncoder));
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userMapper.userToResponse(newUser));
@@ -131,10 +126,9 @@ public class UserController {
             )
     })
     @PutMapping("/{id}")
-//    @Valid
-    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody  UpsertUserRequest request,
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody  @Valid UpsertUserRequest request,
                                                @AuthenticationPrincipal UserDetails userDetails) {
-        User updateUser = userService.update(userMapper.requestToUser(id, request, passwordEncoder), userDetails);
+        User updateUser = userService.update(userMapper.requestUpdateToUser(id, request), userDetails);
 
         return ResponseEntity.ok(userMapper.userToResponse(updateUser));
     }
@@ -151,10 +145,5 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
-
-//    @GetMapping("/login")
-//    public ResponseEntity<UserResponse> login(){
-//
-//    }
 
 }
