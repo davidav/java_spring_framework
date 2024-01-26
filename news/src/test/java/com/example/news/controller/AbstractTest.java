@@ -79,13 +79,33 @@ public abstract class AbstractTest {
     public void setup() {
         User admin = createUser("admin", "admin", RoleType.ROLE_ADMIN,
                 "admin", "admin", null, null);
-        Category category = createCategory("Name category 1", null);
-        News news = createNews("Title news 1", "Text news 1 Text news 1 Text news 1", admin, category, null);
-        Comment comment = createComment("This is comment 1 for news 1 from admin", admin, news);
-        news.addComment(comment);
-        admin.addComment(comment);
-        admin.addNews(news);
-        category.addNews(news);
+        User user = createUser("user", "user", RoleType.ROLE_USER,
+                "user", "user", null, null);
+        User moderator = createUser("moderator", "moderator", RoleType.ROLE_MODERATOR,
+                "moderator", "moderator", null, null);
+
+        Category category = createCategory("category 1", null);
+
+        News news1 = createNews("Title news admin", "Text news admin Text news admin Text news admin",
+                admin, category, null);
+        News news2 = createNews("Title news user", "Text news user Text news user Text news user",
+                user, category, null);
+
+        Comment comment1 = createComment("This is comment admin for news admin", admin, news1);
+        Comment comment2 = createComment("This is comment admin for news user ", admin, news2);
+        Comment comment3 = createComment("This is comment user for news admin", user, news1);
+        Comment comment4 = createComment("This is comment user for news user", user, news2);
+
+        admin.addNews(news1);
+        user.addNews(news2);
+
+        news1.addComment(comment1);
+        news1.addComment(comment3);
+        news2.addComment(comment2);
+        news2.addComment(comment4);
+
+        category.addNews(news1);
+        category.addNews(news2);
 
     }
 
@@ -97,11 +117,9 @@ public abstract class AbstractTest {
         categoryRepository.deleteAll();
     }
 
-    protected User createUser(String login, String password,
-                              RoleType role, String firstName, String secondName,
+    protected User createUser(String login, String password, RoleType role, String firstName, String secondName,
                               News news, Comment comment) {
         User user = User.builder()
-//                .id(id)
                 .login(login)
                 .password(passwordEncoder.encode(password))
                 .roles(Collections.singletonList(Role.from(role)))
@@ -126,7 +144,6 @@ public abstract class AbstractTest {
 
     protected Category createCategory(String name, News news) {
         Category category = Category.builder()
-//                .id(id)
                 .name(name)
                 .createAt(Instant.now())
                 .updateAt(Instant.now())
@@ -144,7 +161,6 @@ public abstract class AbstractTest {
     protected News createNews(String title, String text, User user, Category category, Comment comment) {
 
         News news = News.builder()
-//                .id(id)
                 .createAt(Instant.now())
                 .updateAt(Instant.now())
                 .title(title)
@@ -172,7 +188,6 @@ public abstract class AbstractTest {
 
     protected Comment createComment(String comment, User user, News news) {
         Comment newComment = Comment.builder()
-//                .id(id)
                 .createAt(Instant.now())
                 .updateAt(Instant.now())
                 .comment(comment)
