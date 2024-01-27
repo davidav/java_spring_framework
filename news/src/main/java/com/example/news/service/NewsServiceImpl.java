@@ -54,9 +54,9 @@ import java.util.List;
 
     @Override
     @NewsEditAvailable
-    public News update(News news) {
-        News existedNews = findById(news.getId());
-        AppHelperUtils.copyNonNullProperties(news, existedNews);
+    public News update(News requestNews) {
+        News existedNews = findById(requestNews.getId());
+        AppHelperUtils.copyNonNullProperties(requestNews, existedNews);
 
         return newsRepository.save(existedNews);
     }

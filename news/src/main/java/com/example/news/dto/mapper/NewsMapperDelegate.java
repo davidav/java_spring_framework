@@ -11,6 +11,7 @@ import com.example.news.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 
@@ -26,23 +27,24 @@ public abstract class NewsMapperDelegate implements NewsMapper {
 
     @Override
     public News requestToNews(UpsertNewsRequest request, UserDetails userDetails) {
-        News news = new News();
+        News requestNews = new News();
         User existUser = userService.findByLogin(userDetails.getUsername());
-        news.setText(request.getText());
-        news.setTitle(request.getTitle());
-        news.setUser(existUser);
         Category category = categoryService.findById(request.getCategoryId());
-        news.setCategory(category);
+        requestNews.setText(request.getText());
+        requestNews.setTitle(request.getTitle());
+        requestNews.setUser(existUser);
+        requestNews.setCategory(category);
 
-        return news;
+        return requestNews;
     }
 
     @Override
     public News requestToNews(Long id, UpsertNewsRequest request, UserDetails userDetails) {
-        News news = requestToNews(request, userDetails);
-        news.setId(id);
-
-        return news;
+        News requestNews = requestToNews(request, userDetails);
+        requestNews.setId(id);
+        requestNews.setUpdateAt(Instant.now());
+        requestNews.setComments(null);
+        return requestNews;
     }
 
     @Override

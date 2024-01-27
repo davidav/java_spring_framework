@@ -86,26 +86,14 @@ public abstract class AbstractTest {
 
         Category category = createCategory("category 1", null);
 
-        News news1 = createNews("Title news admin", "Text news admin Text news admin Text news admin",
+        News news1 = createNews("Title news by admin", "Text news by admin Text news admin Text news admin",
                 admin, category, null);
         News news2 = createNews("Title news user", "Text news user Text news user Text news user",
                 user, category, null);
 
-        Comment comment1 = createComment("This is comment admin for news admin", admin, news1);
-        Comment comment2 = createComment("This is comment admin for news user ", admin, news2);
-        Comment comment3 = createComment("This is comment user for news admin", user, news1);
-        Comment comment4 = createComment("This is comment user for news user", user, news2);
-
-        admin.addNews(news1);
-        user.addNews(news2);
-
-        news1.addComment(comment1);
-        news1.addComment(comment3);
-        news2.addComment(comment2);
-        news2.addComment(comment4);
-
-        category.addNews(news1);
-        category.addNews(news2);
+        createComment("This is comment by admin for news by admin", admin, news1);
+        createComment("This is comment by admin for news by user", admin, news2);
+        createComment("This is comment by user for news by admin", user, news1);
 
     }
 

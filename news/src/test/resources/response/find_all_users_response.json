@@ -3,14 +3,14 @@
     {
       "firstName": "admin",
       "secondName": "admin",
-      "countNewses": 2,
+      "countNewses": 1,
       "countComments": 2
     },
     {
       "firstName": "user",
       "secondName": "user",
-      "countNewses": 2,
-      "countComments": 2
+      "countNewses": 1,
+      "countComments": 1
     },
     {
       "firstName": "moderator",

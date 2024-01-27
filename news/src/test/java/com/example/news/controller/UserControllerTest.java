@@ -23,7 +23,7 @@ public class UserControllerTest extends AbstractTest {
                         .param("pageNumber", "0")
                         .param("pageSize", "10"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(
+                .andExpect(content().json(
                         StringTestUtils.readStringFromResource("response/find_all_users_response.json")));
     }
 
@@ -50,6 +50,7 @@ public class UserControllerTest extends AbstractTest {
                         .param("pageSize", "10"))
                 .andExpect(status().isForbidden());
     }
+
     @Test
     public void whenFindAllRequestFromNoLogin_thenReturnUnauthorized() throws Exception {
 

@@ -13,3 +13,17 @@
 - Реализована фильтрация новостей по категориям и авторам.
 - Реализована валидация входящих данных от пользователя.
 - Реализована обработка ошибок.
+- Реализована защитита приложения с помощью Spring Security
+
+
+---
+
+Технологии:
+- starter-data-jpa
+- starter-security
+- starter-validation
+- starter-web
+- starter-webmvc
+- mapstruct
+- lombok
+- docker - postgresql 
