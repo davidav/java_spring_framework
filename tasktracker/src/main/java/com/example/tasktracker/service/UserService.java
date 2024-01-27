@@ -7,6 +7,7 @@ import com.example.tasktracker.entity.User;
 import com.example.tasktracker.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
@@ -22,6 +23,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     public Flux<UserModel> findAll() {
         log.info("UserService -> findAll");
         return userRepository.findAll().map(userMapper::userToModel);
@@ -31,12 +34,13 @@ public class UserService {
     public Mono<UserModel> findById(String id) {
         log.info("UserService -> findById: {}", id);
         return userRepository.findById(id)
-                .defaultIfEmpty(new User("", "NO_USER_IN_DB", ""))
+                .defaultIfEmpty(new User("", "NO_USER_IN_DB", "", "",null))
                 .map(userMapper::userToModel);
     }
 
 
     public Mono<UserModel> save(UserModel userModel) {
+        userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
         User user = userMapper.modelToUser(userModel);
         user.setId(UUID.randomUUID().toString());
         log.info("UserService -> save: {}", user);
@@ -68,8 +72,13 @@ public class UserService {
     public Flux<UserModel> findAllById(Set<String> observerIds) {
         log.info("UserService -> findAllById - ids: ");
         return userRepository.findAllById(observerIds)
-                .defaultIfEmpty(new User("", "NO_USER_IN_DB", ""))
+                .defaultIfEmpty(new User("", "NO_USER_IN_DB", "", "",null))
                 .map(userMapper::userToModel);
 
     }
+
+    public Mono<User> findByUsername(String username){
+        return userRepository.findByUsername(username).defaultIfEmpty(new User("", "NO_USER_IN_DB", "", "",null));
+    }
+
 }
