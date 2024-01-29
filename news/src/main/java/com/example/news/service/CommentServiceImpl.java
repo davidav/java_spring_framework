@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,21 +35,21 @@ public class CommentServiceImpl implements CommentService {
     public Comment findById(Long id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormatter.format("Комментарий с id {} не найден", id).getMessage()));
+                        MessageFormatter.format("Comment with id {} not found", id).getMessage()));
     }
 
     @Override
     @Transactional
-    public Comment save(Comment comment) {
+    public Comment save(Comment comment, UserDetails userDetails) {
         Comment savedCommit = commentRepository.save(comment);
-        userService.update(savedCommit.getUser());
+        userService.update(savedCommit.getUser(), userDetails);
         newsService.update(savedCommit.getNews());
         return savedCommit;
     }
 
     @Override
     @CommentEditAvailable
-    public Comment update(Comment comment) {
+    public Comment update(Comment comment, UserDetails userDetails) {
         Comment existedComment = findById(comment.getId());
         AppHelperUtils.copyNonNullProperties(comment, existedComment);
 
@@ -57,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @CommentDeleteAvailable
-    public void deleteById(Long id, Long userId) {
+    public void deleteById(Long id, UserDetails userDetails) {
         commentRepository.deleteById(id);
 
     }

@@ -18,6 +18,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,10 +33,12 @@ public class NewsController {
 
     @Operation(
             summary = "Get paginated all news",
-            description = "Get all news. Return list of paginated news",
+            description = "Get all news. Return list of paginated news." +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"news"}
     )
     @GetMapping
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<NewsListResponse> findAll(@Valid PagesRequest request) {
 
         return ResponseEntity.ok(
@@ -43,7 +48,8 @@ public class NewsController {
 
     @Operation(
             summary = "Get news by id",
-            description = "Return title, text, list of comments, userId, categoryId news's with a specific ID",
+            description = "Return title, text, list of comments, userId, categoryId news's with a specific ID." +
+                    "Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"news", "id"}
     )
     @ApiResponses({
@@ -57,6 +63,7 @@ public class NewsController {
             )
     })
     @GetMapping("/{id}")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
     public ResponseEntity<NewsResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 newsMapper.newsToResponse(
@@ -65,22 +72,26 @@ public class NewsController {
 
     @Operation(
             summary = "Create new news",
-            description = "Return new news",
+            description = "Return new news. Available only to users with a roles ADMIN, MODERATOR, USER",
             tags = {"news", "id"}
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "201",
-                    content = {@Content(schema = @Schema(implementation = NewsResponse.class), mediaType = "application/json")}
+                    content = {@Content(schema = @Schema(implementation = NewsResponse.class),
+                            mediaType = "application/json")}
             ),
             @ApiResponse(
                     responseCode = "404",
-                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")}
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class),
+                            mediaType = "application/json")}
             )
     })
     @PostMapping
-    public ResponseEntity<NewsResponse> create(@RequestBody @Valid UpsertNewsRequest request) {
-        News newNews = newsService.save(newsMapper.requestToNews(request));
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
+    public ResponseEntity<NewsResponse> create(@RequestBody @Valid UpsertNewsRequest request,
+                                               @AuthenticationPrincipal UserDetails userDetails) {
+        News newNews = newsService.save(newsMapper.requestToNews(request, userDetails), userDetails);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(newsMapper.newsToResponse(newNews));
     }
@@ -105,15 +116,17 @@ public class NewsController {
             ),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<NewsResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertNewsRequest request) {
-        News updateNews = newsService.update(newsMapper.requestToNews(id, request));
+    public ResponseEntity<NewsResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertNewsRequest request,
+                                               @AuthenticationPrincipal UserDetails userDetails) {
+        News updateNews = newsService.update(newsMapper.requestToNews(id, request, userDetails));
         return ResponseEntity.ok(newsMapper.newsToResponse(updateNews));
     }
 
 
     @Operation(
             summary = "Delete news",
-            description = "Delete news with a specific ID. Only the creator news can delete it",
+            description = "Delete news with a specific ID. " +
+                    "Available only to users with a roles ADMIN, MODERATOR or USER the creator news",
             tags = {"news", "id"}
     )
     @ApiResponses({
@@ -126,8 +139,9 @@ public class NewsController {
             )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id, @RequestParam Long userId) {
-        newsService.deleteById(id, userId);
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MODERATOR')")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        newsService.deleteById(id, userDetails);
         return ResponseEntity.noContent().build();
     }
 

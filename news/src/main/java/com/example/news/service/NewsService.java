@@ -2,6 +2,8 @@ package com.example.news.service;
 
 import com.example.news.dto.PagesRequest;
 import com.example.news.model.News;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -10,10 +12,11 @@ public interface NewsService {
 
     News findById(Long id);
 
-    News save(News news);
+    @Transactional
+    News save(News news, UserDetails userDetails);
 
     News update(News news);
 
-    void deleteById(Long id, Long userId);
+    void deleteById(Long id, UserDetails userDetails);
 
 }

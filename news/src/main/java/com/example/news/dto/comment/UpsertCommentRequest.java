@@ -12,10 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpsertCommentRequest {
 
-    @NotNull(message = "userId должен быть заполнен")
-    @Positive(message = "userId больше нуля")
-    private Long userId;
-
     @NotNull(message = "newsId должен быть заполнен")
     @Positive(message = "newsId больше нуля")
     private Long newsId;

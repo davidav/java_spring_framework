@@ -9,6 +9,8 @@ import com.example.news.model.News;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,9 +26,9 @@ public interface NewsMapper {
 
     NewsWithoutContactsResponse newsWithoutContactsToResponse(News news);
 
-    News requestToNews(UpsertNewsRequest request);
+    News requestToNews(UpsertNewsRequest request, UserDetails userDetails);
 
-    News requestToNews(Long id, UpsertNewsRequest request);
+    News requestToNews(Long id, UpsertNewsRequest request, UserDetails userDetails);
 
     NewsResponse newsToResponse(News news);
 }

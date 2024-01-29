@@ -1,10 +1,10 @@
 package com.example.news.dto.news;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,23 +12,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpsertNewsRequest {
 
-    @NotNull(message = "userId должен быть заполнен")
-    @Positive(message = "id больше нуля")
-    private Long userId;
-
-    @NotNull(message = "categoryId должен быть заполнен")
-    @Positive(message = "id больше нуля")
+    @NotNull(message = "categoryId must be")
+    @Positive(message = "id must be greater than zero")
     private Long categoryId;
 
-    @NotBlank(message = "title должен быть")
-    @Size(min = 3, max = 30, message = "Заголовок должен быть от {min} до {max} символов")
+    @NotBlank(message = "title must be")
+    @Size(min = 3, max = 30, message = "title must be from {min} to {max} symbols")
     private String title;
 
-    @NotBlank(message = "text должен быть")
-    @Size(min = 30, max = 300, message = "Текс должен быть от {min} до {max} символов")
+    @NotBlank(message = "text must be")
+    @Size(min = 30, max = 300, message = "text must be from {min} to {max} symbols")
     private String text;
-
-
-
 
 }

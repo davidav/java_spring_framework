@@ -6,6 +6,7 @@ import com.example.tasktracker.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -21,6 +22,7 @@ public class TaskHandler {
 
     private final TaskService taskService;
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_MANAGER')")
     public Mono<ServerResponse> getAll(ServerRequest serverRequest) {
         log.info("TaskHandler -> getAll");
         return ServerResponse.ok()
@@ -28,6 +30,7 @@ public class TaskHandler {
                 .body(BodyInserters.fromProducer(taskService.findAll(), TaskModel.class));
     }
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_MANAGER')")
     public Mono<ServerResponse> findById(ServerRequest serverRequest) {
         log.info("TaskHandler -> findById: {}", serverRequest.pathVariable("id"));
         return ServerResponse.ok()
@@ -35,7 +38,7 @@ public class TaskHandler {
                 .body(BodyInserters.fromProducer(
                         taskService.findById(serverRequest.pathVariable("id")), TaskModel.class));
     }
-
+    @PreAuthorize(value = "hasRole('ROLE_MANAGER')")
     public Mono<ServerResponse> create(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(TaskModel.class)
                 .flatMap(taskModel -> {
@@ -46,6 +49,7 @@ public class TaskHandler {
                         .build());
     }
 
+    @PreAuthorize(value = "hasRole('ROLE_MANAGER')")
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(TaskModel.class)
                 .map(taskModel -> {
@@ -57,6 +61,7 @@ public class TaskHandler {
                                 .body(BodyInserters.fromProducer(taskModelMono, TaskModel.class)));
     }
 
+    @PreAuthorize(value = "hasRole('ROLE_MANAGER')")
     public Mono<ServerResponse> deleteById(ServerRequest serverRequest) {
         log.info("TaskHandler -> deleteById: {}", serverRequest.pathVariable("id"));
         return ServerResponse.ok()
@@ -64,6 +69,7 @@ public class TaskHandler {
                         taskService.deleteById(serverRequest.pathVariable("id")), Void.class));
     }
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_MANAGER')")
     public Mono<ServerResponse> addAssignee(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(UserModel.class)
                 .map(assignee -> {

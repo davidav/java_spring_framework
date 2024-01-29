@@ -7,6 +7,7 @@ import com.example.news.model.Comment;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public interface CommentMapper {
 
     CommentResponse commentToResponse(Comment comment);
 
-    Comment requestToComment(UpsertCommentRequest request);
+    Comment requestToComment(UpsertCommentRequest request, UserDetails userDetails);
 
-    Comment requestToComment(Long id, UpsertCommentRequest request);
+    Comment requestToComment(Long id, UpsertCommentRequest request, UserDetails userDetails);
 }

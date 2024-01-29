@@ -9,7 +9,9 @@ import com.example.news.model.User;
 import com.example.news.service.CategoryService;
 import com.example.news.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 
@@ -22,25 +24,27 @@ public abstract class NewsMapperDelegate implements NewsMapper {
     @Autowired
     private CommentMapper commentMapper;
 
-    @Override
-    public News requestToNews(UpsertNewsRequest request) {
-        News news = new News();
-        news.setText(request.getText());
-        news.setTitle(request.getTitle());
-        User user = userService.findById(request.getUserId());
-        news.setUser(user);
-        Category category = categoryService.findById(request.getCategoryId());
-        news.setCategory(category);
 
-        return news;
+    @Override
+    public News requestToNews(UpsertNewsRequest request, UserDetails userDetails) {
+        News requestNews = new News();
+        User existUser = userService.findByLogin(userDetails.getUsername());
+        Category category = categoryService.findById(request.getCategoryId());
+        requestNews.setText(request.getText());
+        requestNews.setTitle(request.getTitle());
+        requestNews.setUser(existUser);
+        requestNews.setCategory(category);
+
+        return requestNews;
     }
 
     @Override
-    public News requestToNews(Long id, UpsertNewsRequest request) {
-        News news = requestToNews(request);
-        news.setId(id);
-
-        return news;
+    public News requestToNews(Long id, UpsertNewsRequest request, UserDetails userDetails) {
+        News requestNews = requestToNews(request, userDetails);
+        requestNews.setId(id);
+        requestNews.setUpdateAt(Instant.now());
+        requestNews.setComments(null);
+        return requestNews;
     }
 
     @Override

@@ -3,8 +3,8 @@ package com.example.tasktracker.handler;
 import com.example.tasktracker.dto.user.UserModel;
 import com.example.tasktracker.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -17,14 +17,17 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class UserHandler {
 
+
     private final UserService userService;
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_MANAGER')")
     public Mono<ServerResponse> getAll(ServerRequest serverRequest) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromProducer(userService.findAll(), UserModel.class));
     }
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_MANAGER')")
     public Mono<ServerResponse> findById(ServerRequest serverRequest) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -34,13 +37,13 @@ public class UserHandler {
 
     public Mono<ServerResponse> create(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(UserModel.class)
-                .flatMap(userModel -> {
-                    return userService.save(userModel);
-                })
+                .flatMap(userService::save)
                 .flatMap(user -> ServerResponse.created(URI.create("/api/v1/user/" + user.getId()))
                         .build());
     }
 
+
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_MANAGER')")
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(UserModel.class)
                 .map(userModel -> {
@@ -52,6 +55,7 @@ public class UserHandler {
                                 .body(BodyInserters.fromProducer(userModelMono, UserModel.class)));
     }
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_MANAGER')")
     public Mono<ServerResponse> deleteById(ServerRequest serverRequest) {
         return ServerResponse.ok()
                 .body(BodyInserters.fromProducer(
