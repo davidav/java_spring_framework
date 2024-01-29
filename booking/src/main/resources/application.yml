@@ -1,7 +1,9 @@
 spring:
-#  data:
-#    mongodb:
-#      uri: mongodb://root:root@localhost:27017/booking?authSource=admin
+  data:
+    mongodb:
+      uri: mongodb://root:root@mongo:27017/booking?authSource=admin
+      host: mongo
+      port: 6379
   jpa:
     generate-ddl: true
     open-in-view: true

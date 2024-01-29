@@ -9,23 +9,23 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=booking
-#  mongo:
-#    image: mongo:6.0.8
-#    ports:
-#      - "27017:27017"
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: root
-#      MONGO_INITDB_DATABASE: booking
+  mongo:
+    image: mongo:6.0.8
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: booking
 
   booking:
-    container_name: "bookingApp"
+    container_name: "booking-app"
     build:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
       - postgres
-#      - mongo
+      - mongo
 
 
