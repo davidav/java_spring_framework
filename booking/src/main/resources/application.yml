@@ -1,0 +1,15 @@
+spring:
+#  data:
+#    mongodb:
+#      uri: mongodb://root:root@localhost:27017/booking?authSource=admin
+  jpa:
+    generate-ddl: true
+    open-in-view: true
+  datasource:
+    url: jdbc:postgresql://postgres:5432/booking
+    username: postgres
+    password: postgres
+    hikari:
+      schema: booking
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS booking
+      connection-timeout: 10000
