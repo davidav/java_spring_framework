@@ -1,8 +1,10 @@
 package com.example.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,22 +14,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "hotels")
-public class Hotel {
+@Entity(name = "unavailable_dates")
+public class UnavailableDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String title;
-    private String city;
-    private String address;
-    private Long fromCentre;
-    private Integer rating;
-    private Integer numberOfRatings;
+    private Instant from;
+    private Instant to;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "unavailableDates")
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Builder.Default
     private List<Room> rooms = new ArrayList<>();

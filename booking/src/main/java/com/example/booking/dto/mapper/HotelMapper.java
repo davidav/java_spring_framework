@@ -1,0 +1,29 @@
+package com.example.booking.dto.mapper;
+
+import com.example.booking.dto.hotel.HotelListResponse;
+import com.example.booking.dto.hotel.HotelResponse;
+import com.example.booking.dto.hotel.UpsertHotelRequest;
+import com.example.booking.entity.Hotel;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface HotelMapper {
+
+    default HotelListResponse hotelListToHotelListResponse(List<Hotel> hotels){
+        HotelListResponse response = new HotelListResponse();
+        response.setHotels(hotels.stream().map(this::hotelToResponse).collect(Collectors.toList()));
+        return response;
+    }
+
+    HotelResponse hotelToResponse(Hotel hotel);
+
+    Hotel requestToHotel(UpsertHotelRequest request);
+
+    Hotel requestToHotel(Long id, UpsertHotelRequest request);
+
+}
