@@ -3,7 +3,7 @@ package com.example.tasktracker.service;
 
 import com.example.tasktracker.dto.mapper.UserMapper;
 import com.example.tasktracker.dto.user.UserModel;
-import com.example.tasktracker.entity.User;
+import entity.User;
 import com.example.tasktracker.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

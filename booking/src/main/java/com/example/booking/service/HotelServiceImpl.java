@@ -5,6 +5,7 @@ import com.example.booking.repo.HotelRepository;
 import com.example.booking.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class HotelServiceImpl implements HotelService{
 
     private final HotelRepository hotelRepository;
@@ -25,6 +27,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     public Hotel save(Hotel hotel) {
+        log.info("HotelServiceImpl -> save {}", hotel);
         return hotelRepository.save(hotel);
     }
 

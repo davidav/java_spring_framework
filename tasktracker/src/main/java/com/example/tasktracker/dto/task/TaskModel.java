@@ -1,7 +1,7 @@
 package com.example.tasktracker.dto.task;
 
 import com.example.tasktracker.dto.user.UserModel;
-import com.example.tasktracker.entity.TaskStatus;
+import entity.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

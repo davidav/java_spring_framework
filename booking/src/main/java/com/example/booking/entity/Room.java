@@ -2,7 +2,6 @@ package com.example.booking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "rooms")
+@Entity
+@Table(name = "rooms")
 public class Room {
 
     @Id
@@ -22,25 +22,41 @@ public class Room {
     private String name;
 
     private String description;
+
     private Integer number;
+
     private Double price;
+
     private Integer capacity;
 
     @ManyToMany
     @JoinTable(
-            name = "room_unavailable_date",
+            name = "room_unavailabledate",
             joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "unavailable_date_id"))
+            inverseJoinColumns = @JoinColumn(name = "unavailabledate_id"))
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Builder.Default
     private List<UnavailableDate> unavailableDates = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Hotel hotel;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "booking_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Booking booking;
 
+
+
+    public void addUnavailableDates(List<UnavailableDate> addedDates){
+        if (unavailableDates == null){
+            unavailableDates = new ArrayList<>();
+        }
+        unavailableDates.addAll(addedDates);
+    }
 }

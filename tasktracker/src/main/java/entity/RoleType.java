@@ -1,4 +1,4 @@
-package com.example.tasktracker.entity;
+package entity;
 
 public enum RoleType {
     ROLE_USER,

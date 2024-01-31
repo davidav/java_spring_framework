@@ -12,9 +12,13 @@ import lombok.NoArgsConstructor;
 public class UpsertHotelRequest {
 
     private String name;
+
     private String title;
+
     private String city;
+
     private String address;
+
     private Long fromCentre;
 
 }

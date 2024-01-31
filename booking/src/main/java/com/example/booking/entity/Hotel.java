@@ -12,7 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "hotels")
+@Entity
+@Table(name = "hotels")
 public class Hotel {
 
     @Id
@@ -20,14 +21,20 @@ public class Hotel {
     private Long id;
 
     private String name;
+
     private String title;
+
     private String city;
+
     private String address;
+
     private Long fromCentre;
+
     private Integer rating;
+
     private Integer numberOfRatings;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotel", cascade = CascadeType.ALL)
     @ToString.Exclude
     @Builder.Default
     private List<Room> rooms = new ArrayList<>();

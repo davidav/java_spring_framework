@@ -1,6 +1,6 @@
 package com.example.tasktracker.security;
 
-import com.example.tasktracker.entity.User;
+import entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

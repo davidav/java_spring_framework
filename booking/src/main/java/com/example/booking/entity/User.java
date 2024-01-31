@@ -1,10 +1,8 @@
 package com.example.booking.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -20,13 +19,17 @@ public class User {
     private Long id;
 
     private String username;
+
     private String password;
+
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @Builder.Default
-    private List<Role> roles = new ArrayList<>();
+    @Enumerated(value = EnumType.STRING)
+    private RoleType role;
+
+    @OneToOne
+    private Booking booking;
+
+
 
 }

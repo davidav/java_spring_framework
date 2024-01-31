@@ -40,9 +40,9 @@ public class HotelController {
 
     @PostMapping
     public ResponseEntity<HotelResponse> create(@RequestBody @Valid UpsertHotelRequest request) {
-        log.info("HotelController -> create {}", request.getName());
+        log.info("HotelController -> create {}", request);
         Hotel hotel = hotelService.save(hotelMapper.requestToHotel(request));
-
+        log.info("HotelController -> create after repo {}", hotel);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(hotelMapper.hotelToResponse(hotel));
     }

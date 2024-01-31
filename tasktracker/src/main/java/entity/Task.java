@@ -1,4 +1,4 @@
-package com.example.tasktracker.entity;
+package entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

@@ -3,7 +3,6 @@ package com.example.booking.service;
 
 
 import com.example.booking.dto.PagesRequest;
-import com.example.booking.entity.Role;
 import com.example.booking.entity.RoleType;
 import com.example.booking.entity.User;
 import com.example.booking.repo.UserRepository;
@@ -14,7 +13,6 @@ import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,18 +31,17 @@ public class UserServiceImpl implements UserService {
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormatter.format("User with id {} not found", id).getMessage()));
+                        MessageFormatter.format("User with id={} not found", id).getMessage()));
     }
 
     @Override
-    public User save(User user, RoleType roleType) {
+    public User save(User user, RoleType role) {
         if (userRepository.existsUserByUsernameAndEmail(user.getUsername(), user.getEmail())){
             throw new RuntimeException(
-                    MessageFormatter.format("User with username {} and email {} already exist",
+                    MessageFormatter.format("User with username={} and email={} already exist",
                             user.getUsername(), user.getEmail()).getMessage());
         }
-        List<Role> roles = Collections.singletonList(Role.from(roleType));
-        roles.forEach(role -> role.setUser(user));
+        user.setRole(role);
         return userRepository.save(user);
     }
 
@@ -64,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException(
+                .orElseThrow(() -> new RuntimeException(
                         MessageFormatter.format("User with username {} not found", username).getMessage()));
     }
 

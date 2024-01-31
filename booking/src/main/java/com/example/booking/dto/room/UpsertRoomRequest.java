@@ -1,9 +1,9 @@
 package com.example.booking.dto.room;
 
+import com.example.booking.entity.Hotel;
 import com.example.booking.entity.UnavailableDate;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,6 +17,7 @@ public class UpsertRoomRequest {
     private Integer number;
     private Double price;
     private Integer capacity;
-    private List<UnavailableDate> unavailableDates = new ArrayList<>();
+    private List<UnavailableDate> unavailableDates;
+    private Long hotel_id;
 
 }

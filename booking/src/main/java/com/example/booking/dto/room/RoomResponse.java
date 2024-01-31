@@ -1,5 +1,6 @@
 package com.example.booking.dto.room;
 
+import com.example.booking.entity.Hotel;
 import com.example.booking.entity.UnavailableDate;
 import lombok.*;
 import java.util.List;
@@ -17,5 +18,6 @@ public class RoomResponse {
     private Double price;
     private Integer capacity;
     private List<UnavailableDate> unavailableDates;
+    private Hotel hotel;
 
 }

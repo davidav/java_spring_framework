@@ -1,6 +1,5 @@
 package com.example.booking.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,20 +13,30 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "unavailable_dates")
+@Entity
+@Table(name = "unavailabledates")
 public class UnavailableDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Instant from;
-    private Instant to;
+    private Instant fromDate;
+    private Instant toDate;
 
     @ManyToMany(mappedBy = "unavailableDates")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Builder.Default
     private List<Room> rooms = new ArrayList<>();
+
+
+    public void addRoom(Room room){
+        if (rooms == null){
+            rooms = new ArrayList<>();
+        }
+        rooms.add(room);
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package com.example.tasktracker.dto.user;
 
-import com.example.tasktracker.entity.RoleType;
+import entity.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
