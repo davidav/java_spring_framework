@@ -21,15 +21,19 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Instant arrivalDate;
-    private Instant departureDate;
+    private Instant arrival;
+    private Instant departure;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotel")
+    @ManyToMany(mappedBy = "bookings")
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Builder.Default
-    private List<Room> room = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
 }

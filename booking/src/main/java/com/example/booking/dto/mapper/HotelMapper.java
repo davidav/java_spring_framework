@@ -4,13 +4,14 @@ import com.example.booking.dto.hotel.HotelListResponse;
 import com.example.booking.dto.hotel.HotelResponse;
 import com.example.booking.dto.hotel.UpsertHotelRequest;
 import com.example.booking.entity.Hotel;
+import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@DecoratedWith(HotelMapperDelegate.class)
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface HotelMapper {
 

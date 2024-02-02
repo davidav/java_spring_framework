@@ -2,6 +2,8 @@ package com.example.booking.service;
 
 import com.example.booking.entity.Room;
 
+import java.util.List;
+
 
 public interface RoomService {
 
@@ -12,5 +14,7 @@ public interface RoomService {
     Room update(Room room);
 
     void deleteById(Long id);
+
+    List<Room> findAllByIdIn(List<Long> ids);
 
 }

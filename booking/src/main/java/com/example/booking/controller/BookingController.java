@@ -31,7 +31,9 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<BookingResponse> create(@RequestBody BookingRequest request){
         log.info("BookingController -> create {}", request);
-        Booking booking = bookingService.save(bookingMapper.requestToBooking(request));
+        Booking booking1 = bookingMapper.requestToBooking(request);
+        log.info("BookingController -> create after mapping {}", booking1);
+        Booking booking = bookingService.save(booking1);
         log.info("BookingController -> create after repo {}", booking);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bookingMapper.bookingToResponse(booking));

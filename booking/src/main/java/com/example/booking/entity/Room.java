@@ -7,7 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,45 +17,33 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String description;
-
     private Integer number;
-
     private Double price;
-
     private Integer capacity;
-
-    @ManyToMany
-    @JoinTable(
-            name = "room_unavailabledate",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "unavailabledate_id"))
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @Builder.Default
-    private List<UnavailableDate> unavailableDates = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
-    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Hotel hotel;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "booking_id")
-    @EqualsAndHashCode.Exclude
+    @ManyToMany
+    @JoinTable(
+            name = "room_reserve",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "reserve_id"))
+    @Builder.Default
     @ToString.Exclude
-    private Booking booking;
+    private List<Reserve> reserves = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "room_booking",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "booking_id"))
+    @Builder.Default
+    @ToString.Exclude
+    private List<Booking> bookings = new ArrayList<>();
 
-
-    public void addUnavailableDates(List<UnavailableDate> addedDates){
-        if (unavailableDates == null){
-            unavailableDates = new ArrayList<>();
-        }
-        unavailableDates.addAll(addedDates);
-    }
 }

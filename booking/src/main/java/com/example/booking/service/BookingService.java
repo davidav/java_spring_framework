@@ -9,4 +9,5 @@ public interface BookingService {
     List<Booking> getAll();
 
     Booking save(Booking booking);
+
 }

@@ -2,6 +2,7 @@ package com.example.booking.controller;
 
 
 import com.example.booking.dto.ErrorResponse;
+import com.example.booking.exception.BookingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -39,6 +40,12 @@ public class ExceptionHandlerController {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> noAuthentication(AuthenticationException ex){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ErrorResponse(ex.getMessage()));
+    }
+
+    @ExceptionHandler(BookingException.class)
+    public ResponseEntity<ErrorResponse> noBooking(BookingException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 new ErrorResponse(ex.getMessage()));
     }
 

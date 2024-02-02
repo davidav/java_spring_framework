@@ -1,7 +1,7 @@
 package com.example.booking.controller;
 
 import com.example.booking.dto.mapper.UserMapper;
-import com.example.booking.dto.user.UpsertUserRequest;
+import com.example.booking.dto.user.UserRequest;
 import com.example.booking.dto.user.UserResponse;
 import com.example.booking.entity.RoleType;
 import com.example.booking.entity.User;
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponse> create(@RequestParam RoleType roleType, @RequestBody @Valid UpsertUserRequest request) {
+    public ResponseEntity<UserResponse> create(@RequestParam RoleType roleType, @RequestBody @Valid UserRequest request) {
         log.info("UserController -> create roleType={} request={}", roleType, request);
         User newUser = userService.save(userMapper.requestToUser(request), roleType);
         log.info("UserController -> create after service user={}", newUser);
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody  @Valid UpsertUserRequest request) {
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody  @Valid UserRequest request) {
         User updateUser = userService.update(userMapper.requestToUser(id, request));
 
         return ResponseEntity.ok(userMapper.userToResponse(updateUser));

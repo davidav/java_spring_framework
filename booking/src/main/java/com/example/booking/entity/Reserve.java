@@ -7,36 +7,24 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
-@Table(name = "unavailabledates")
-public class UnavailableDate {
+@Table(name = "reserves")
+public class Reserve {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Instant fromDate;
-    private Instant toDate;
+    private Instant fromDateReserved;
+    private Instant toDateReserved;
 
-    @ManyToMany(mappedBy = "unavailableDates")
-    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "reserves")
     @ToString.Exclude
     @Builder.Default
     private List<Room> rooms = new ArrayList<>();
-
-
-    public void addRoom(Room room){
-        if (rooms == null){
-            rooms = new ArrayList<>();
-        }
-        rooms.add(room);
-    }
-
 
 }
