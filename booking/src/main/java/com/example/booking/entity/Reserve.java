@@ -19,8 +19,8 @@ public class Reserve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Instant fromDateReserved;
-    private Instant toDateReserved;
+    private Instant fromDate;
+    private Instant toDate;
 
     @ManyToMany(mappedBy = "reserves")
     @ToString.Exclude

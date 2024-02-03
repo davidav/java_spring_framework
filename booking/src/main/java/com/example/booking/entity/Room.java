@@ -39,11 +39,18 @@ public class Room {
 
     @ManyToMany
     @JoinTable(
-            name = "room_booking",
+            name = "rooms_bookings",
             joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "booking_id"))
+            inverseJoinColumns = @JoinColumn(name = "bookings_id"))
     @Builder.Default
     @ToString.Exclude
     private List<Booking> bookings = new ArrayList<>();
+
+    public void addBooking(Booking booking){
+        if (bookings == null){
+            bookings = new ArrayList<>();
+        }
+        bookings.add(booking);
+    }
 
 }

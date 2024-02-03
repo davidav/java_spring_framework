@@ -18,15 +18,15 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
       MONGO_INITDB_DATABASE: booking
 
-  booking:
-    container_name: "booking-app"
-    build:
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-      - mongo
+#  booking:
+#    container_name: "booking-app"
+#    build:
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - postgres
+#      - mongo
 
 
 
