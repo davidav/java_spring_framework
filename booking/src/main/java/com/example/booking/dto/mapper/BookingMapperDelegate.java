@@ -22,7 +22,7 @@ public abstract class BookingMapperDelegate implements BookingMapper{
         return BookingResponse.builder()
                 .arrival(booking.getArrival())
                 .departure(booking.getDeparture())
-                .roomIds(booking.getRooms().stream().map(Room::getId).collect(Collectors.toList()))
+                .roomId(booking.getRoom().getId())
                 .userId(booking.getUser().getId())
                 .build();
     }
@@ -33,6 +33,7 @@ public abstract class BookingMapperDelegate implements BookingMapper{
                 .arrival(request.getArrival())
                 .departure(request.getDeparture())
                 .user(userService.findById(request.getUserId()))
+                .room(roomService.findById(request.getRoomId()))
                 .build();
     }
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpsertHotelRequest {
+public class HotelRequest {
 
     private String name;
 

@@ -21,6 +21,5 @@ public class RoomResponse {
     private Double price;
     private Integer capacity;
     private Long hotelId;
-    private List<BookingResponse> bookings;
 
 }

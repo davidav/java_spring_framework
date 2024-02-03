@@ -15,8 +15,7 @@ public class BookingResponse {
 
     private Instant arrival;
     private Instant departure;
-    private List<Long> roomIds;
+    private Long roomId;;
     private Long userId;
-
 
 }

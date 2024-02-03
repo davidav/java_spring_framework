@@ -2,7 +2,7 @@ package com.example.booking.controller;
 
 import com.example.booking.dto.hotel.HotelListResponse;
 import com.example.booking.dto.hotel.HotelResponse;
-import com.example.booking.dto.hotel.UpsertHotelRequest;
+import com.example.booking.dto.hotel.HotelRequest;
 import com.example.booking.dto.mapper.HotelMapper;
 import com.example.booking.entity.Hotel;
 import com.example.booking.service.HotelService;
@@ -39,7 +39,7 @@ public class HotelController {
     }
 
     @PostMapping
-    public ResponseEntity<HotelResponse> create(@RequestBody @Valid UpsertHotelRequest request) {
+    public ResponseEntity<HotelResponse> create(@RequestBody @Valid HotelRequest request) {
         log.info("HotelController -> create {}", request);
         Hotel hotel = hotelService.save(hotelMapper.requestToHotel(request));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -47,7 +47,7 @@ public class HotelController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HotelResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertHotelRequest request) {
+    public ResponseEntity<HotelResponse> update(@PathVariable Long id, @RequestBody @Valid HotelRequest request) {
         log.info("HotelController -> update {}", id);
         Hotel hotel = hotelService.update(hotelMapper.requestToHotel(id, request));
 

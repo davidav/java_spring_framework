@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,8 @@ public class UserResponse {
     private Long id;
     private String username;
     private String email;
-    private RoleType roles;
-    private List<BookingResponse> bookings;
+    private RoleType role;
+    @Builder.Default
+    private List<BookingResponse> bookings = new ArrayList<>();
 
 }

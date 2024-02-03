@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +29,16 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking save(Booking booking) {
         checkBooked(booking);
+        Room room = booking.getRoom();
+        Reserve newReserve = Reserve.builder()
+                .fromDate(booking.getArrival())
+                .toDate(booking.getDeparture())
+                .room(booking.getRoom())
+                .build();
+        Reserve savedReserved = reserveRepository.save(newReserve);
+        room.addReserve(savedReserved);
 
-        Booking savedBooking = bookingRepository.save(booking);
-        savedBooking.getRooms().forEach(room -> room.addBooking(savedBooking));
-
-        return savedBooking;
+        return  bookingRepository.save(booking);
     }
 
     @Override
@@ -43,28 +47,29 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private void checkBooked(Booking booking) {
-        List<Reserve> reserves = reserveRepository.findByRoomsIdIn(
-                booking.getRooms().stream()
-                        .map(Room::getId)
-                        .collect(Collectors.toList()));
-        reserves.forEach(reserve -> {
-            log.info("BookingServiceImpl -> checkBooked ");
+        log.info("BookingServiceImpl -> checkBooked ");
+        List<Reserve> existReserves = reserveRepository.findAllByRoom(booking.getRoom());
+        existReserves.forEach(reserve -> {
             if (reserve.getFromDate().equals(booking.getArrival()) ||
                     reserve.getFromDate().equals(booking.getDeparture()) ||
                     reserve.getToDate().equals(booking.getArrival()) ||
                     reserve.getToDate().equals(booking.getDeparture())) {
+                log.info("погран даты совпали");
                 throw new BookingException(BOOKED);
             }
             if (booking.getArrival().isAfter(reserve.getFromDate())) {
                 if (booking.getArrival().isBefore(reserve.getToDate())) {
+                    log.info("попали в диапазон");
                     throw new BookingException(BOOKED);
                 }
             } else {
                 if (booking.getDeparture().isAfter(reserve.getFromDate())) {
+                    log.info("гдето в диапазоне");
                     throw new BookingException(BOOKED);
                 }
             }
         });
+
     }
 }
 

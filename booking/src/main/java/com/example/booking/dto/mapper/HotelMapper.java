@@ -2,7 +2,7 @@ package com.example.booking.dto.mapper;
 
 import com.example.booking.dto.hotel.HotelListResponse;
 import com.example.booking.dto.hotel.HotelResponse;
-import com.example.booking.dto.hotel.UpsertHotelRequest;
+import com.example.booking.dto.hotel.HotelRequest;
 import com.example.booking.entity.Hotel;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
@@ -23,8 +23,8 @@ public interface HotelMapper {
 
     HotelResponse hotelToResponse(Hotel hotel);
 
-    Hotel requestToHotel(UpsertHotelRequest request);
+    Hotel requestToHotel(HotelRequest request);
 
-    Hotel requestToHotel(Long id, UpsertHotelRequest request);
+    Hotel requestToHotel(Long id, HotelRequest request);
 
 }

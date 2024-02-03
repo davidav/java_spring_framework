@@ -2,10 +2,10 @@ package com.example.booking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.mapping.ToOne;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Getter
 @Setter
@@ -24,11 +24,11 @@ public class Booking {
     private Instant arrival;
     private Instant departure;
 
-    @ManyToMany(mappedBy = "bookings")
+    @ManyToOne
+    @JoinColumn(name = "room_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @Builder.Default
-    private List<Room> rooms = new ArrayList<>();
+    private Room room;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

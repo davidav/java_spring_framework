@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.Instant;
-import java.util.List;
 
 @Data
 @Builder
@@ -15,7 +14,7 @@ public class BookingRequest {
 
     private Instant arrival;
     private Instant departure;
-    private List<Long> roomIds;
+    private Long roomId;
     private Long userId;
 
 }

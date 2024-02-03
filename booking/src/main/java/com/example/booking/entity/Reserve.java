@@ -2,10 +2,8 @@ package com.example.booking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Data
 @Builder
@@ -22,9 +20,9 @@ public class Reserve {
     private Instant fromDate;
     private Instant toDate;
 
-    @ManyToMany(mappedBy = "reserves")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "room_id")
     @ToString.Exclude
-    @Builder.Default
-    private List<Room> rooms = new ArrayList<>();
+    Room room;
 
 }

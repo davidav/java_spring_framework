@@ -28,29 +28,16 @@ public class Room {
     @ToString.Exclude
     private Hotel hotel;
 
-    @ManyToMany
-    @JoinTable(
-            name = "room_reserve",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "reserve_id"))
-    @Builder.Default
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "room", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @Builder.Default
     private List<Reserve> reserves = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "rooms_bookings",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "bookings_id"))
-    @Builder.Default
-    @ToString.Exclude
-    private List<Booking> bookings = new ArrayList<>();
-
-    public void addBooking(Booking booking){
-        if (bookings == null){
-            bookings = new ArrayList<>();
+    public void addReserve(Reserve reserve){
+        if (reserves == null){
+            reserves = new ArrayList<>();
         }
-        bookings.add(booking);
+        reserves.add(reserve);
     }
 
 }

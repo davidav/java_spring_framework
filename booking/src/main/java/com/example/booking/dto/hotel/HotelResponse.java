@@ -21,6 +21,5 @@ public class HotelResponse {
     private Long fromCentre;
     private Integer rating;
     private Integer numberOfRatings;
-    private List<Long> roomIds;
 
 }

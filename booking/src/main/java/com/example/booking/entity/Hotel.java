@@ -3,9 +3,6 @@ package com.example.booking.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
@@ -34,9 +31,9 @@ public class Hotel {
 
     private Integer numberOfRatings;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotel", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @Builder.Default
-    private List<Room> rooms = new ArrayList<>();
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotel", cascade = CascadeType.ALL)
+//    @ToString.Exclude
+//    @Builder.Default
+//    private List<Room> rooms = new ArrayList<>();
 
 }
