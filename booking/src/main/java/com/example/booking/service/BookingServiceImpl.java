@@ -8,6 +8,7 @@ import com.example.booking.repo.BookingRepository;
 import com.example.booking.repo.ReserveRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +22,16 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final ReserveRepository reserveRepository;
 
+    private final UserService userService;
+
     @Override
     public List<Booking> getAll() {
         return bookingRepository.findAll();
     }
 
     @Override
-    public Booking save(Booking booking) {
+    public Booking save(Booking booking, UserDetails userDetails) {
+        booking.setUser(userService.findByUsername(userDetails.getUsername()));
         checkBooked(booking);
         Room room = booking.getRoom();
         Reserve newReserve = Reserve.builder()
@@ -38,7 +42,7 @@ public class BookingServiceImpl implements BookingService {
         Reserve savedReserved = reserveRepository.save(newReserve);
         room.addReserve(savedReserved);
 
-        return  bookingRepository.save(booking);
+        return bookingRepository.save(booking);
     }
 
     @Override

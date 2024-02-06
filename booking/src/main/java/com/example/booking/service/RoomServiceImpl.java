@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
@@ -38,11 +36,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void deleteById(Long id) {
         roomRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Room> findAllByIdIn(List<Long> ids) {
-        return roomRepository.findAllByIdIn(ids);
     }
 
 }

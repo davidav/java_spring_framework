@@ -31,9 +31,4 @@ public class Hotel {
 
     private Integer numberOfRatings;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotel", cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    @Builder.Default
-//    private List<Room> rooms = new ArrayList<>();
-
 }

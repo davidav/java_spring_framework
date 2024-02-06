@@ -15,6 +15,5 @@ public class BookingRequest {
     private Instant arrival;
     private Instant departure;
     private Long roomId;
-    private Long userId;
 
 }

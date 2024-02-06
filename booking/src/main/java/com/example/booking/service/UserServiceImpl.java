@@ -3,7 +3,7 @@ package com.example.booking.service;
 
 
 import com.example.booking.dto.PagesRequest;
-import com.example.booking.entity.RoleType;
+import com.example.booking.entity.Role;
 import com.example.booking.entity.User;
 import com.example.booking.repo.UserRepository;
 import com.example.booking.util.AppHelperUtils;
@@ -11,8 +11,11 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,6 +23,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> findAll(PagesRequest request) {
@@ -35,13 +39,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user, RoleType role) {
+    public User save(User user, Role role) {
         if (userRepository.existsUserByUsernameAndEmail(user.getUsername(), user.getEmail())){
             throw new RuntimeException(
                     MessageFormatter.format("User with username={} and email={} already exist",
                             user.getUsername(), user.getEmail()).getMessage());
         }
-        user.setRole(role);
+        user.setRoles(Collections.singletonList(role));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        role.setUser(user);
+
         return userRepository.save(user);
     }
 
@@ -61,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new UsernameNotFoundException(
                         MessageFormatter.format("User with username {} not found", username).getMessage()));
     }
 

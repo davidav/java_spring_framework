@@ -3,6 +3,9 @@ package com.example.booking.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -24,12 +27,12 @@ public class User {
 
     private String email;
 
-    @Enumerated(value = EnumType.STRING)
-    private RoleType role;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @Builder.Default
+    private List<Role> roles = new ArrayList<>();
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    @Builder.Default
-//    private List<Booking> booking = new ArrayList<>();
+
 
 }

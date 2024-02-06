@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +24,7 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<HotelListResponse> findAll() {
         log.info("HotelController -> findAll");
 
@@ -32,6 +34,7 @@ public class HotelController {
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<HotelResponse> findById(@PathVariable Long id) {
         log.info("HotelController -> findById {}", id);
         return ResponseEntity.ok(
@@ -39,6 +42,7 @@ public class HotelController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HotelResponse> create(@RequestBody @Valid HotelRequest request) {
         log.info("HotelController -> create {}", request);
         Hotel hotel = hotelService.save(hotelMapper.requestToHotel(request));
@@ -47,6 +51,7 @@ public class HotelController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HotelResponse> update(@PathVariable Long id, @RequestBody @Valid HotelRequest request) {
         log.info("HotelController -> update {}", id);
         Hotel hotel = hotelService.update(hotelMapper.requestToHotel(id, request));
@@ -55,6 +60,7 @@ public class HotelController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.info("HotelController -> deleteById {}", id);
         hotelService.deleteById(id);

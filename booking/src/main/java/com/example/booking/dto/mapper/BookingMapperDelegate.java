@@ -32,7 +32,6 @@ public abstract class BookingMapperDelegate implements BookingMapper{
         return Booking.builder()
                 .arrival(request.getArrival())
                 .departure(request.getDeparture())
-                .user(userService.findById(request.getUserId()))
                 .room(roomService.findById(request.getRoomId()))
                 .build();
     }

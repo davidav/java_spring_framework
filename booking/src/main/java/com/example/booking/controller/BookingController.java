@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +25,7 @@ public class BookingController {
     private final BookingService bookingService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BookingListResponse> getAll(){
 
         return ResponseEntity.ok()
@@ -29,15 +33,18 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingResponse> create(@RequestBody BookingRequest request){
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public ResponseEntity<BookingResponse> create(@RequestBody BookingRequest request,
+                                                  @AuthenticationPrincipal UserDetails userDetails){
         log.info("BookingController -> create {}", request);
-        Booking booking = bookingService.save(bookingMapper.requestToBooking(request));
+        Booking booking = bookingService.save(bookingMapper.requestToBooking(request), userDetails);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bookingMapper.bookingToResponse(booking));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.info("BookingController -> deleteById {}", id);
         bookingService.deleteById(id);

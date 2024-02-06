@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<RoomResponse> findById(@PathVariable Long id) {
         log.info("RoomController -> findById {}", id);
 
@@ -30,6 +32,7 @@ public class RoomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoomResponse> create(@RequestBody @Valid RoomRequest request) {
         log.info("RoomController -> create {}", request.getName());
         Room room = roomService.save(roomMapper.requestToRoom(request));
@@ -39,6 +42,7 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoomResponse> update(@PathVariable Long id, @RequestBody @Valid RoomRequest request) {
         log.info("RoomController -> update id={} request={}", id, request);
         Room room = roomService.update(roomMapper.requestToRoom(id, request));
@@ -47,6 +51,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.info("RoomController -> deleteById {}", id);
         roomService.deleteById(id);
