@@ -3,6 +3,7 @@ package com.example.booking.controller;
 import com.example.booking.dto.hotel.HotelListResponse;
 import com.example.booking.dto.hotel.HotelResponse;
 import com.example.booking.dto.hotel.HotelRequest;
+import com.example.booking.dto.hotel.RatingChangeHotelRequest;
 import com.example.booking.dto.mapper.HotelMapper;
 import com.example.booking.entity.Hotel;
 import com.example.booking.service.HotelService;
@@ -66,6 +67,16 @@ public class HotelController {
         hotelService.deleteById(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/rating")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public ResponseEntity<HotelResponse> changeRating(@RequestBody @Valid RatingChangeHotelRequest request){
+        log.info("HotelController -> changeRating");
+        Hotel hotel1 = hotelMapper.requestChangeRatingToHotel(request);
+        Hotel hotel = hotelService.changeRating(hotel1);
+
+        return ResponseEntity.ok(hotelMapper.hotelToResponse(hotel));
     }
 
 }

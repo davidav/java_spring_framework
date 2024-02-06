@@ -15,4 +15,5 @@ public interface HotelService {
 
     List<Hotel> findAll();
 
+    Hotel changeRating(Hotel hotel);
 }

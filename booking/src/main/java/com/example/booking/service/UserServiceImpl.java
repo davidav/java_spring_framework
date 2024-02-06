@@ -26,12 +26,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<User> findAll(PagesRequest request) {
-        return userRepository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageSize())).getContent();
-        }
-
-    @Override
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(

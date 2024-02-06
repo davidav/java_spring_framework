@@ -27,8 +27,10 @@ public class Hotel {
 
     private Long fromCentre;
 
-    private Integer rating;
+    @Builder.Default
+    private Double rating = 0d;
 
-    private Integer numberOfRatings;
+    @Builder.Default
+    private Integer numberOfRatings = 0;
 
 }
