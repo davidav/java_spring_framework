@@ -1,5 +1,6 @@
 package com.example.booking.service;
 
+import com.example.booking.dto.hotel.HotelFilter;
 import com.example.booking.entity.Hotel;
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface HotelService {
     List<Hotel> findAll();
 
     Hotel changeRating(Hotel hotel);
+
+    List<Hotel> filterBy(HotelFilter filter);
 }

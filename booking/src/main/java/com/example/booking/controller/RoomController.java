@@ -43,9 +43,10 @@ public class RoomController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<RoomResponse> update(@PathVariable Long id, @RequestBody @Valid RoomRequest request) {
+    public ResponseEntity<RoomResponse> update(@PathVariable Long id, @RequestBody RoomRequest request) {
         log.info("RoomController -> update id={} request={}", id, request);
-        Room room = roomService.update(roomMapper.requestToRoom(id, request));
+        Room room1 = roomMapper.requestToRoom(id, request);
+        Room room = roomService.update(room1);
 
         return ResponseEntity.ok(roomMapper.roomToResponse(room));
     }

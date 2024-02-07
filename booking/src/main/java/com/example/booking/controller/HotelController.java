@@ -1,9 +1,6 @@
 package com.example.booking.controller;
 
-import com.example.booking.dto.hotel.HotelListResponse;
-import com.example.booking.dto.hotel.HotelResponse;
-import com.example.booking.dto.hotel.HotelRequest;
-import com.example.booking.dto.hotel.RatingChangeHotelRequest;
+import com.example.booking.dto.hotel.*;
 import com.example.booking.dto.mapper.HotelMapper;
 import com.example.booking.entity.Hotel;
 import com.example.booking.service.HotelService;
@@ -77,6 +74,13 @@ public class HotelController {
         Hotel hotel = hotelService.changeRating(hotel1);
 
         return ResponseEntity.ok(hotelMapper.hotelToResponse(hotel));
+    }
+
+    @GetMapping("/filter")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    public ResponseEntity<HotelListResponse> findAllByFilter(@Valid HotelFilter filter) {
+        return ResponseEntity.ok(
+                hotelMapper.hotelListToHotelListResponse(hotelService.filterBy(filter)));
     }
 
 }

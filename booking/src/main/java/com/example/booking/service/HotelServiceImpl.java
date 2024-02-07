@@ -1,14 +1,16 @@
 package com.example.booking.service;
 
+import com.example.booking.dto.hotel.HotelFilter;
 import com.example.booking.entity.Hotel;
 import com.example.booking.repo.HotelRepository;
+import com.example.booking.repo.HotelSpecification;
 import com.example.booking.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 @Service
@@ -66,5 +68,12 @@ public class HotelServiceImpl implements HotelService {
         existHotel.setNumberOfRatings(numberOfRating + 1);
 
         return update(existHotel);
+    }
+
+    @Override
+    public List<Hotel> filterBy(HotelFilter filter) {
+        return hotelRepository.findAll(
+                HotelSpecification.withFilter(filter),
+                PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
     }
 }

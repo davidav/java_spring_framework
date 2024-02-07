@@ -6,13 +6,15 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = PagesFilterValidValidator.class)
+@Constraint(validatedBy = HotelFilterValidValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PagesFilterValid {
+public @interface HotelFilterValid {
+
     String message() default "Pagination fields must be specified";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }
