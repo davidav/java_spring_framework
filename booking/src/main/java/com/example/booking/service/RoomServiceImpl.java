@@ -1,12 +1,18 @@
 package com.example.booking.service;
 
+
+import com.example.booking.dto.room.RoomFilter;
 import com.example.booking.entity.Room;
 import com.example.booking.repo.RoomRepository;
+import com.example.booking.repo.RoomSpecification;
 import com.example.booking.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +42,21 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void deleteById(Long id) {
         roomRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Room> filterBy(RoomFilter filter) {
+        List<Room> roomsFiltered = roomRepository.findAll(
+                RoomSpecification.withFilter(filter),
+                PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
+
+        if (filter.getArrival() != null) {
+            List<Room> rooms = roomRepository.findAll();
+            rooms.removeAll(roomsFiltered);
+            return rooms;
+        }
+
+        return roomsFiltered;
     }
 
 }

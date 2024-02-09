@@ -2,6 +2,7 @@ package com.example.booking.dto.room;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 
 
 @Data
@@ -13,7 +14,7 @@ public class RoomRequest {
     private String name;
     private String description;
     private Integer number;
-    private Double price;
+    private BigDecimal cost;
     private Integer capacity;
     private Long hotelId;
 

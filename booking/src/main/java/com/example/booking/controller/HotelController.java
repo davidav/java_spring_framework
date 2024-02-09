@@ -1,5 +1,6 @@
 package com.example.booking.controller;
 
+import com.example.booking.dto.PagesRequest;
 import com.example.booking.dto.hotel.*;
 import com.example.booking.dto.mapper.HotelMapper;
 import com.example.booking.entity.Hotel;
@@ -23,11 +24,11 @@ public class HotelController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
-    public ResponseEntity<HotelListResponse> findAll() {
+    public ResponseEntity<HotelListResponse> findAll(@Valid PagesRequest request) {
         log.info("HotelController -> findAll");
 
         return ResponseEntity.ok(
-                hotelMapper.hotelListToHotelListResponse(hotelService.findAll()));
+                hotelMapper.hotelListToHotelListResponse(hotelService.findAll(request)));
     }
 
 

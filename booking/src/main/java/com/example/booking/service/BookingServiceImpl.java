@@ -58,22 +58,18 @@ public class BookingServiceImpl implements BookingService {
                     reserve.getFromDate().equals(booking.getDeparture()) ||
                     reserve.getToDate().equals(booking.getArrival()) ||
                     reserve.getToDate().equals(booking.getDeparture())) {
-                log.info("погран даты совпали");
                 throw new BookingException(BOOKED);
             }
             if (booking.getArrival().isAfter(reserve.getFromDate())) {
                 if (booking.getArrival().isBefore(reserve.getToDate())) {
-                    log.info("попали в диапазон");
                     throw new BookingException(BOOKED);
                 }
             } else {
                 if (booking.getDeparture().isAfter(reserve.getFromDate())) {
-                    log.info("гдето в диапазоне");
                     throw new BookingException(BOOKED);
                 }
             }
         });
-
     }
 }
 

@@ -1,8 +1,6 @@
 package com.example.booking.service;
 
 
-
-import com.example.booking.dto.PagesRequest;
 import com.example.booking.entity.Role;
 import com.example.booking.entity.User;
 import com.example.booking.repo.UserRepository;
@@ -10,13 +8,11 @@ import com.example.booking.util.AppHelperUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.helpers.MessageFormatter;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -63,7 +59,8 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
-                        MessageFormatter.format("User with username {} not found", username).getMessage()));
+                        MessageFormatter.format(
+                                "User with username {} not found", username).getMessage()));
     }
 
 }

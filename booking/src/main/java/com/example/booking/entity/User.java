@@ -27,12 +27,10 @@ public class User {
 
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
-
-
 
 }

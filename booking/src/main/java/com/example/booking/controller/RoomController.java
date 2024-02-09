@@ -1,10 +1,11 @@
 package com.example.booking.controller;
 
 import com.example.booking.dto.mapper.RoomMapper;
-import com.example.booking.dto.room.RoomResponse;
+import com.example.booking.dto.room.RoomFilter;
+import com.example.booking.dto.room.RoomListResponse;
 import com.example.booking.dto.room.RoomRequest;
+import com.example.booking.dto.room.RoomResponse;
 import com.example.booking.entity.Room;
-
 import com.example.booking.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -59,4 +60,13 @@ public class RoomController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/filter")
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    public ResponseEntity<RoomListResponse> findAllByFilter(@Valid RoomFilter filter) {
+        log.info("RoomController -> findAllByFilter {}", filter);
+        return ResponseEntity.ok(
+                roomMapper.roomListToRoomListResponse(roomService.filterBy(filter)));
+    }
+
 }

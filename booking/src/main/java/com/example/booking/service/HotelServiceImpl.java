@@ -1,5 +1,6 @@
 package com.example.booking.service;
 
+import com.example.booking.dto.PagesRequest;
 import com.example.booking.dto.hotel.HotelFilter;
 import com.example.booking.entity.Hotel;
 import com.example.booking.repo.HotelRepository;
@@ -45,8 +46,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> findAll() {
-        return hotelRepository.findAll();
+    public List<Hotel> findAll(PagesRequest request) {
+        return hotelRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize())).getContent();
     }
 
     @Override

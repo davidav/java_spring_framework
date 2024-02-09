@@ -1,6 +1,9 @@
 package com.example.booking.service;
 
+import com.example.booking.dto.room.RoomFilter;
 import com.example.booking.entity.Room;
+
+import java.util.List;
 
 
 public interface RoomService {
@@ -13,4 +16,5 @@ public interface RoomService {
 
     void deleteById(Long id);
 
+    List<Room> filterBy(RoomFilter filter);
 }

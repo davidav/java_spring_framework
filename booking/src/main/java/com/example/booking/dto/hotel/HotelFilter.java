@@ -1,6 +1,5 @@
 package com.example.booking.dto.hotel;
 
-
 import com.example.booking.validation.HotelFilterValid;
 import lombok.Data;
 import lombok.NoArgsConstructor;

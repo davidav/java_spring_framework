@@ -19,7 +19,7 @@ public abstract class RoomMapperDelegate implements RoomMapper{
                 .name(request.getName())
                 .description(request.getDescription())
                 .number(request.getNumber())
-                .price(request.getPrice())
+                .cost(request.getCost())
                 .capacity(request.getCapacity())
                 .hotel(hotelService.findById(request.getHotelId()))
                 .build();
@@ -40,7 +40,7 @@ public abstract class RoomMapperDelegate implements RoomMapper{
                 .name(room.getName())
                 .description(room.getDescription())
                 .number(room.getNumber())
-                .price(room.getPrice())
+                .cost(room.getCost())
                 .capacity(room.getCapacity())
                 .hotelId(room.getHotel().getId())
                 .build();

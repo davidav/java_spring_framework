@@ -1,5 +1,6 @@
 package com.example.booking.service;
 
+import com.example.booking.dto.PagesRequest;
 import com.example.booking.dto.hotel.HotelFilter;
 import com.example.booking.entity.Hotel;
 import java.util.List;
@@ -14,7 +15,7 @@ public interface HotelService {
 
     void deleteById(Long id);
 
-    List<Hotel> findAll();
+    List<Hotel> findAll(PagesRequest request);
 
     Hotel changeRating(Hotel hotel);
 

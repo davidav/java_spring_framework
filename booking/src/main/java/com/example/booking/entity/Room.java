@@ -2,6 +2,8 @@ package com.example.booking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +19,11 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
     private Integer number;
-    private Double price;
+    private BigDecimal cost;
     private Integer capacity;
 
     @ManyToOne(fetch = FetchType.EAGER)

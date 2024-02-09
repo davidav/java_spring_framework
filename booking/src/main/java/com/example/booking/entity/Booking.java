@@ -2,7 +2,6 @@ package com.example.booking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.mapping.ToOne;
 
 import java.time.Instant;
 
