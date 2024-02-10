@@ -1,7 +1,8 @@
 package com.example.tasktracker.dto.mapper;
 
 import com.example.tasktracker.dto.task.TaskModel;
-import entity.Task;
+
+import com.example.tasktracker.entity.Task;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

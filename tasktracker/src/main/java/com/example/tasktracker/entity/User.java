@@ -1,4 +1,4 @@
-package entity;
+package com.example.tasktracker.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Data
 @NoArgsConstructor

@@ -17,3 +17,13 @@ spring:
       schema: booking
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS booking
       connection-timeout: 10000
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+app:
+  kafka:
+    kafkaUserTopic: "user-topic"
+    kafkaUserGroupId: "kafka-user-group-id"
+    kafkaBookingTopic: "booking-topic"
+    kafkaBookingGroupId: "kafka-booking-group-id"
