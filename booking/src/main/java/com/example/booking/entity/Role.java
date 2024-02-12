@@ -36,4 +36,8 @@ public class Role {
         return role;
     }
 
+    public String toRole(){
+        return authority.name();
+    }
+
 }

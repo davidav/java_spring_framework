@@ -33,4 +33,11 @@ public class User {
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
+    public String toRole(){
+        return roles.stream()
+                .map(Role::toRole)
+                .findFirst()
+                .orElse("User has no role");
+    }
+
 }

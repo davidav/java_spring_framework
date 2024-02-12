@@ -46,17 +46,20 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> filterBy(RoomFilter filter) {
-        List<Room> roomsFiltered = roomRepository.findAll(
+//        List<Room> roomsFiltered = roomRepository.findAll(
+//                RoomSpecification.withFilter(filter),
+//                PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
+//
+//        if (filter.getArrival() != null) {
+//            List<Room> rooms = roomRepository.findAll();
+//            rooms.removeAll(roomsFiltered);
+//            return rooms;
+//        }
+//
+//        return roomsFiltered;
+        return roomRepository.findAll(
                 RoomSpecification.withFilter(filter),
                 PageRequest.of(filter.getPageNumber(), filter.getPageSize())).getContent();
-
-        if (filter.getArrival() != null) {
-            List<Room> rooms = roomRepository.findAll();
-            rooms.removeAll(roomsFiltered);
-            return rooms;
-        }
-
-        return roomsFiltered;
     }
 
 }

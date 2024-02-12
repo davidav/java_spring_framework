@@ -1,13 +1,14 @@
 package com.example.booking.statistics.service;
 
-import com.example.booking.statistics.model.BookingStatistics;
-import com.example.booking.statistics.model.KafkaBooking;
-import com.example.booking.statistics.model.KafkaUser;
-import com.example.booking.statistics.model.UserStatistics;
+import com.example.booking.statistics.model.AllStatistics;
+import com.example.booking.statistics.model.BookingStatistic;
+import com.example.booking.statistics.model.UserStatistic;
 import com.example.booking.statistics.repo.KafkaBookingRepository;
 import com.example.booking.statistics.repo.KafkaUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,19 +17,31 @@ public class StatisticsServiceImpl implements StatisticsService{
     private final KafkaUserRepository kafkaUserRepository;
     private final KafkaBookingRepository kafkaBookingRepository;
 
-    public void addUser(KafkaUser kafkaUser) {
-        kafkaUserRepository.save(kafkaUser);
+    @Override
+    public void addUser(UserStatistic userStatistic) {
+        kafkaUserRepository.save(userStatistic);
     }
 
-    public void addBooking(KafkaBooking kafkaBooking) {
-        kafkaBookingRepository.save(kafkaBooking);
+    @Override
+    public void addBooking(BookingStatistic bookingStatistic) {
+        kafkaBookingRepository.save(bookingStatistic);
     }
 
-    public UserStatistics getUserStat() {
-        return new UserStatistics();
+    @Override
+    public List<UserStatistic> getUserStat() {
+        return kafkaUserRepository.findAll();
+
+    }
+    @Override
+    public List<BookingStatistic> getBookingStat() {
+        return kafkaBookingRepository.findAll();
     }
 
-    public BookingStatistics getBookingStat() {
-        return new BookingStatistics();
+    @Override
+    public AllStatistics getAllStat() {
+        return AllStatistics.builder()
+                .users(getUserStat())
+                .bookings(getBookingStat())
+                .build();
     }
 }

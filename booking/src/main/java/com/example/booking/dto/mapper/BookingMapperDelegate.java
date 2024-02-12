@@ -28,4 +28,5 @@ public abstract class BookingMapperDelegate implements BookingMapper{
                 .room(roomService.findById(request.getRoomId()))
                 .build();
     }
+
 }

@@ -5,18 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "booking")
-public class KafkaBooking {
-
+@Document(collection = "user")
+public class UserStatistic {
     private Long userId;
-    private Long roomId;
-    private Instant arrival;
-    private Instant departure;
-
 }

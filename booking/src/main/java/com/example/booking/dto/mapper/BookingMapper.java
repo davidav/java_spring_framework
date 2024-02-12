@@ -27,4 +27,5 @@ public interface BookingMapper {
     BookingResponse bookingToResponse(Booking booking);
 
     Booking requestToBooking(BookingRequest request);
+
 }

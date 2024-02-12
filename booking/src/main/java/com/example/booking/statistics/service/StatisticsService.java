@@ -1,18 +1,21 @@
 package com.example.booking.statistics.service;
 
-import com.example.booking.statistics.model.BookingStatistics;
-import com.example.booking.statistics.model.KafkaBooking;
-import com.example.booking.statistics.model.KafkaUser;
-import com.example.booking.statistics.model.UserStatistics;
+import com.example.booking.statistics.model.AllStatistics;
+import com.example.booking.statistics.model.BookingStatistic;
+import com.example.booking.statistics.model.UserStatistic;
+
+import java.util.List;
 
 public interface StatisticsService {
 
-    void addUser(KafkaUser kafkaUser);
+    void addUser(UserStatistic userStatistic);
 
-    void addBooking(KafkaBooking kafkaBooking);
+    void addBooking(BookingStatistic bookingStatistic);
 
-    UserStatistics getUserStat();
+    List<UserStatistic> getUserStat();
 
-    BookingStatistics getBookingStat();
+    List<BookingStatistic> getBookingStat();
+
+    AllStatistics getAllStat();
 
 }

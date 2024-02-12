@@ -24,14 +24,15 @@ public interface RoomSpecification {
 
     static Specification<Room> byDates(Instant arrival, Instant departure) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.or(
+                criteriaBuilder.not(
                         criteriaBuilder.or(
-                                criteriaBuilder.between(root.get("reserves").get("fromDate"), arrival, departure),
-                                criteriaBuilder.between(root.get("reserves").get("toDate"), arrival, departure)
-                        ),
-                        criteriaBuilder.and(
+                                criteriaBuilder.or(
+                                        criteriaBuilder.between(root.get("reserves").get("fromDate"), arrival, departure),
+                                        criteriaBuilder.between(root.get("reserves").get("toDate"), arrival, departure)
+                                ),
+                                criteriaBuilder.and(
                                         criteriaBuilder.lessThanOrEqualTo(root.get("reserves").get("fromDate"), arrival),
-                                        criteriaBuilder.greaterThanOrEqualTo(root.get("reserves").get("toDate"), departure)));
+                                        criteriaBuilder.greaterThanOrEqualTo(root.get("reserves").get("toDate"), departure))));
     }
 
     static Specification<Room> byHotelId(Long hotelId) {
